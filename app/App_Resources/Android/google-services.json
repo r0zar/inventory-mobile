@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "332117061435",
+    "firebase_url": "https://kiposoft-6ae15.firebaseio.com",
+    "project_id": "kiposoft-6ae15",
+    "storage_bucket": "kiposoft-6ae15.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332117061435:android:0a508d811aebea5c",
+        "android_client_info": {
+          "package_name": "org.nativescript.KipoTrac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332117061435-ru6le4d8ktcu1p6m5k44ktqp0phntu5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-Fgu7XBkBgIpvtRW8zFmeL--WTmDLsmU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

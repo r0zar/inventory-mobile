@@ -1,0 +1,1 @@
+.car-list .car-list-even,.car-list .car-list-odd{padding:10 15;border-bottom-width:1;border-color:rgba(2,39,52,0.2)}.car-list .car-list-odd{background-color:rgba(2,39,52,0.1);color:rgba(2,39,52,0.5)}.car-list .car-list-price{width:35;text-align:right}.car-list TextField.ng-invalid{placeholder-color:#d50000}.car-list .ng-invalid-image{color:#d50000}
