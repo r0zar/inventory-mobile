@@ -4,21 +4,24 @@
 <ScrollView>
     <StackLayout class="login-stack page p-t-15">
 
-        <Image src="~/images/kipo.png" stretch="fill" height="200" width="200" horizontalAlignment="center"></Image>
+        <Image [ngClass]="{'loading': loading, 'login-failed': loginFailed}" src="~/images/kipo.png" stretch="fill" height="200" width="200" horizontalAlignment="center"></Image>
 
         <TextField class="m-t-20 m-l-15 m-r-15" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalization="none"
             [(ngModel)]="email"></TextField>
 
         <TextField class="m-l-15 m-r-15" hint="Password" secure="true" autocorrect="false" autocapitalization="none"
             [(ngModel)]="password"></TextField>
-    
+
         <Button class="btn btn-primary" text="SIGN IN" (tap)="onSigninButtonTap()"></Button>
 
-        <Label class="m-b-10 m-l-15 m-r-15" text="Remember Me" (tap)="onForgotPasswordTap()"  horizontalAlignment="center"></Label>
+        <GridLayout columns="80, *, auto" rows="auto, *" >
+          <Switch col="0" checked="{{rememberMe}}" (checkedChange)="onRememberMeToggle($event)" horizontalAlignment="right"></Switch>
+          <Label col="1" class="m-t-8 m-b-10 m-l-15 m-r-15" text="Remember Me" horizontalAlignment="left"></Label>
+        </GridLayout>
 
         <Label class="m-t-10 m-b-10 m-l-15 m-r-15" text="Forgot password?" (tap)="onForgotPasswordTap()"  horizontalAlignment="center"></Label>
 
-        <Label class="m-t-10 m-l-15 m-r-15" text="Sign Up" (tap)="onForgotPasswordTap()"  horizontalAlignment="center"></Label>
+        <Label class="m-t-10 m-b-10 m-l-15 m-r-15" text="Sign Up" [nsRouterLink]="['/signup']"  horizontalAlignment="center"></Label>
 
     </StackLayout>
 </ScrollView>

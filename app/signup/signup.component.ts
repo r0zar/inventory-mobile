@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import firebase = require("nativescript-plugin-firebase");
+import {RouterExtensions} from "nativescript-angular/router";
+import * as dialogs from "ui/dialogs";
 
 /* ***********************************************************
 * Before you can navigate to this page from your app, you need to reference this page's module in the
@@ -17,7 +20,7 @@ export class SignupComponent implements OnInit {
     email: string;
     password: string;
 
-    constructor() {
+    constructor(private routerExtensions: RouterExtensions) {
         /* ***********************************************************
         * Use the constructor to inject app services that you need in this component.
         *************************************************************/
@@ -28,19 +31,27 @@ export class SignupComponent implements OnInit {
         * Use the "ngOnInit" handler to initialize data for this component.
         *************************************************************/
     }
-
-    onSignupWithSocialProviderButtonTap(): void {
-        /* ***********************************************************
-        * For sign up with social provider you can add your custom logic or
-        * use NativeScript plugin for sign up with Facebook
-        * http://market.nativescript.org/plugins/nativescript-facebook
-        *************************************************************/
-    }
-
     onSignupButtonTap(): void {
-        const name = this.name;
-        const email = this.email;
-        const password = this.password;
+      const name = this.name;
+      const email = this.email;
+      const password = this.password;
+      firebase.createUser({
+        email: this.email,
+        password: this.password
+      }).then( result => {
+            firebase.updateProfile({displayName: name})
+              .catch(errorMessage => console.log(errorMessage))
+            dialogs.alert({title: "Hey " + name, message: "Your account has been created.", okButtonText: "Nice!"})
+              .then(() => this.routerExtensions.navigate(["/cars"], { clearHistory: true }))
+          },
+          errorMessage => {
+            dialogs.alert({
+              title: "Huh, something went wrong...",
+              message: errorMessage,
+              okButtonText: "OK, got it"
+            })
+          }
+      );
 
         /* ***********************************************************
         * Call your custom signup logic using the email and password data.

@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ObservableArray } from "data/observable-array";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ListViewEventData } from "nativescript-pro-ui/listview";
+import firebase = require("nativescript-plugin-firebase");
 
 import { Car } from "./shared/car.model";
 import { CarService } from "./shared/car.service";
@@ -72,6 +73,16 @@ export class CarListComponent implements OnInit {
                 duration: 200,
                 curve: "ease"
             }
+        });
+    }
+
+    onSignoutButtonTap(): void {
+      firebase.logout()
+        .then(result => {
+          this._routerExtensions.navigate(["/login"], { clearHistory: true })
+        })
+        .catch(error => {
+          console.log(error)
         });
     }
 }

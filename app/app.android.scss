@@ -8,6 +8,9 @@
 // Import common styles
 @import 'app-common';
 
+// Import shared animations
+@import './shared/animate';
+
 // Place any CSS rules you want to apply only on Android here
 .action-item {
     padding-right: 10;
@@ -17,4 +20,18 @@
   padding-top: 40;
   padding-left: 40;
   padding-right: 40;
+}
+
+.login-stack > TextField {
+  font-size: 16;
+}
+
+.login-stack > .loading {
+  animation-name: pulse;
+  animation-duration: 3s;
+}
+
+.login-stack > .login-failed {
+  animation-name: shake;
+  animation-duration: 3s;
 }

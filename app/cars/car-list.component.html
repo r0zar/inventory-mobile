@@ -1,7 +1,7 @@
 <ActionBar class="action-bar">
     <!-- Should remove the navigation button -->
     <NavigationButton ios:visibility="collapsed"></NavigationButton>
-    <Label class="action-bar-title" text="Browse" horizontalAlignment="center"></Label>
+    <Button class="btn btn-primary" text="SIGN OUT" (tap)="onSignoutButtonTap()" horizontalAlignment="center"></Button>
 </ActionBar>
 
 <GridLayout class="page page-content">
@@ -55,6 +55,7 @@
             </StackLayout>
         </ng-template>
     </RadListView>
+
 
     <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 </GridLayout>

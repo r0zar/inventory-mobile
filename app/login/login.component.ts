@@ -3,6 +3,8 @@ import {Page} from "ui/page";
 import { AuthService } from "../shared/auth.service";
 import firebase = require("nativescript-plugin-firebase");
 import {RouterExtensions} from "nativescript-angular/router";
+import { Switch } from "ui/switch";
+import * as dialogs from "ui/dialogs";
 
 /* ***********************************************************
 * Before you can navigate to this page from your app, you need to reference this page's module in the
@@ -19,6 +21,9 @@ import {RouterExtensions} from "nativescript-angular/router";
 export class LoginComponent implements OnInit {
     email: string;
     password: string;
+    rememberMe: boolean;
+    loading: boolean;
+    loginFailed: boolean;
 
     constructor(page: Page, private routerExtensions: RouterExtensions) {
         page.actionBarHidden = true;
@@ -28,20 +33,30 @@ export class LoginComponent implements OnInit {
         /* ***********************************************************
         * Use the "ngOnInit" handler to initialize data for this component.
         *************************************************************/
-        console.log(AuthService.isLoggedIn())
         this.email = 'ross.ragsdale@gmail.com'
         this.password = 'red12345'
+        this.rememberMe = true
+        this.loading = false
+        this.loginFailed = false
     }
 
-    onLoginWithSocialProviderButtonTap(): void {
-        /* ***********************************************************
-        * For log in with social provider you can add your custom logic or
-        * use NativeScript plugin for log in with Facebook
-        * http://market.nativescript.org/plugins/nativescript-facebook
-        *************************************************************/
+    onRememberMeToggle(args): void {
+        let rememberMeSwitch = <Switch>args.object;
+        // remove this line when it actually works
+        rememberMeSwitch.isEnabled = false
+        if (rememberMeSwitch.checked) {
+            this.rememberMe = true;
+            // https://github.com/EddyVerbruggen/nativescript-plugin-firebase/issues/629
+            //AuthService.setPersistence('local')
+        } else {
+            this.rememberMe = false;
+            //AuthService.setPersistence('none')
+        }
     }
 
     onSigninButtonTap(): void {
+      this.loginFailed = false
+      this.loading = true
       firebase.login(
         {
           type: firebase.LoginType.PASSWORD,
@@ -50,8 +65,14 @@ export class LoginComponent implements OnInit {
             password: this.password
           }
         })
-        .then(result => this.routerExtensions.navigate(["/cars"], { clearHistory: true }))
-        .catch(error => console.log(error));
+        .then(result => {
+          this.routerExtensions.navigate(["/cars"], { clearHistory: true })
+        })
+        .catch(error => {
+          this.loading = false
+          this.loginFailed = true
+          console.log(error)
+        });
 
         /* ***********************************************************
         * Call your custom sign in logic using the email and password data.
@@ -59,8 +80,32 @@ export class LoginComponent implements OnInit {
     }
 
     onForgotPasswordTap(): void {
-        /* ***********************************************************
-        * Call your Forgot Password logic here.
-        *************************************************************/
+      dialogs.confirm({
+          title: "Password Reset",
+          message: `Would you like to reset your password for ${this.email}?`,
+          okButtonText: "Yes",
+          cancelButtonText: "No thanks"
+      }).then(result => {
+          // result argument is boolean
+          console.log("Dialog result: " + result);
+          if (result) {
+            firebase.resetPassword({
+              email: this.email
+            }).then(
+                function () {
+                  dialogs.alert({
+                      title: "Success!",
+                      message: "Check your email for a reset link.",
+                      okButtonText: "Confirm"
+                  }).then(() => {
+                      console.log("Dialog closed!");
+                  });
+                },
+                function (errorMessage) {
+                  console.log(errorMessage);
+                }
+            );
+          }
+      });
     }
 }
