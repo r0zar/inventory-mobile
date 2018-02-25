@@ -39,12 +39,13 @@ export class SignupComponent implements OnInit {
         .then( result => {
           firebase.updateProfile({displayName: name})
             .catch( errorMessage => console.log(errorMessage))
+          firebase.sendEmailVerification()
+            .catch( error => console.log("Error sending email verification: " + error))
           dialogs.alert({title: "Hey " + name, message: "Your account has been created.", okButtonText: "Nice!"})
             .then( () => this.routerExtensions.navigate(["/home"], { clearHistory: true }))
-        },
-        errorMessage => {
+        })
+        .catch( errorMessage => {
           dialogs.alert({title: "Huh, something went wrong...", message: errorMessage, okButtonText: "OK, got it"})
-        }
-      );
+        })
     }
 }
