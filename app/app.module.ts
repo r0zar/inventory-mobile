@@ -14,7 +14,7 @@ import "./rxjs.imports";
 
 @NgModule({
     providers: [
-      AuthProviders
+        AuthProviders
     ],
     bootstrap: [
         AppComponent

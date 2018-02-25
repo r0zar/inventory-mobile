@@ -1,8 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ObservableArray } from "data/observable-array";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ListViewEventData } from "nativescript-pro-ui/listview";
 import firebase = require("nativescript-plugin-firebase");
+import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-ui/sidedrawer";
+import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { Car } from "./shared/car.model";
 import { CarService } from "./shared/car.service";
@@ -19,12 +21,20 @@ import { CarService } from "./shared/car.service";
     styleUrls: ["./car-list.component.scss"]
 })
 export class CarListComponent implements OnInit {
+    /* ***********************************************************
+    * Use the @ViewChild decorator to get a reference to the drawer component.
+    * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
+    *************************************************************/
+    @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
+
+    private _sideDrawerTransition: DrawerTransitionBase;
+
     private _isLoading: boolean = false;
     private _cars: ObservableArray<Car> = new ObservableArray<Car>([]);
 
     constructor(
         private _carService: CarService,
-        private _routerExtensions: RouterExtensions
+        private _routerExtensions: RouterExtensions,
     ) { }
 
     /* ***********************************************************
@@ -32,6 +42,7 @@ export class CarListComponent implements OnInit {
     * private property that holds it inside the component.
     *************************************************************/
     ngOnInit(): void {
+        this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
         /* ***********************************************************
@@ -76,13 +87,15 @@ export class CarListComponent implements OnInit {
         });
     }
 
-    onSignoutButtonTap(): void {
-      firebase.logout()
-        .then(result => {
-          this._routerExtensions.navigate(["/login"], { clearHistory: true })
-        })
-        .catch(error => {
-          console.log(error)
-        });
+    get sideDrawerTransition(): DrawerTransitionBase {
+        return this._sideDrawerTransition;
+    }
+
+    /* ***********************************************************
+    * According to guidelines, if you have a drawer on your page, you should always
+    * have a button that opens it. Use the showDrawer() function to open the app drawer section.
+    *************************************************************/
+    onDrawerButtonTap(): void {
+        this.drawerComponent.sideDrawer.showDrawer();
     }
 }

@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
           }
         })
         .then(result => {
-          this.routerExtensions.navigate(["/cars"], { clearHistory: true })
+          this.routerExtensions.navigate(["/home"], { clearHistory: true })
         })
         .catch(error => {
           this.loading = false

@@ -35,26 +35,16 @@ export class SignupComponent implements OnInit {
       const name = this.name;
       const email = this.email;
       const password = this.password;
-      firebase.createUser({
-        email: this.email,
-        password: this.password
-      }).then( result => {
-            firebase.updateProfile({displayName: name})
-              .catch(errorMessage => console.log(errorMessage))
-            dialogs.alert({title: "Hey " + name, message: "Your account has been created.", okButtonText: "Nice!"})
-              .then(() => this.routerExtensions.navigate(["/cars"], { clearHistory: true }))
-          },
-          errorMessage => {
-            dialogs.alert({
-              title: "Huh, something went wrong...",
-              message: errorMessage,
-              okButtonText: "OK, got it"
-            })
-          }
+      firebase.createUser({email, password})
+        .then( result => {
+          firebase.updateProfile({displayName: name})
+            .catch( errorMessage => console.log(errorMessage))
+          dialogs.alert({title: "Hey " + name, message: "Your account has been created.", okButtonText: "Nice!"})
+            .then( () => this.routerExtensions.navigate(["/cars"], { clearHistory: true }))
+        },
+        errorMessage => {
+          dialogs.alert({title: "Huh, something went wrong...", message: errorMessage, okButtonText: "OK, got it"})
+        }
       );
-
-        /* ***********************************************************
-        * Call your custom signup logic using the email and password data.
-        *************************************************************/
     }
 }
