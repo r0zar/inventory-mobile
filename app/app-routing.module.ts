@@ -9,10 +9,10 @@ const routes: Routes = [
     { path: "", redirectTo: "/home", pathMatch: "full" },
     { path: "login", loadChildren: "./login/login.module#LoginModule" },
     { path: "signup", loadChildren: "./signup/signup.module#SignupModule" },
-    { path: "home", loadChildren: "./home/home.module#HomeModule" },
-    { path: "search", loadChildren: "./search/search.module#SearchModule" },
-    { path: "settings", loadChildren: "./settings/settings.module#SettingsModule" },
-    { path: "cars", loadChildren: "./cars/cars.module#CarsModule"}
+    { path: "home", loadChildren: "./home/home.module#HomeModule", canActivate: [AuthGuard] },
+    { path: "search", loadChildren: "./search/search.module#SearchModule", canActivate: [AuthGuard] },
+    { path: "settings", loadChildren: "./settings/settings.module#SettingsModule", canActivate: [AuthGuard] },
+    { path: "cars", loadChildren: "./cars/cars.module#CarsModule", canActivate: [AuthGuard] }
 ];
 
 @NgModule({

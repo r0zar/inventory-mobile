@@ -40,7 +40,7 @@ export class SignupComponent implements OnInit {
           firebase.updateProfile({displayName: name})
             .catch( errorMessage => console.log(errorMessage))
           dialogs.alert({title: "Hey " + name, message: "Your account has been created.", okButtonText: "Nice!"})
-            .then( () => this.routerExtensions.navigate(["/cars"], { clearHistory: true }))
+            .then( () => this.routerExtensions.navigate(["/home"], { clearHistory: true }))
         },
         errorMessage => {
           dialogs.alert({title: "Huh, something went wrong...", message: errorMessage, okButtonText: "OK, got it"})
