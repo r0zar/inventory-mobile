@@ -30,6 +30,7 @@
     "nativescript-plugin-firebase": "~5.0.5",
     "nativescript-pro-ui": "~3.3.0",
     "nativescript-theme-core": "~1.0.4",
+    "random-words": "^1.0.0",
     "reflect-metadata": "~0.1.10",
     "rxjs": "~5.5.5",
     "tns-core-modules": "~3.4.0",

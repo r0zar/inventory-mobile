@@ -3,11 +3,11 @@ import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-u
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 @Component({
-    selector: "Facilities",
+    selector: "Transfers",
     moduleId: module.id,
-    templateUrl: "./facilities.component.html"
+    templateUrl: "./transfers.component.html"
 })
-export class FacilitiesComponent implements OnInit {
+export class TransfersComponent implements OnInit {
     /* ***********************************************************
     * Use the @ViewChild decorator to get a reference to the drawer component.
     * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.

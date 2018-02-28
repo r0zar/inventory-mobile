@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-ui/sidedrawer";
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
     selector: "Wallet",
@@ -16,12 +17,19 @@ export class WalletComponent implements OnInit {
 
     private _sideDrawerTransition: DrawerTransitionBase;
 
+    constructor(
+        private _routerExtensions: RouterExtensions
+    ) { }
 
     /* ***********************************************************
     * Use the sideDrawerTransition property to change the open/close animation of the drawer.
     *************************************************************/
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
+    }
+
+    onSubscriptionButtonTap(): void {
+        this._routerExtensions.navigate(["/subscription"], { clearHistory: true })
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {

@@ -31,11 +31,37 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     Use the tkMainContent directive to display the content of the page when you have an app drawer.
     -->
     <GridLayout class="page page-content" tkMainContent>
-        <Label class="page-icon fa" text="&#xf013;"></Label>
-        <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
-        <StackLayout >
-          <Button class="btn btn-primary" text="SIGN OUT" (tap)="onSignoutButtonTap()" horizontalAlignment="center"></Button>
-        </StackLayout>
+      <ScrollView>
+
+          <GridLayout columns="50, *, auto" rows="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto">
+            <Label col="0" row="0" class="m-t-20 m-b-20 m-l-20 fa" text="&#xf007;"></Label>
+            <Label col="1" row="0" class="m-t-20 m-b-20 m-r-10" text="Account Settings"></Label>
+
+            <Label col="0" row="1" class="m-t-20 m-b-20 m-l-20 fa" text="&#xf09d;"></Label>
+            <Label col="1" row="1" class="m-t-20 m-b-20 m-r-10" text="Payment Settings"></Label>
+
+            <Label col="0" row="2" class="m-t-20 m-b-20 m-l-20 fa" text="&#xf059;"></Label>
+            <Label col="1" row="2" class="m-t-20 m-b-20 m-r-10" text="Help Center"></Label>
+
+            <Label col="0" row="3" class="m-t-20 m-b-20 m-l-20 fa" text="&#xf086;"></Label>
+            <Label col="1" row="3" class="m-t-20 m-b-20 m-r-10" text="Help Community"></Label>
+
+            <Label col="0" row="4" class="m-t-20 m-b-20 m-l-20 fa" text="&#xf02d;"></Label>
+            <Label col="1" row="4" class="m-t-20 m-b-20 m-r-10" text="Terms & Policies"></Label>
+
+            <Label col="0" row="5" class="m-t-20 m-b-20 m-l-20 fa" text="&#xf071;"></Label>
+            <Label col="1" row="5" class="m-t-20 m-b-20 m-r-10" text="Report a Problem"></Label>
+
+            <Label col="0" row="6" class="m-t-20 m-b-20 m-l-20 fa" text="&#xf05a;"></Label>
+            <Label col="1" row="6" class="m-t-20 m-b-20 m-r-10" text="About"></Label>
+
+            <StackLayout colSpan="2" row="7" class="hr-light"></StackLayout>
+
+            <Label col="0" row="8" class="m-t-20 m-b-20 m-l-20 fa-s" text="&#xf2f5;" (tap)="onSignoutButtonTap()"></Label>
+            <Label col="1" row="8" class="m-t-20 m-b-20 m-r-10" text="Sign out" (tap)="onSignoutButtonTap()"></Label>
+          </GridLayout>
+
+      </ScrollView>
     </GridLayout>
 
 </RadSideDrawer>

@@ -2,20 +2,20 @@ import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 
 import { SharedModule } from "../shared/shared.module";
-import { SearchRoutingModule } from "./search-routing.module";
-import { SearchComponent } from "./search.component";
+import { CreditsRoutingModule } from "./credits-routing.module";
+import { CreditsComponent } from "./credits.component";
 
 @NgModule({
     imports: [
         NativeScriptCommonModule,
-        SearchRoutingModule,
+        CreditsRoutingModule,
         SharedModule
     ],
     declarations: [
-        SearchComponent
+        CreditsComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
     ]
 })
-export class SearchModule { }
+export class CreditsModule { }

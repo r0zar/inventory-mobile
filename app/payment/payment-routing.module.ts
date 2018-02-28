@@ -2,14 +2,14 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
-import { ItemsComponent } from "./items.component";
+import { PaymentComponent } from "./payment.component";
 
 const routes: Routes = [
-    { path: "", component: ItemsComponent }
+    { path: "", component: PaymentComponent }
 ];
 
 @NgModule({
     imports: [NativeScriptRouterModule.forChild(routes)],
     exports: [NativeScriptRouterModule]
 })
-export class ItemsRoutingModule { }
+export class PaymentRoutingModule { }

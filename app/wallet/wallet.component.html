@@ -9,7 +9,7 @@
     <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
         ios.position="left">
     </ActionItem>
-    <Label class="action-bar-title" text="Wallet"></Label>
+    <Label class="action-bar-title" text="My Wallet"></Label>
 </ActionBar>
 
 <!--
@@ -31,7 +31,28 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     Use the tkMainContent directive to display the content of the page when you have an app drawer.
     -->
     <GridLayout class="page page-content" tkMainContent>
-        <Label class="page-icon fa" text="&#xf15a;"></Label>
-        <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
+      <ScrollView>
+
+          <GridLayout columns="auto, auto, auto" rows="auto, auto, auto, auto, auto, auto">
+            <Label col="0" row="0" class="m-t-20 m-b-20 m-l-20 fa fa-large" text="&#xf2c2;" (tap)="onSubscriptionButtonTap()"></Label>
+            <Label col="1" row="0" class="m-t-28 m-b-20 m-r-10" text="Subscription" (tap)="onSubscriptionButtonTap()"></Label>
+            <Label col="2" row="0" class="m-t-28 m-b-20 m-r-10" text="Bronze" (tap)="onSubscriptionButtonTap()"></Label>
+
+            <StackLayout colSpan="3" row="1" class="hr-light"></StackLayout>
+
+            <Label col="0" row="2" class="m-t-20 m-b-20 m-l-20 fa-b fa-large" text="&#xf379;"></Label>
+            <Label col="1" row="2" class="m-t-28 m-b-20 m-r-10" text="Bitcoin"></Label>
+            <Label col="2" row="2" class="m-t-28 m-b-20 m-r-10" text="2.00000000"></Label>
+
+            <StackLayout colSpan="3" row="3" class="hr-light"></StackLayout>
+
+            <Label col="0" row="4" class="m-t-20 m-b-20 m-l-20 fa-b fa-large" text="&#xf3d0;"></Label>
+            <Label col="1" row="4" class="m-t-28 m-b-20 m-r-10" text="Monero"></Label>
+            <Label col="2" row="4" class="m-t-28 m-b-20 m-r-10" text="10.00000000"></Label>
+
+            <StackLayout colSpan="3" row="5" class="hr-light"></StackLayout>
+          </GridLayout>
+
+      </ScrollView>
     </GridLayout>
 </RadSideDrawer>

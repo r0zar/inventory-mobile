@@ -2,20 +2,20 @@ import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 
 import { SharedModule } from "../shared/shared.module";
-import { ItemsRoutingModule } from "./items-routing.module";
-import { ItemsComponent } from "./items.component";
+import { PaymentRoutingModule } from "./payment-routing.module";
+import { PaymentComponent } from "./payment.component";
 
 @NgModule({
     imports: [
         NativeScriptCommonModule,
-        ItemsRoutingModule,
+        PaymentRoutingModule,
         SharedModule
     ],
     declarations: [
-        ItemsComponent
+        PaymentComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
     ]
 })
-export class ItemsModule { }
+export class PaymentModule { }

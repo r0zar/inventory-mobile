@@ -1,9 +1,28 @@
 // Place any CSS rules you want to apply on both iOS and Android here.
 // This is where the vast majority of your CSS code goes.
 
+// Import shared animations
+@import './shared/animate';
+
 //Font icon
 .fa {
    font-family: "FontAwesome";
+}
+
+.fa-b {
+  font-family: "fa-brands-400";
+}
+
+.fa-large {
+  font-size: 36;
+}
+
+.fa-s {
+  font-family: "fa-solid-900";
+}
+
+.fa-r {
+  font-family: "fa-regular-400";
 }
 
 //Action bar
@@ -54,4 +73,15 @@ Slider {
 //Action bar
 ActionBar .action-bar-title {
     horizontal-align: center;
+}
+
+
+.login-stack > .loading {
+  animation-name: pulse;
+  animation-duration: 3s;
+}
+
+.login-stack > .login-failed {
+  animation-name: shake;
+  animation-duration: 3s;
 }
