@@ -54,10 +54,12 @@ export class PackageDetailEditComponent implements OnInit {
 
     onPickerLoaded(args) {
         let datePicker = <DatePicker>args.object;
-        let date = this._package.PackagedDate ? this._package.PackagedDate.split('-') : Date()
-        datePicker.year = Number(date[0]);
-        datePicker.month =  Number(date[1]);
-        datePicker.day =  Number(date[2]);
+        if (this._package.PackagedDate) {
+          let date = this._package.PackagedDate.split('-')
+          datePicker.year = Number(date[0]);
+          datePicker.month =  Number(date[1]);
+          datePicker.day =  Number(date[2]);
+        }
         datePicker.minDate = new Date(1975, 0, 29);
         datePicker.maxDate = new Date(2025, 4, 12);
     }
