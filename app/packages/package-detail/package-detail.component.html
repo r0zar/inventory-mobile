@@ -1,0 +1,115 @@
+<ActionBar class="action-bar">
+    <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()">
+    </NavigationButton>
+    <Label class="action-bar-title" [text]="package.Label" horizontalAlignment="center"></Label>
+    <ActionItem ios.position="right" android.position="right" (tap)="onEditButtonTap()">
+        <Label text="Edit" class="action-item"></Label>
+    </ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+    <ScrollView>
+        <GridLayout rows="auto, auto, auto">
+            <Image [src]="package.imageUrl" stretch="aspectFill" height="200" class="m-b-15" decodeHeight="200"></Image>
+
+            <GridLayout row="1" rows="*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*" columns="*, *">
+
+                <Label text="Id" class="p-l-15 p-b-10 m-r-20 text-secondary" row="0"></Label>
+                <Label [text]="package.Id" row="0" col="1" class="text p-b-10"></Label>
+
+                <Label text="Label" class="p-l-15 p-b-10 m-r-20 text-secondary" row="1"></Label>
+                <Label [text]="package.Label" row="1" col="1" class="text p-b-10"></Label>
+
+                <Label text="PackageType" class="p-l-15 p-b-10 m-r-20 text-secondary" row="2"></Label>
+                <Label [text]="package.PackageType" row="2" col="1" class="text p-b-10"></Label>
+
+                <Label text="SourceHarvestNames" class="p-l-15 p-b-10 m-r-20 text-secondary" row="3"></Label>
+                <Label [text]="package.SourceHarvestNames" row="3" col="1" class="text p-b-10"></Label>
+
+                <Label text="RoomId" class="p-l-15 m-r-20 p-b-10 text-secondary" row="4"></Label>
+                <Label [text]="package.RoomId" row="4" col="1" class="text p-b-10"></Label>
+
+                <Label text="RoomName" class="p-l-15 p-b-10 m-r-20 text-secondary" row="5"></Label>
+                <Label [text]="package.RoomName" row="5" col="1" class="text p-b-10"></Label>
+
+                <Label text="Quantity" class="p-l-15 p-b-10 m-r-20 text-secondary" row="6"></Label>
+                <Label [text]="package.Quantity" row="6" col="1" class="text p-b-10"></Label>
+
+                <Label text="UnitOfMeasureName" class="p-l-15 p-b-10 m-r-20 text-secondary" row="7"></Label>
+                <Label [text]="package.UnitOfMeasureName" row="7" col="1" class="text p-b-10"></Label>
+
+                <Label text="UnitOfMeasureAbbreviation" class="p-l-15 p-b-10 m-r-20 text-secondary" row="8"></Label>
+                <Label [text]="package.UnitOfMeasureAbbreviation" row="8" col="1" class="text p-b-10"></Label>
+
+                <Label text="ProductId" class="p-l-15 p-b-10 m-r-20 text-secondary" row="9"></Label>
+                <Label [text]="package.ProductId" row="9" col="1" class="text p-b-10"></Label>
+
+                <Label text="ProductName" class="p-l-15 p-b-10 m-r-20 text-secondary" row="10"></Label>
+                <Label [text]="package.ProductName" row="10" col="1" class="text p-b-10"></Label>
+
+                <Label text="ProductCategoryName" class="p-l-15 p-b-10 m-r-20 text-secondary" row="11"></Label>
+                <Label [text]="package.ProductCategoryName" row="11" col="1" class="text p-b-10"></Label>
+
+                <Label text="PackagedDate" class="p-l-15 p-b-10 m-r-20 text-secondary" row="12"></Label>
+                <Label [text]="package.PackagedDate" row="12" col="1" class="text p-b-10"></Label>
+
+                <Label text="InitialLabTestingState" class="p-l-15 p-b-10 m-r-20 text-secondary" row="13"></Label>
+                <Label [text]="package.InitialLabTestingState" row="13" col="1" class="text p-b-10"></Label>
+
+                <Label text="LabTestingState" class="p-l-15 p-b-10 m-r-20 text-secondary" row="14"></Label>
+                <Label [text]="package.LabTestingState" row="14" col="1" class="text p-b-10"></Label>
+
+                <Label text="LabTestingStateName" class="p-l-15 p-b-10 m-r-20 text-secondary" row="15"></Label>
+                <Label [text]="package.LabTestingStateName" row="15" col="1" class="text p-b-10"></Label>
+
+                <Label text="LabTestingStateDate" class="p-l-15 p-b-10 m-r-20 text-secondary" row="16"></Label>
+                <Label [text]="package.LabTestingStateDate" row="16" col="1" class="text p-b-10"></Label>
+
+                <Label text="IsProductionBatch" class="p-l-15 p-b-10 m-r-20 text-secondary" row="17"></Label>
+                <Label [text]="package.IsProductionBatch" row="17" col="1" class="text p-b-10"></Label>
+
+                <Label text="ProductionBatchNumber" class="p-l-15 p-b-10 m-r-20 text-secondary" row="18"></Label>
+                <Label [text]="package.ProductionBatchNumber" row="18" col="1" class="text p-b-10"></Label>
+
+                <Label text="IsTestingSample" class="p-l-15 p-b-10 m-r-20 text-secondary" row="19"></Label>
+                <Label [text]="package.IsTestingSample" row="5" col="19" class="text p-b-10"></Label>
+
+                <Label text="IsProcessValidationTestingSample" class="p-l-15 p-b-10 m-r-20 text-secondary" row="20"></Label>
+                <Label [text]="package.IsProcessValidationTestingSample" row="20" col="1" class="text p-b-10"></Label>
+
+                <Label text="ProductRequiresRemediation" class="p-l-15 p-b-10 m-r-20 text-secondary" row="21"></Label>
+                <Label [text]="package.ProductRequiresRemediation" row="21" col="1" class="text p-b-10"></Label>
+
+                <Label text="ContainsRemediatedProduct" class="p-l-15 p-b-10 m-r-20 text-secondary" row="22"></Label>
+                <Label [text]="package.ContainsRemediatedProduct" row="22" col="1" class="text p-b-10"></Label>
+
+                <Label text="RemediationDate" class="p-l-15 p-b-10 m-r-20 text-secondary" row="23"></Label>
+                <Label [text]="package.RemediationDate" row="23" col="1" class="text p-b-10"></Label>
+
+                <Label text="ReceivedFromManifestNumber" class="p-l-15 p-b-10 m-r-20 text-secondary" row="24"></Label>
+                <Label [text]="package.ReceivedFromManifestNumber" row="24" col="1" class="text p-b-10"></Label>
+
+                <Label text="ReceivedFromFacilityLicenseNumber" class="p-l-15 p-b-10 m-r-20 text-secondary" row="25"></Label>
+                <Label [text]="package.ReceivedFromFacilityLicenseNumber" row="25" col="1" class="text p-b-10"></Label>
+
+                <Label text="ReceivedFromFacilityName" class="p-l-15 p-b-10 m-r-20 text-secondary" row="26"></Label>
+                <Label [text]="package.ReceivedFromFacilityName" row="26" col="1" class="text p-b-10"></Label>
+
+                <Label text="ReceivedDateTime" class="p-l-15 p-b-10 m-r-20 text-secondary" row="27"></Label>
+                <Label [text]="package.ReceivedDateTime" row="27" col="1" class="text p-b-10"></Label>
+
+                <Label text="IsOnHold" class="p-l-15 p-b-10 m-r-20 text-secondary" row="28"></Label>
+                <Label [text]="package.IsOnHold" row="28" col="1" class="text p-b-10"></Label>
+
+                <Label text="ArchivedDate" class="p-l-15 p-b-10 m-r-20 text-secondary" row="29"></Label>
+                <Label [text]="package.ArchivedDate" row="29" col="1" class="text p-b-10"></Label>
+
+                <Label text="FinishedDate" class="p-l-15 p-b-10 m-r-20 text-secondary" row="30"></Label>
+                <Label [text]="package.FinishedDate" row="30" col="1" class="text p-b-10"></Label>
+
+                <Label text="LastModified" class="p-l-15 p-b-10 m-r-20 text-secondary" row="31"></Label>
+                <Label [text]="package.LastModified" row="31" col="1" class="text p-b-10"></Label>
+            </GridLayout>
+        </GridLayout>
+    </ScrollView>
+</GridLayout>

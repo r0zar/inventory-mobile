@@ -3,7 +3,7 @@ import firebase = require("nativescript-plugin-firebase");
 import { Observable } from "rxjs/Observable";
 
 import { Config } from "../../shared/config";
-import { Package } from "./package.model";
+import { Transfer } from "./transfer.model";
 
 const editableProperties = [
     "Label"
@@ -18,21 +18,11 @@ const editableProperties = [
 * Check out how it is imported in the main.ts file and the actual script in /shared/firebase.common.ts file.
 *************************************************************/
 @Injectable()
-export class PackageService {
+export class TransferService {
 
-    private _packages: Array<Package> = [];
+    private _transfers: Array<Transfer> = [];
 
     constructor(private _ngZone: NgZone) { }
-
-    getPackageById(id: number): Package {
-        if (!id) {
-            return;
-        }
-
-        return this._packages.filter((paccage) => {
-            return paccage.Id == id;
-        })[0];
-    }
 
     load(): Observable<any> {
         return new Observable((observer: any) => {
@@ -43,21 +33,21 @@ export class PackageService {
                     observer.next(results);
                 });
             };
-            firebase.addValueEventListener(onValueEvent, `/packages`);
+            firebase.addValueEventListener(onValueEvent, `/transfers`);
         }).catch(this.handleErrors);
     }
 
-    private handleSnapshot(data: any): Array<Package> {
-        this._packages = [];
+    private handleSnapshot(data: any): Array<Transfer> {
+        this._transfers = [];
 
         if (data) {
             for (const Id in data) {
                 if (data.hasOwnProperty(Id)) {
-                    this._packages.push(new Package(data[Id]));
+                    this._transfers.push(new Transfer(data[Id]));
                 }
             }
         }
-        return this._packages;
+        return this._transfers;
     }
 
     private handleErrors(error: Response): Observable<any> {

@@ -35,7 +35,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
 
 
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-      <ListView [items]="packages">
+      <ListView [items]="packages" (itemTap)="onPackageItemTap($event)">
           <ng-template let-item="item">
               <StackLayout [class.odd]="odd" [class.even]="even">
                 <GridLayout columns="auto, *, 40" rows="auto, auto">

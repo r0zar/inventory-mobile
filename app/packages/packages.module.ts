@@ -5,6 +5,7 @@ import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angul
 
 import { SharedModule } from "../shared/shared.module";
 import { PackagesRoutingModule } from "./packages-routing.module";
+import { PackageDetailComponent } from "./package-detail/package-detail.component";
 import { PackagesComponent } from "./packages.component";
 import { PackageService } from "./shared/package.service";
 
@@ -17,7 +18,8 @@ import { PackageService } from "./shared/package.service";
         SharedModule
     ],
     declarations: [
-        PackagesComponent
+        PackagesComponent,
+        PackageDetailComponent
     ],
     providers: [
         PackageService

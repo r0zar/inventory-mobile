@@ -1,4 +1,4 @@
-export class Package {
+export class Transfer {
     Id: number;
     Label: string;
     PackageType: string;
@@ -31,7 +31,6 @@ export class Package {
     ArchivedDate: string;
     FinishedDate: string;
     LastModified: string;
-    imageUrl: string;
 
     constructor(options: any) {
         this.Id = Number(options.Id);
@@ -66,6 +65,5 @@ export class Package {
         this.ArchivedDate = options.ArchivedDate;
         this.FinishedDate = options.FinishedDate;
         this.LastModified = options.LastModified;
-        this.imageUrl = options.imageUrl;
     }
 }

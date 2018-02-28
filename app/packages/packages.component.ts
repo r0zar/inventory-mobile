@@ -66,6 +66,27 @@ export class PackagesComponent implements OnInit {
         return this._isLoading;
     }
 
+    /* ***********************************************************
+    * Use the "itemTap" event handler of the <RadListView> to navigate to the
+    * item details page. Retrieve a reference for the data item (the id) and pass it
+    * to the item details page, so that it can identify which data item to display.
+    * Learn more about navigating with a parameter in this documentation article:
+    * http://docs.nativescript.org/angular/core-concepts/angular-navigation.html#passing-parameter
+    *************************************************************/
+    onPackageItemTap(args: ListViewEventData): void {
+        const tappedPackageItem = args.view.bindingContext;
+
+        this._routerExtensions.navigate(["/packages/package-detail", tappedPackageItem.Id],
+        {
+            animated: true,
+            transition: {
+                name: "slide",
+                duration: 200,
+                curve: "ease"
+            }
+        });
+    }
+
     get sideDrawerTransition(): DrawerTransitionBase {
         return this._sideDrawerTransition;
     }
