@@ -16,7 +16,7 @@ $sidedrawer-list-icon-size: 20;
         margin-right: $sidedrawer-list-icon-offset;
     }
     &.selected {
-        background-color: $item-active-background;
+        background-color: #7a4116;
         Label {
             color: $item-active-color;
         }

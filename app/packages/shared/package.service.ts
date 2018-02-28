@@ -6,6 +6,8 @@ import { Observable } from "rxjs/Observable";
 import { Config } from "../../shared/config";
 import { Package } from "./package.model";
 
+import _ = require('lodash');
+
 const editableProperties = [
     "Id",
     "Label",
@@ -47,6 +49,7 @@ export class PackageService {
 
             const onValueEvent = (snapshot: any) => {
                 this._ngZone.run(() => {
+                    //snapshot.value = _.filter(snapshot.value, {owner: 'rragsda'})
                     const results = this.handleSnapshot(snapshot.value);
                     observer.next(results);
                 });
