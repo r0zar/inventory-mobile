@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from "@angular/core";
+import { Http } from "@angular/http";
 import firebase = require("nativescript-plugin-firebase");
 import { Observable } from "rxjs/Observable";
 
@@ -6,7 +7,10 @@ import { Config } from "../../shared/config";
 import { Package } from "./package.model";
 
 const editableProperties = [
-    "Label"
+    "Id",
+    "Label",
+    "Quantity",
+    "PackageType",
 ];
 
 /* ***********************************************************
@@ -19,6 +23,9 @@ const editableProperties = [
 *************************************************************/
 @Injectable()
 export class PackageService {
+    private static cloneUpdateModel(paccage: Package): object {
+        return editableProperties.reduce((a, e) => (a[e] = paccage[e], a), {}); // tslint:disable-line:ban-comma-operator
+    }
 
     private _packages: Array<Package> = [];
 
@@ -36,6 +43,7 @@ export class PackageService {
 
     load(): Observable<any> {
         return new Observable((observer: any) => {
+            const path = "packages";
 
             const onValueEvent = (snapshot: any) => {
                 this._ngZone.run(() => {
@@ -43,20 +51,35 @@ export class PackageService {
                     observer.next(results);
                 });
             };
-            firebase.addValueEventListener(onValueEvent, `/packages`);
+            firebase.addValueEventListener(onValueEvent, `/${path}`);
         }).catch(this.handleErrors);
+    }
+
+    update(packageModel: Package): Promise<any> {
+        const updateModel = PackageService.cloneUpdateModel(packageModel);
+
+        return firebase.update("/packages/" + packageModel.Id, updateModel);
+    }
+
+    uploadImage(remoteFullPath: string, localFullPath: string): Promise<any> {
+        return firebase.uploadFile({
+            localFullPath,
+            remoteFullPath,
+            onProgress: null
+        });
     }
 
     private handleSnapshot(data: any): Array<Package> {
         this._packages = [];
 
         if (data) {
-            for (const Id in data) {
-                if (data.hasOwnProperty(Id)) {
-                    this._packages.push(new Package(data[Id]));
+            for (const id in data) {
+                if (data.hasOwnProperty(id)) {
+                    this._packages.push(new Package(data[id]));
                 }
             }
         }
+
         return this._packages;
     }
 

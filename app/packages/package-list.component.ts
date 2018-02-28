@@ -9,14 +9,15 @@ import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 import { Package } from "./shared/package.model";
 import { PackageService } from "./shared/package.service";
 
+import _ = require('lodash');
 
 @Component({
     selector: "Packages",
     moduleId: module.id,
-    templateUrl: "./packages.component.html",
-    styleUrls: ["./packages.component.scss"]
+    templateUrl: "./package-list.component.html",
+    styleUrls: ["./package-list.component.scss"]
 })
-export class PackagesComponent implements OnInit {
+export class PackageListComponent implements OnInit {
     /* ***********************************************************
     * Use the @ViewChild decorator to get a reference to the drawer component.
     * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
@@ -85,6 +86,19 @@ export class PackagesComponent implements OnInit {
                 curve: "ease"
             }
         });
+    }
+
+    onAddButtonTap(): void {
+        this._routerExtensions.navigate(["/packages/package-detail-edit", _.random(0, 999999999999999)],
+            {
+                animated: true,
+                transition: {
+                    name: "slideTop",
+                    duration: 200,
+                    curve: "ease"
+                }
+            });
+
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {

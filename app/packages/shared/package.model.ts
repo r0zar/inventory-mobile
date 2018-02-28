@@ -32,6 +32,7 @@ export class Package {
     FinishedDate: string;
     LastModified: string;
     imageUrl: string;
+    imageStoragePath: string;
 
     constructor(options: any) {
         this.Id = Number(options.Id);
@@ -67,5 +68,6 @@ export class Package {
         this.FinishedDate = options.FinishedDate;
         this.LastModified = options.LastModified;
         this.imageUrl = options.imageUrl;
+        this.imageStoragePath = options.imageStoragePath;
     }
 }

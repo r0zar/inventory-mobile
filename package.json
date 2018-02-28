@@ -25,6 +25,7 @@
     "@angular/platform-browser": "~5.2.0",
     "@angular/platform-browser-dynamic": "~5.2.0",
     "@angular/router": "~5.2.0",
+    "lodash": "^4.17.5",
     "nativescript-angular": "~5.2.0",
     "nativescript-cardview": "^2.0.5",
     "nativescript-imagepicker": "~4.0.1",

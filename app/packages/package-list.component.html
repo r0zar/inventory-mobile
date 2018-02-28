@@ -6,10 +6,11 @@
     <!--
     Use the ActionItem for IOS with position set to left. Using the NavigationButton as a side-drawer button in iOS is not possible, because its function is to always navigate back in the application.
     -->
-    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
-        ios.position="left">
+    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left"></ActionItem>
+    <Label class="action-bar-title" text="Packages" horizontalAlignment="center"></Label>
+    <ActionItem ios.position="right" android.position="right" (tap)="onAddButtonTap()">
+        <Label text="Add" class="action-item"></Label>
     </ActionItem>
-    <Label class="action-bar-title" text="Packages"></Label>
 </ActionBar>
 
 <!--
@@ -39,7 +40,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
           <ng-template let-item="item">
               <StackLayout [class.odd]="odd" [class.even]="even">
                 <GridLayout columns="auto, *, 40" rows="auto, auto">
-                  <Label col="0" class="m-t-20 m-b-20 m-l-20 fa" text="&#xf094;"></Label>
+                  <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf094;"></Label>
                   <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.Label'></Label>
                   <Label col="2" class="m-t-20 m-b-20 m-l-10 m-r-10" [text]='item.Id'></Label>
                 </GridLayout>
