@@ -98,13 +98,6 @@ export class PackageDetailEditComponent implements OnInit {
     }
 
     /* ***********************************************************
-    * The edit cancel button navigates back to the item details page.
-    *************************************************************/
-    onCancelButtonTap(): void {
-        this._routerExtensions.backToPreviousPage();
-    }
-
-    /* ***********************************************************
     * The edit done button uses the data service to save the updated values of the data item details.
     * Check out the data service as packages/shared/package.service.ts
     *************************************************************/
@@ -140,6 +133,13 @@ export class PackageDetailEditComponent implements OnInit {
                 alert({ title: "Oops!", message: "Something went wrong. Please try again.", okButtonText: "Ok" });
             });
 
+    }
+
+    /* ***********************************************************
+    * The back button is essential for a master-detail feature.
+    *************************************************************/
+    onBackButtonTap(): void {
+        this._routerExtensions.backToPreviousPage();
     }
 
 
