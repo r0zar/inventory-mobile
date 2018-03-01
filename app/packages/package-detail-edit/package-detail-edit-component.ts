@@ -107,12 +107,12 @@ export class PackageDetailEditComponent implements OnInit {
 
         this._isUpdating = true;
 
+
         if (this._isPackageImageDirty && this._package.imageUrl) {
+            this._package.imageStoragePath = `packages/${String(this._package.Id)}.jpg`
             queue = queue
                 .then(() => this._packageService.uploadImage(this._package.imageStoragePath, this._package.imageUrl))
-                .then((uploadedFile: any) => {
-                    this._package.imageUrl = uploadedFile.url;
-                });
+                .then((uploadedFile: any) => {this._package.imageUrl = uploadedFile.url})
         }
 
         queue.then(() => this._packageService.update(this._package))
@@ -130,7 +130,7 @@ export class PackageDetailEditComponent implements OnInit {
             })
             .catch((errorMessage: any) => {
                 this._isUpdating = false;
-                alert({ title: "Oops!", message: "Something went wrong. Please try again.", okButtonText: "Ok" });
+                alert({ title: "Oops!", message: errorMessage, okButtonText: "Ok" });
             });
 
     }

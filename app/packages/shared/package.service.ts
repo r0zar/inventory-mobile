@@ -13,6 +13,7 @@ const editableProperties = [
     "Label",
     "Quantity",
     "PackageType",
+    "imageUrl"
 ];
 
 /* ***********************************************************
