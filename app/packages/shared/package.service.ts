@@ -78,7 +78,7 @@ export class PackageService {
 
         if (data) {
             for (const id in data) {
-                if (data.hasOwnProperty(id)) {
+                if (data[id] && data.hasOwnProperty(id)) {
                     this._packages.push(new Package(data[id]));
                 }
             }

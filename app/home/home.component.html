@@ -6,9 +6,7 @@
     <!--
     Use the ActionItem for IOS with position set to left. Using the NavigationButton as a side-drawer button in iOS is not possible, because its function is to always navigate back in the application.
     -->
-    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
-        ios.position="left">
-    </ActionItem>
+    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left"></ActionItem>
     <Label class="action-bar-title" text="Home"></Label>
 </ActionBar>
 
@@ -31,7 +29,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     Use the tkMainContent directive to display the content of the page when you have an app drawer.
     -->
     <GridLayout class="page page-content" tkMainContent>
-        <Label class="page-icon fa" text="&#xf200;"></Label>
+        <Label class="page-icon fa" text="&#xf200;" (tap)="onScanBarcodeTap()"></Label>
         <Label class="page-placeholder" text="Nothing to see here"></Label>
     </GridLayout>
 </RadSideDrawer>

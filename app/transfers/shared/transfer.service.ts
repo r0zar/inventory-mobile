@@ -1,12 +1,19 @@
 import { Injectable, NgZone } from "@angular/core";
+import { Http } from "@angular/http";
 import firebase = require("nativescript-plugin-firebase");
 import { Observable } from "rxjs/Observable";
 
 import { Config } from "../../shared/config";
 import { Transfer } from "./transfer.model";
 
+import _ = require('lodash');
+
 const editableProperties = [
-    "Label"
+    "Id",
+    "Label",
+    "Quantity",
+    "TransferType",
+    "imageUrl"
 ];
 
 /* ***********************************************************
@@ -19,34 +26,64 @@ const editableProperties = [
 *************************************************************/
 @Injectable()
 export class TransferService {
+    private static cloneUpdateModel(paccage: Transfer): object {
+        return editableProperties.reduce((a, e) => (a[e] = paccage[e], a), {}); // tslint:disable-line:ban-comma-operator
+    }
 
     private _transfers: Array<Transfer> = [];
 
     constructor(private _ngZone: NgZone) { }
 
+    getTransferById(id: number): Transfer {
+        if (!id) {
+            return;
+        }
+
+        return this._transfers.filter((paccage) => {
+            return paccage.Id == id;
+        })[0];
+    }
+
     load(): Observable<any> {
         return new Observable((observer: any) => {
+            const path = "transfers";
 
             const onValueEvent = (snapshot: any) => {
                 this._ngZone.run(() => {
+                    //snapshot.value = _.filter(snapshot.value, {owner: 'rragsda'})
                     const results = this.handleSnapshot(snapshot.value);
                     observer.next(results);
                 });
             };
-            firebase.addValueEventListener(onValueEvent, `/transfers`);
+            firebase.addValueEventListener(onValueEvent, `/${path}`);
         }).catch(this.handleErrors);
+    }
+
+    update(transferModel: Transfer): Promise<any> {
+        const updateModel = TransferService.cloneUpdateModel(transferModel);
+
+        return firebase.update("/transfers/" + transferModel.Id, updateModel);
+    }
+
+    uploadImage(remoteFullPath: string, localFullPath: string): Promise<any> {
+        return firebase.uploadFile({
+            localFullPath,
+            remoteFullPath,
+            onProgress: null
+        });
     }
 
     private handleSnapshot(data: any): Array<Transfer> {
         this._transfers = [];
 
         if (data) {
-            for (const Id in data) {
-                if (data.hasOwnProperty(Id)) {
-                    this._transfers.push(new Transfer(data[Id]));
+            for (const id in data) {
+                if (data[id] && data.hasOwnProperty(id)) {
+                    this._transfers.push(new Transfer(data[id]));
                 }
             }
         }
+
         return this._transfers;
     }
 

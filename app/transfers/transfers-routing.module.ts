@@ -2,10 +2,15 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
-import { TransfersComponent } from "./transfers.component";
+import { TransferListComponent } from "./transfer-list.component";
+import { TransferDetailComponent } from "./transfer-detail/transfer-detail.component";
+import { TransferDetailEditComponent } from "./transfer-detail-edit/transfer-detail-edit-component";
+import { AuthGuard } from "../shared/auth-guard.service";
 
 const routes: Routes = [
-    { path: "", component: TransfersComponent }
+    { path: "", component: TransferListComponent, canActivate: [AuthGuard] },
+    { path: "transfer-detail/:id", component: TransferDetailComponent, canActivate: [AuthGuard] },
+    { path: "transfer-detail-edit/:id", component: TransferDetailEditComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

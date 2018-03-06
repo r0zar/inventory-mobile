@@ -107,7 +107,6 @@ export class PackageDetailEditComponent implements OnInit {
 
         this._isUpdating = true;
 
-
         if (this._isPackageImageDirty && this._package.imageUrl) {
             this._package.imageStoragePath = `packages/${String(this._package.Id)}.jpg`
             queue = queue

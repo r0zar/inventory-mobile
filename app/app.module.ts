@@ -4,6 +4,7 @@ import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { AuthProviders, AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
+
 /* ************************************************************************
 * Importing all rxjs operators increases build output and duration
 * so it is better to import the operators in use only;
