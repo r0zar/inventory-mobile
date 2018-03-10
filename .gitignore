@@ -15,3 +15,7 @@ tmp/
 typings/
 report/
 test-results.xml
+
+
+
+app/shared/metrc.service.ts
