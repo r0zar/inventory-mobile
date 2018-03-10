@@ -9,17 +9,17 @@ export class FacilityEditService {
 
     constructor(private _facilityService: FacilityService) {}
 
-    startEdit(id: number): Facility {
+    startEdit(id: string): Facility {
         this._editModel = null;
 
         return this.getEditableFacilityById(id);
     }
 
-    getEditableFacilityById(id: number): Facility {
-        if (!this._editModel || this._editModel.Id != id) {
+    getEditableFacilityById(id: string): Facility {
+        if (!this._editModel || this._editModel.LicenseNumber != id) {
             const facility = this._facilityService.getFacilityById(id);
             // get fresh editable copy of facility model
-            this._editModel = facility ? new Facility(facility) : new Facility({Id: id});
+            this._editModel = facility ? new Facility(facility) : new Facility({License: {Number: id}});
         }
 
         return this._editModel;

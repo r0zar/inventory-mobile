@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Facility } from "../facilities/shared/facility.model"
+import { Item } from "../items/shared/item.model"
 
 require('./base64')
 
@@ -13,6 +14,7 @@ export class MetrcService {
 
   private header: HttpHeaders = new HttpHeaders().set("authorization", "Basic " + btoa("<vendorkey>:<userkey>"));
   private rootUrl = "https://sandbox-api-ca.metrc.com"
+  private licenseNumber = "?licenseNumber=A11-0000002-LIC"
 
   constructor(private http: HttpClient) {}
 
@@ -123,6 +125,11 @@ export class MetrcService {
   }
 
   // items
+
+  getItems(): Observable<Item[]> {
+      return this.http.get<Item[]>(`${this.rootUrl}/items/v1/active${this.licenseNumber}`, {headers: this.header})
+        .pipe(catchError(this.handleError('getItems', [])));
+  }
 
   createItem({licenseNumber, Item}): Observable<any> {
       return this.http.post(`${this.rootUrl}/items/v1/create?licenseNumber=${licenseNumber}`, [Item], {headers: this.header})

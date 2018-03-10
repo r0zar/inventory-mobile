@@ -4,15 +4,12 @@ import firebase = require("nativescript-plugin-firebase");
 import { Observable } from "rxjs/Observable";
 
 import { Config } from "../../shared/config";
-import { Facility } from "./facility.model";
+import { Item } from "./item.model";
 
 import _ = require('lodash');
 
 const editableProperties = [
     "Id",
-    "Label",
-    "Quantity",
-    "FacilityType",
     "imageUrl"
 ];
 
@@ -25,28 +22,28 @@ const editableProperties = [
 * Check out how it is imported in the main.ts file and the actual script in /shared/firebase.common.ts file.
 *************************************************************/
 @Injectable()
-export class FacilityService {
-    private static cloneUpdateModel(facility: Facility): object {
-        return editableProperties.reduce((a, e) => (a[e] = facility[e], a), {}); // tslint:disable-line:ban-comma-operator
+export class ItemService {
+    private static cloneUpdateModel(paccage: Item): object {
+        return editableProperties.reduce((a, e) => (a[e] = paccage[e], a), {}); // tslint:disable-line:ban-comma-operator
     }
 
-    private _facilities: Array<Facility> = [];
+    private _items: Array<Item> = [];
 
     constructor(private _ngZone: NgZone) { }
 
-    getFacilityById(id: string): Facility {
+    getItemById(id: number): Item {
         if (!id) {
             return;
         }
 
-        return this._facilities.filter((facility) => {
-            return facility.LicenseNumber == id;
+        return this._items.filter((paccage) => {
+            return paccage.Id == id;
         })[0];
     }
 
     load(): Observable<any> {
         return new Observable((observer: any) => {
-            const path = "facilities";
+            const path = "items";
 
             const onValueEvent = (snapshot: any) => {
                 this._ngZone.run(() => {
@@ -59,10 +56,10 @@ export class FacilityService {
         }).catch(this.handleErrors);
     }
 
-    update(facilityModel: Facility): Promise<any> {
-        const updateModel = FacilityService.cloneUpdateModel(facilityModel);
+    update(itemModel: Item): Promise<any> {
+        const updateModel = ItemService.cloneUpdateModel(itemModel);
 
-        return firebase.update("/facilities/" + facilityModel.LicenseNumber, updateModel);
+        return firebase.update("/items/" + itemModel.Id, updateModel);
     }
 
     uploadImage(remoteFullPath: string, localFullPath: string): Promise<any> {
@@ -73,18 +70,18 @@ export class FacilityService {
         });
     }
 
-    private handleSnapshot(data: any): Array<Facility> {
-        this._facilities = [];
+    private handleSnapshot(data: any): Array<Item> {
+        this._items = [];
 
         if (data) {
             for (const id in data) {
                 if (data[id] && data.hasOwnProperty(id)) {
-                    this._facilities.push(new Facility(data[id]));
+                    this._items.push(new Item(data[id]));
                 }
             }
         }
 
-        return this._facilities;
+        return this._items;
     }
 
     private handleErrors(error: Response): Observable<any> {

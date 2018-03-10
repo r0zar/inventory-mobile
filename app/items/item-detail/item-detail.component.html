@@ -1,0 +1,21 @@
+<ActionBar class="action-bar">
+    <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()">
+    </NavigationButton>
+    <Label class="action-bar-title" [text]="item.Name" horizontalAlignment="center"></Label>
+    <!-- <ActionItem ios.position="right" android.position="right" (tap)="onEditButtonTap()">
+        <Label text="Edit" class="action-item"></Label>
+    </ActionItem> -->
+</ActionBar>
+<ScrollView class="page" #scrollView (scroll)="onScroll($event, scrollView, topView)">
+	<StackLayout>
+		<StackLayout #topView height="200" style="background-image: url('~/images/items.png'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+			<!-- this is the header for collapsing --->
+			<!-- Note: this can be any type of layout you want -->
+		</StackLayout>
+		<StackLayout width="100%" backgroundColor="white" padding="10">
+			<!--Add your page content here-->
+      <RadDataForm tkExampleTitle tkToggleNavButton [source]="item" [isReadOnly]="true">
+      </RadDataForm>
+		</StackLayout>
+	</StackLayout>
+</ScrollView>

@@ -2,6 +2,7 @@ import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angular";
+import { NativeScriptUIDataFormModule } from "nativescript-pro-ui/dataform/angular";
 import { HttpClientModule } from '@angular/common/http';
 
 import { SharedModule } from "../shared/shared.module";
@@ -23,6 +24,7 @@ import { MetrcService } from "../shared/metrc.service";
         NativeScriptCommonModule,
         NativeScriptFormsModule,
         NativeScriptUIListViewModule,
+        NativeScriptUIDataFormModule,
         SharedModule
     ],
     declarations: [

@@ -108,7 +108,7 @@ export class FacilityDetailEditComponent implements OnInit {
         this._isUpdating = true;
 
         if (this._isFacilityImageDirty && this._facility.imageUrl) {
-            this._facility.imageStoragePath = `facilities/${String(this._facility.Id)}.jpg`
+            this._facility.imageStoragePath = `facilities/${this._facility.LicenseNumber}.jpg`
             queue = queue
                 .then(() => this._facilityService.uploadImage(this._facility.imageStoragePath, this._facility.imageUrl))
                 .then((uploadedFile: any) => {this._facility.imageUrl = uploadedFile.url})

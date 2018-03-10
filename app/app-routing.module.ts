@@ -11,6 +11,7 @@ const routes: Routes = [
     { path: "signup", loadChildren: "./signup/signup.module#SignupModule" },
     { path: "home", loadChildren: "./home/home.module#HomeModule", canActivate: [AuthGuard] },
     { path: "facilities", loadChildren: "./facilities/facilities.module#FacilitiesModule", canActivate: [AuthGuard] },
+    { path: "items", loadChildren: "./items/items.module#ItemsModule", canActivate: [AuthGuard] },
     { path: "plants", loadChildren: "./plants/plants.module#PlantsModule", canActivate: [AuthGuard] },
     { path: "packages", loadChildren: "./packages/packages.module#PackagesModule", canActivate: [AuthGuard] },
     { path: "transfers", loadChildren: "./transfers/transfers.module#TransfersModule", canActivate: [AuthGuard] },

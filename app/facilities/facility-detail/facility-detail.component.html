@@ -6,29 +6,16 @@
         <Label text="Add Room" class="action-item"></Label>
     </ActionItem>
 </ActionBar>
-
-<GridLayout class="page page-content">
-    <ScrollView>
-        <GridLayout rows="auto, auto, auto">
-            <CardView class="cardStyle" margin="10" elevation="8" radius="3">
-              <GridLayout class="page page-content m-t-10 m-b-10" columns="110, auto, *" rows="*, *, *">
-                  <Label rowspan="2" col="0" class="page-icon fa" text="&#xf0a3;" horizontal-align="right"></Label>
-                  <Label row="0" col="0" colspan="3" class="page-placeholder" style="color: #808080;" [text]="facility.Name" horizontal-align="center"></Label>
-                  <Label row="1" col="0" colspan="3" class="page-placeholder" style="color: #808080; font-size: 17;" [text]="facility.License.LicenseType+':   '+facility.License.Number" horizontal-align="center"></Label>
-                  <Label row="2" col="0" colspan="3" class="page-placeholder" style="color: #808080; font-size: 14;" [text]="'Issued: '+facility.License.StartDate+'     Expires: '+facility.License.EndDate" horizontal-align="left"></Label>
-              </GridLayout>
-            </CardView>
-            <ListView row="1" [items]="rooms" (itemTap)="onRoomItemTap($event)">
-                <ng-template let-item="item">
-                    <StackLayout [class.odd]="odd" [class.even]="even">
-                      <GridLayout columns="auto, *, 40" rows="auto, auto">
-                        <Label col="0" class="m-t-20 m-b-20 m-l-20 fa-s fa-small" text="&#xf494;"></Label>
-                        <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.Name'></Label>
-                        <Label col="2" class="m-t-20 m-b-20 m-l-10 m-r-10" [text]='item.Id'></Label>
-                      </GridLayout>
-                    </StackLayout>
-                </ng-template>
-            </ListView>
-        </GridLayout>
-    </ScrollView>
-</GridLayout>
+<ScrollView class="page" #scrollView (scroll)="onScroll($event, scrollView, topView)">
+	<StackLayout>
+		<StackLayout #topView height="200" style="background-image: url('https://michigan-marijuana-lawyer.com/wp-content/uploads/2018/02/cannabis-property.jpg'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+			<!-- this is the header for collapsing --->
+			<!-- Note: this can be any type of layout you want -->
+		</StackLayout>
+		<StackLayout width="100%" backgroundColor="white" padding="10">
+			<!--Add your page content here-->
+      <RadDataForm tkExampleTitle tkToggleNavButton [source]="facility" [isReadOnly]="true">
+      </RadDataForm>
+		</StackLayout>
+	</StackLayout>
+</ScrollView>

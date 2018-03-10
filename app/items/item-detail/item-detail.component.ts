@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
-import { Facility } from "../shared/facility.model";
-import { FacilityService } from "../shared/facility.service";
+import { Item } from "../shared/item.model";
+import { ItemService } from "../shared/item.service";
 import { MetrcService } from "../../shared/metrc.service";
 
 import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
@@ -12,7 +12,6 @@ import { screen } from 'platform';
 import { View } from 'tns-core-modules/ui/core/view';
 import { Page } from "ui/page";
 
-//import { Room } from "../../rooms/shared/room.model";
 
 /* ***********************************************************
 * This is the item details component in the master-detail structure.
@@ -20,17 +19,16 @@ import { Page } from "ui/page";
 * finds the data item by this parameter and displays the detailed data item information.
 *************************************************************/
 @Component({
-    selector: "FacilityDetail",
+    selector: "ItemDetail",
     moduleId: module.id,
-    templateUrl: "./facility-detail.component.html"
+    templateUrl: "./item-detail.component.html"
 })
-export class FacilityDetailComponent implements OnInit {
-    private _facility: Facility;
-    //private _rooms: Room;
+export class ItemDetailComponent implements OnInit {
+    private _item: Item;
 
     constructor(
         private _metrcService: MetrcService,
-        private _facilityService: FacilityService,
+        private _itemService: ItemService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
     ) { }
@@ -48,12 +46,12 @@ export class FacilityDetailComponent implements OnInit {
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
-                const facilityLicenseNumber = params.id;
+                const itemId = params.id;
 
-                // this._facility = this._facilityService.getFacilityById(facilityId);
-                this._metrcService.getFacilities()
-                    .subscribe((facilities: Array<any>) => {
-                        this._facility = new Facility(facilities.find(facility => facility.License.Number == facilityLicenseNumber));
+                //this._item = this._itemService.getItemById(itemId);
+                this._metrcService.getItems()
+                    .subscribe((items: Array<any>) => {
+                        this._item = new Item(items.find(item => item.Id == itemId));
                     });
             });
     }
@@ -72,15 +70,9 @@ export class FacilityDetailComponent implements OnInit {
         }
     }
 
-    get facility(): Facility {
-        return this._facility;
+    get item(): Item {
+        return this._item;
     }
-
-    get rooms(): any {
-        //return this._rooms;
-        return [{Id: 1, Name: "Vegetative Room A"}]
-    }
-
 
     /* ***********************************************************
     * The back button is essential for a master-detail feature.
@@ -91,10 +83,10 @@ export class FacilityDetailComponent implements OnInit {
 
     /* ***********************************************************
     * The master-detail template comes with an example of an item edit page.
-    * Check out the edit page in the /facilities/facility-detail-edit folder.
+    * Check out the edit page in the /items/item-detail-edit folder.
     *************************************************************/
     onEditButtonTap(): void {
-        this._routerExtensions.navigate(["/facilities/facility-detail-edit", this._facility.LicenseNumber],
+        this._routerExtensions.navigate(["/items/item-detail-edit", this._item.Id],
             {
                 animated: true,
                 transition: {
@@ -103,12 +95,5 @@ export class FacilityDetailComponent implements OnInit {
                     curve: "ease"
                 }
             });
-    }
-
-    onAddRoomButtonTap(): void {
-      this._metrcService.createRooms({licenseNumber: "123-ABC", Rooms: [{Name: "Harvest Room"}]})
-        .finally(() => {
-          console.log('room added')
-        })
     }
 }

@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewContainerRef } from
 import { ModalDialogOptions, ModalDialogService } from "nativescript-angular/modal-dialog";
 import { PageRoute } from "nativescript-angular/router";
 
-import { FacilityEditService } from "../../shared/facility-edit.service";
-import { Facility } from "../../shared/facility.model";
+import { ItemEditService } from "../../shared/item-edit.service";
+import { Item } from "../../shared/item.model";
 import { MyListSelectorModalViewComponent } from "./my-list-selector-modal-view.component";
 
 const capitalizeFirstLetter = (s) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -26,29 +26,29 @@ export class MyListSelectorComponent implements OnInit {
     @Input() selectedValue: string;
     @Output() selectedValueChange = new EventEmitter<string>();
 
-    private _facilityEditModel: Facility;
+    private _itemEditModel: Item;
 
     constructor(
         private _pageRoute: PageRoute,
         private _modalService: ModalDialogService,
         private _vcRef: ViewContainerRef,
-        private _facilityEditService: FacilityEditService) { }
+        private _itemEditService: ItemEditService) { }
 
     ngOnInit(): void {
-        let facilityId = "";
+        let itemId = "";
 
         // use switchMap to get the latest activatedRoute instance
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
-                facilityId = params.id;
+                itemId = params.id;
             });
 
-        this._facilityEditModel = this._facilityEditService.getEditableFacilityById(facilityId);
+        this._itemEditModel = this._itemEditService.getEditableItemById(Number(itemId));
     }
 
     onSelectorTap(): void {
-        const title = `Select Facility ${capitalizeFirstLetter(this.tag)}`;
+        const title = `Select Item ${capitalizeFirstLetter(this.tag)}`;
         const selectedIndex = this.items.indexOf(this.selectedValue);
         const options: ModalDialogOptions = {
             viewContainerRef: this._vcRef,

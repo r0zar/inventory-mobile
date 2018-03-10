@@ -6,30 +6,33 @@ import firebase = require("nativescript-plugin-firebase");
 import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-ui/sidedrawer";
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
-import { Facility } from "./shared/facility.model";
-import { FacilityService } from "./shared/facility.service";
+import { Item } from "./shared/item.model";
+import { ItemService } from "./shared/item.service";
 import { MetrcService } from "../shared/metrc.service";
 
 import _ = require('lodash');
 
 @Component({
-    selector: "Facilities",
+    selector: "Items",
     moduleId: module.id,
-    templateUrl: "./facility-list.component.html",
-    styleUrls: ["./facility-list.component.scss"]
+    templateUrl: "./item-list.component.html",
+    styleUrls: ["./item-list.component.scss"]
 })
-export class FacilityListComponent implements OnInit {
+export class ItemListComponent implements OnInit {
     /* ***********************************************************
     * Use the @ViewChild decorator to get a reference to the drawer component.
     * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
     *************************************************************/
     @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
+
     private _sideDrawerTransition: DrawerTransitionBase;
+
     private _isLoading: boolean = false;
-    private _facilities: ObservableArray<Facility> = new ObservableArray<Facility>([]);
+
+    private _items: ObservableArray<Item> = new ObservableArray<Item>([]);
 
     constructor (
-        private _facilityService: FacilityService,
+        private _itemService: ItemService,
         private _metrcService: MetrcService,
         private _routerExtensions: RouterExtensions,
     ){}
@@ -42,33 +45,33 @@ export class FacilityListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
-        this._metrcService.getFacilities()
+        this._metrcService.getItems()
             .finally(() => {
               this._isLoading = false
             })
-            .subscribe((facilities: Array<Facility>) => {
-                this._facilities = new ObservableArray(facilities);
+            .subscribe((items: Array<Item>) => {
+                this._items = new ObservableArray(items);
                 this._isLoading = false;
             });
 
         /* ***********************************************************
         * The data is retrieved remotely from FireBase.
         * The actual data retrieval code is wrapped in a data service.
-        * Check out the service in facilities/shared/facility.service.ts
+        * Check out the service in items/shared/item.service.ts
         *************************************************************/
-        // this._facilityService.load()
+        // this._itemService.load()
         //     .finally(() => {
         //       this._isLoading = false
         //     })
-        //     .subscribe((facilities: Array<Facility>) => {
-        //         this._facilities = new ObservableArray(facilities);
+        //     .subscribe((items: Array<Item>) => {
+        //         this._items = new ObservableArray(items);
         //         this._isLoading = false;
         //     });
 
     }
 
-    get facilities(): ObservableArray<Facility> {
-        return this._facilities;
+    get items(): ObservableArray<Item> {
+        return this._items;
     }
 
     get isLoading(): boolean {
@@ -82,10 +85,10 @@ export class FacilityListComponent implements OnInit {
     * Learn more about navigating with a parameter in this documentation article:
     * http://docs.nativescript.org/angular/core-concepts/angular-navigation.html#passing-parameter
     *************************************************************/
-    onFacilityItemTap(args: ListViewEventData): void {
-        const tappedFacilityItem = args.view.bindingContext;
+    onItemItemTap(args: ListViewEventData): void {
+        const tappedItemItem = args.view.bindingContext;
 
-        this._routerExtensions.navigate(["/facilities/facility-detail", tappedFacilityItem.License.Number],
+        this._routerExtensions.navigate(["/items/item-detail", tappedItemItem.Id],
         {
             animated: true,
             transition: {
@@ -94,6 +97,19 @@ export class FacilityListComponent implements OnInit {
                 curve: "ease"
             }
         });
+    }
+
+    onAddButtonTap(): void {
+        this._routerExtensions.navigate(["/items/item-detail-edit", _.random(0, 999999999999999)],
+            {
+                animated: true,
+                transition: {
+                    name: "slideTop",
+                    duration: 200,
+                    curve: "ease"
+                }
+            });
+
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {
