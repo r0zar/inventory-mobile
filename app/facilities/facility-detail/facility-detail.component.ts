@@ -3,6 +3,12 @@ import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 
 import { Facility } from "../shared/facility.model";
 import { FacilityService } from "../shared/facility.service";
+import { MetrcService } from "../../shared/metrc.service";
+
+import * as elementRegistryModule from 'nativescript-angular/element-registry';
+elementRegistryModule.registerElement("CardView", () => require("nativescript-cardview").CardView);
+
+//import { Room } from "../../rooms/shared/room.model";
 
 /* ***********************************************************
 * This is the item details component in the master-detail structure.
@@ -16,8 +22,10 @@ import { FacilityService } from "../shared/facility.service";
 })
 export class FacilityDetailComponent implements OnInit {
     private _facility: Facility;
+    //private _rooms: Room;
 
     constructor(
+        private _metrcService: MetrcService,
         private _facilityService: FacilityService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
@@ -39,12 +47,22 @@ export class FacilityDetailComponent implements OnInit {
                 const facilityId = params.id;
 
                 this._facility = this._facilityService.getFacilityById(facilityId);
+                // this._metrcService.getFacilities()
+                //     .subscribe((facilities: Array<Facility>) => {
+                //         this._facility = facilities.find(facility => facility.Id == facilityId);
+                //     });
             });
     }
 
     get facility(): Facility {
         return this._facility;
     }
+
+    get rooms(): any {
+        //return this._rooms;
+        return [{Id: 1, Name: "Vegetative Room A"}]
+    }
+
 
     /* ***********************************************************
     * The back button is essential for a master-detail feature.
@@ -67,5 +85,12 @@ export class FacilityDetailComponent implements OnInit {
                     curve: "ease"
                 }
             });
+    }
+
+    onAddRoomButtonTap(): void {
+      this._metrcService.createRooms({licenseNumber: "123-ABC", Rooms: [{Name: "Harvest Room"}]})
+        .finally(() => {
+          console.log('room added')
+        })
     }
 }

@@ -2,6 +2,7 @@ import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angular";
+import { NativeScriptUIDataFormModule } from "nativescript-pro-ui/dataform/angular";
 
 import { SharedModule } from "../shared/shared.module";
 import { TransferDetailEditComponent } from "./transfer-detail-edit/transfer-detail-edit-component";
@@ -20,6 +21,7 @@ import { TransferService } from "./shared/transfer.service";
         NativeScriptCommonModule,
         NativeScriptFormsModule,
         NativeScriptUIListViewModule,
+        NativeScriptUIDataFormModule,
         SharedModule
     ],
     declarations: [

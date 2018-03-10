@@ -31,21 +31,19 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     <!--
     Use the tkMainContent directive to display the content of the page when you have an app drawer.
     -->
-    <GridLayout class="page page-content" tkMainContent>
-
-
-
+    <GridLayout rows="0, *" class="page page-content" tkMainContent>
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-      <ListView [items]="packages" (itemTap)="onPackageItemTap($event)">
+      <ListView row="1" [items]="packages" (itemTap)="onPackageItemTap($event)">
           <ng-template let-item="item">
               <StackLayout [class.odd]="odd" [class.even]="even">
                 <GridLayout columns="auto, *, 40" rows="auto, auto">
-                  <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf094;"></Label>
+                  <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf0c8;"></Label>
                   <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.Label'></Label>
                   <Label col="2" class="m-t-20 m-b-20 m-l-10 m-r-10" [text]='item.Id'></Label>
                 </GridLayout>
               </StackLayout>
           </ng-template>
       </ListView>
+      <FAB row="1" (tap)="fabTap()" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB>
     </GridLayout>
 </RadSideDrawer>

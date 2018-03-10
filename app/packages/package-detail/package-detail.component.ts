@@ -1,8 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
+import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
 import { Package } from "../shared/package.model";
 import { PackageService } from "../shared/package.service";
+
+import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
+import { Image } from 'tns-core-modules/ui/image';
+import { screen } from 'platform';
+import { View } from 'tns-core-modules/ui/core/view';
+import { Page } from "ui/page";
 
 /* ***********************************************************
 * This is the item details component in the master-detail structure.
@@ -40,6 +47,24 @@ export class PackageDetailComponent implements OnInit {
 
                 this._package = this._packageService.getPackageById(packageId);
             });
+    }
+
+    onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View, fabView: View) {
+        // If the header content is still visiible
+        if (scrollView.verticalOffset < 200) {
+            const offset = scrollView.verticalOffset / 2;
+            if (scrollView.ios) {
+                // iOS adjust the position with an animation to create a smother scrolling effect.
+                topView.animate({ translate: { x: 0, y: offset } }).then(() => { }, () => { });
+                fabView.animate({ translate: { x: 0, y: -1 * offset } }).then(() => { }, () => { });
+                fabView.animate({ translate: { x: 0, y: offset } }).then(() => { }, () => { });
+            } else {
+                // Android, animations are jerky so instead just adjust the position without animation.
+                topView.translateY = Math.floor(offset);
+                fabView.translateY = Math.floor(-1 * offset);
+                fabView.translateX = Math.floor(offset);
+            }
+        }
     }
 
     get package(): Package {

@@ -24,14 +24,9 @@ export class FacilityListComponent implements OnInit {
     * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
     *************************************************************/
     @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
-
     private _sideDrawerTransition: DrawerTransitionBase;
-
     private _isLoading: boolean = false;
-
     private _facilities: ObservableArray<Facility> = new ObservableArray<Facility>([]);
-
-    private facilitys: Facility[] = [];
 
     constructor (
         private _facilityService: FacilityService,
@@ -47,22 +42,7 @@ export class FacilityListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
-        this._metrcService.getFacilities()
-            .finally(() => {
-              this._isLoading = false
-            })
-            .subscribe((facilitys) => {
-                this.facilitys = facilitys
-                this._isLoading = false;
-                console.dir(this.facilitys)
-            });
-
-        /* ***********************************************************
-        * The data is retrieved remotely from FireBase.
-        * The actual data retrieval code is wrapped in a data service.
-        * Check out the service in facilities/shared/facility.service.ts
-        *************************************************************/
-        // this._facilityService.load()
+        // this._metrcService.getFacilities()
         //     .finally(() => {
         //       this._isLoading = false
         //     })
@@ -70,6 +50,20 @@ export class FacilityListComponent implements OnInit {
         //         this._facilities = new ObservableArray(facilities);
         //         this._isLoading = false;
         //     });
+
+        /* ***********************************************************
+        * The data is retrieved remotely from FireBase.
+        * The actual data retrieval code is wrapped in a data service.
+        * Check out the service in facilities/shared/facility.service.ts
+        *************************************************************/
+        this._facilityService.load()
+            .finally(() => {
+              this._isLoading = false
+            })
+            .subscribe((facilities: Array<Facility>) => {
+                this._facilities = new ObservableArray(facilities);
+                this._isLoading = false;
+            });
 
     }
 

@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
     //       } else {
     //         var count = 0;
     //         scanner.scan({
-    //             formats: "",
+    //             formats: "CODE_128",
     //             continuousScanCallback: (result) => {
     //               count++;
     //               console.log(result.format + ": " + result.text + " (count: " + count + ")");

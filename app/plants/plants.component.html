@@ -1,0 +1,122 @@
+<ActionBar class="action-bar">
+    <!--
+    Use the NavigationButton as a side-drawer button in Android because ActionItems are shown on the right side of the ActionBar
+    -->
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <!--
+    Use the ActionItem for IOS with position set to left. Using the NavigationButton as a side-drawer button in iOS is not possible, because its function is to always navigate back in the application.
+    -->
+    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left"></ActionItem>
+    <Label class="action-bar-title" text="Plants"></Label>
+</ActionBar>
+
+<!--
+RadSideDrawer is a UI component part of the Progress NativeScript UI set of components.
+Learn more about the RadSideDrawer UI component and how it can be customized in this documentation article:
+http://docs.telerik.com/devtools/nativescript-ui/Controls/Angular/SideDrawer/getting-started
+The RadSideDrawer component is designed to be used as a root element and
+it shouldn't have any other siblings other than the <ActionBar> component.
+-->
+<RadSideDrawer #drawer showOverNavigation="true" [drawerTransition]="sideDrawerTransition">
+    <!--
+    Use the tkDrawerContent directive to display the content of the app drawer on this page.
+    -->
+    <StackLayout tkDrawerContent>
+        <MyDrawer [selectedPage]="'Plants'"></MyDrawer>
+    </StackLayout>
+
+    <!--
+    Use the tkMainContent directive to display the content of the page when you have an app drawer.
+    -->
+    <GridLayout class="page page-content" tkMainContent>
+
+        <TabView (selectedIndexChanged)="onSelectedIndexChanged($event)">
+            <!--
+            To add a new TabView item, add a new layout component with a tabItem Angular directive.
+            Assign the tabItem directive an object that declares the tab item button's title and icon source.
+            -->
+            <StackLayout *tabItem="{title: 'Immature', iconSource: getIconSource('immature')}">
+              <GridLayout rows="0, *">
+                <ListView row="1" [items]="immaturePlants" (itemTap)="onImmaturePlantsItemTap($event)">
+                    <ng-template let-item="item">
+                        <StackLayout [class.odd]="odd" [class.even]="even">
+                          <GridLayout columns="auto, *, 40" rows="auto, auto">
+                            <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf06c;"></Label>
+                            <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.Name'></Label>
+                            <Label col="2" class="m-t-20 m-b-20 m-l-10 m-r-10" [text]='item.Id'></Label>
+                          </GridLayout>
+                        </StackLayout>
+                    </ng-template>
+                </ListView>
+                <FAB #actionItem1 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem2 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem3 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem4 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB row="1" (tap)="fabTap(actionItem1, actionItem2, actionItem3, actionItem4)" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB>
+              </GridLayout>
+            </StackLayout>
+            <StackLayout *tabItem="{title: 'Veg', iconSource: getIconSource('vegetative')}">
+              <GridLayout rows="0, *">
+                <ListView row="1" [items]="vegetativePlants" (itemTap)="onImmaturePlantsItemTap($event)">
+                    <ng-template let-item="item">
+                        <StackLayout [class.odd]="odd" [class.even]="even">
+                          <GridLayout columns="auto, *, 40" rows="auto, auto">
+                            <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf18c;"></Label>
+                            <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.Name'></Label>
+                            <Label col="2" class="m-t-20 m-b-20 m-l-10 m-r-10" [text]='item.Id'></Label>
+                          </GridLayout>
+                        </StackLayout>
+                    </ng-template>
+                </ListView>
+                <FAB #actionItem1 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem2 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem3 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem4 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB row="1" (tap)="fabTap(actionItem1, actionItem2, actionItem3, actionItem4)" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB>
+              </GridLayout>
+            </StackLayout>
+            <StackLayout *tabItem="{title: 'Flower', iconSource: getIconSource('flowering')}">
+              <GridLayout rows="0, *">
+                <ListView row="1" [items]="floweringPlants" (itemTap)="onImmaturePlantsItemTap($event)">
+                    <ng-template let-item="item">
+                        <StackLayout [class.odd]="odd" [class.even]="even">
+                          <GridLayout columns="auto, *, 40" rows="auto, auto">
+                            <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf1bb;"></Label>
+                            <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.Name'></Label>
+                            <Label col="2" class="m-t-20 m-b-20 m-l-10 m-r-10" [text]='item.Id'></Label>
+                          </GridLayout>
+                        </StackLayout>
+                    </ng-template>
+                </ListView>
+                <FAB #actionItem1 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem2 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem3 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem4 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB row="1" (tap)="fabTap(actionItem1, actionItem2, actionItem3, actionItem4)" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB>
+              </GridLayout>
+            </StackLayout>
+            <StackLayout *tabItem="{title: 'Harvest', iconSource: getIconSource('harvested')}">
+              <GridLayout rows="0, *">
+                <ListView row="1" [items]="harvestedPlants" (itemTap)="onImmaturePlantsItemTap($event)">
+                    <ng-template let-item="item">
+                        <StackLayout [class.odd]="odd" [class.even]="even">
+                          <GridLayout columns="auto, *, 40" rows="auto, auto">
+                            <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf18c;"></Label>
+                            <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.Name'></Label>
+                            <Label col="2" class="m-t-20 m-b-20 m-l-10 m-r-10" [text]='item.Id'></Label>
+                          </GridLayout>
+                        </StackLayout>
+                    </ng-template>
+                </ListView>
+                <FAB #actionItem1 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem2 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem3 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB #actionItem4 row="1" (tap)="actionItemTap()" icon="" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+                <FAB row="1" (tap)="fabTap(actionItem1, actionItem2, actionItem3, actionItem4)" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB>
+              </GridLayout>
+            </StackLayout>
+        </TabView>
+        <!-- <Label class="page-icon fa" text="&#xf06c;" (tap)="onScanBarcodeTap()"></Label>
+        <Label class="page-placeholder" text="Nothing to see here"></Label> -->
+    </GridLayout>
+</RadSideDrawer>

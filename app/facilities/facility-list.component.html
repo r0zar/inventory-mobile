@@ -33,15 +33,13 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     -->
     <GridLayout class="page page-content" tkMainContent>
 
-
-
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
       <ListView [items]="facilities" (itemTap)="onFacilityItemTap($event)">
           <ng-template let-item="item">
               <StackLayout [class.odd]="odd" [class.even]="even">
                 <GridLayout columns="auto, *, 40" rows="auto, auto">
-                  <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf094;"></Label>
-                  <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.ManifestNumber'></Label>
+                  <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf015;"></Label>
+                  <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.DisplayName'></Label>
                   <Label col="2" class="m-t-20 m-b-20 m-l-10 m-r-10" [text]='item.Id'></Label>
                 </GridLayout>
               </StackLayout>

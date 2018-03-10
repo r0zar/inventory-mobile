@@ -2,6 +2,7 @@ import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angular";
+import { NativeScriptUIDataFormModule } from "nativescript-pro-ui/dataform/angular";
 
 import { SharedModule } from "../shared/shared.module";
 import { PackageDetailEditComponent } from "./package-detail-edit/package-detail-edit-component";
@@ -20,6 +21,7 @@ import { PackageService } from "./shared/package.service";
         NativeScriptCommonModule,
         NativeScriptFormsModule,
         NativeScriptUIListViewModule,
+        NativeScriptUIDataFormModule,
         SharedModule
     ],
     declarations: [

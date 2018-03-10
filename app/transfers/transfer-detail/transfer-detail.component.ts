@@ -1,8 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
+import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
 import { Transfer } from "../shared/transfer.model";
 import { TransferService } from "../shared/transfer.service";
+
+import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
+import { Image } from 'tns-core-modules/ui/image';
+import { screen } from 'platform';
+import { View } from 'tns-core-modules/ui/core/view';
+import { Page } from "ui/page";
+
 
 /* ***********************************************************
 * This is the item details component in the master-detail structure.
@@ -40,6 +48,20 @@ export class TransferDetailComponent implements OnInit {
 
                 this._transfer = this._transferService.getTransferById(transferId);
             });
+    }
+
+    onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View) {
+        // If the header content is still visiible
+        if (scrollView.verticalOffset < 250) {
+            const offset = scrollView.verticalOffset / 2;
+            if (scrollView.ios) {
+                // iOS adjust the position with an animation to create a smother scrolling effect.
+                topView.animate({ translate: { x: 0, y: offset } }).then(() => { }, () => { });
+            } else {
+                // Android, animations are jerky so instead just adjust the position without animation.
+                topView.translateY = Math.floor(offset);
+            }
+        }
     }
 
     get transfer(): Transfer {
