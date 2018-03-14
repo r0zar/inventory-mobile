@@ -7,7 +7,10 @@ import { EventData } from "data/observable";
 import { ItemEditService } from "../shared/item-edit.service";
 import { Item } from "../shared/item.model";
 import { ItemService } from "../shared/item.service";
-import { itemClassList, itemDoorList, itemSeatList, itemTransmissionList } from "./constants";
+import { MetrcService } from "../../shared/metrc.service";
+
+import _ = require('lodash');
+
 
 /* ***********************************************************
 * This is the item detail edit component.
@@ -27,9 +30,13 @@ export class ItemDetailEditComponent implements OnInit {
     private _itemTransmissionOptions: Array<string> = [];
     private _isItemImageDirty: boolean = false;
     private _isUpdating: boolean = false;
+    private _strains: any;
+    private _unitsOfMeasure: any;
+    private _itemCategories: any;
 
     constructor(
         private _itemService: ItemService,
+        private _metrcService: MetrcService,
         private _itemEditService: ItemEditService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
@@ -41,7 +48,25 @@ export class ItemDetailEditComponent implements OnInit {
     * private property that holds it inside the component.
     *************************************************************/
     ngOnInit(): void {
-        this.initializeEditOptions();
+
+        this._metrcService.getStrains()
+            .subscribe((strains: Array<any>) => {
+                //this._strains = _.map(strains, strain => {return {key: strain.Id, label: strain.Name}})
+                this._strains = _.map(strains, 'Name')
+            });
+
+        this._metrcService.getUnitsOfMeasure()
+            .subscribe((units: Array<any>) => {
+                //this._strains = _.map(strains, strain => {return {key: strain.Id, label: strain.Name}})
+                this._unitsOfMeasure = _.map(units, 'Name')
+            });
+
+        this._metrcService.getItemCategories()
+            .subscribe((categories: Array<any>) => {
+                //this._strains = _.map(strains, strain => {return {key: strain.Id, label: strain.Name}})
+                this._itemCategories = _.map(categories, 'Name')
+            });
+
 
         /* ***********************************************************
         * Learn more about how to get navigation parameters in this documentation article:
@@ -49,7 +74,10 @@ export class ItemDetailEditComponent implements OnInit {
         *************************************************************/
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
-            .forEach((params) => this._item = this._itemEditService.startEdit(params.id));
+            .forEach((params) => {
+              this._metrcService.getItem(params.id)
+                  .subscribe((item: Item) => this._item = new Item(item));
+            });
     }
 
     onPickerLoaded(args) {
@@ -60,7 +88,19 @@ export class ItemDetailEditComponent implements OnInit {
     }
 
     get item(): Item {
-        return new Item(this._item);
+        return this._item;
+    }
+
+    get strains(): any {
+        return this._strains;
+    }
+
+    get itemCategories(): any {
+        return this._itemCategories;
+    }
+
+    get unitsOfMeasure(): any {
+        return this._unitsOfMeasure;
     }
 
     get itemClassOptions(): Array<string> {
@@ -93,36 +133,8 @@ export class ItemDetailEditComponent implements OnInit {
     * Check out the data service as items/shared/item.service.ts
     *************************************************************/
     onDoneButtonTap(): void {
-
-        let queue = Promise.resolve();
-
-        this._isUpdating = true;
-
-        if (this._isItemImageDirty && this._item.imageUrl) {
-            this._item.imageStoragePath = `items/${String(this._item.Id)}.jpg`
-            queue = queue
-                .then(() => this._itemService.uploadImage(this._item.imageStoragePath, this._item.imageUrl))
-                .then((uploadedFile: any) => {this._item.imageUrl = uploadedFile.url})
-        }
-
-        queue.then(() => this._itemService.update(this._item))
-            .then(() => {
-                this._isUpdating = false;
-                this._routerExtensions.navigate(["/items"], {
-                    clearHistory: true,
-                    animated: true,
-                    transition: {
-                        name: "slideBottom",
-                        duration: 200,
-                        curve: "ease"
-                    }
-                });
-            })
-            .catch((errorMessage: any) => {
-                this._isUpdating = false;
-                alert({ title: "Oops!", message: errorMessage, okButtonText: "Ok" });
-            });
-
+        this._metrcService.updateItem(this._item)
+            .subscribe((item: Item) => this._routerExtensions.backToPreviousPage());
     }
 
     /* ***********************************************************
@@ -132,22 +144,4 @@ export class ItemDetailEditComponent implements OnInit {
         this._routerExtensions.backToPreviousPage();
     }
 
-
-    private initializeEditOptions(): void {
-        for (const classItem of itemClassList) {
-            this._itemClassOptions.push(classItem);
-        }
-
-        for (const doorItem of itemDoorList) {
-            this._itemDoorOptions.push(doorItem);
-        }
-
-        for (const seatItem of itemSeatList) {
-            this._itemSeatOptions.push(seatItem);
-        }
-
-        for (const transmissionItem of itemTransmissionList) {
-            this._itemTransmissionOptions.push(transmissionItem);
-        }
-    }
 }

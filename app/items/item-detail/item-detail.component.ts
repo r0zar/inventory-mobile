@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
-import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
 import { Item } from "../shared/item.model";
 import { ItemService } from "../shared/item.service";
@@ -25,13 +24,14 @@ import { Page } from "ui/page";
 })
 export class ItemDetailComponent implements OnInit {
     private _item: Item;
+    private _fabMenuOpen: boolean = false;
 
     constructor(
         private _metrcService: MetrcService,
         private _itemService: ItemService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
-    ) { }
+    ) {}
 
     /* ***********************************************************
     * Use the "ngOnInit" handler to get the data item id parameter passed through navigation.
@@ -49,25 +49,47 @@ export class ItemDetailComponent implements OnInit {
                 const itemId = params.id;
 
                 //this._item = this._itemService.getItemById(itemId);
-                this._metrcService.getItems()
-                    .subscribe((items: Array<any>) => {
-                        this._item = new Item(items.find(item => item.Id == itemId));
-                    });
+                this._metrcService.getItem(params.id)
+                    .subscribe((item: Item) => this._item = new Item(item));
             });
     }
 
-    onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View) {
+    onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View, fabView: View) {
         // If the header content is still visiible
-        if (scrollView.verticalOffset < 250) {
+        if (scrollView.verticalOffset < 200) {
             const offset = scrollView.verticalOffset / 2;
             if (scrollView.ios) {
                 // iOS adjust the position with an animation to create a smother scrolling effect.
                 topView.animate({ translate: { x: 0, y: offset } }).then(() => { }, () => { });
+                fabView.animate({ translate: { x: 0, y: -1 * offset } }).then(() => { }, () => { });
+                fabView.animate({ translate: { x: 0, y: offset } }).then(() => { }, () => { });
             } else {
                 // Android, animations are jerky so instead just adjust the position without animation.
                 topView.translateY = Math.floor(offset);
+                fabView.translateY = Math.floor(-1 * offset);
+                fabView.translateX = Math.floor(offset);
             }
         }
+    }
+
+    fabTap(actionItem1: View, actionItem2: View): void {
+      this._fabMenuOpen = !this._fabMenuOpen
+      if (this._fabMenuOpen) {
+        actionItem1.animate({ translate: { x: -70, y: 0 } }).then(() => { }, () => { });
+        actionItem2.animate({ translate: { x: -60, y: -65 } }).then(() => { }, () => { });
+      } else {
+        actionItem1.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
+        actionItem2.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
+      }
+    }
+
+    actionItem1Tap(): void {
+      console.log('edit')
+      this.onEditButtonTap()
+    }
+
+    actionItem2Tap(): void {
+      console.log('delete')
     }
 
     get item(): Item {

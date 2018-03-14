@@ -47,6 +47,9 @@ export class FacilityListComponent implements OnInit {
               this._isLoading = false
             })
             .subscribe((facilities: Array<Facility>) => {
+                let f = _.map(facilities, facility => {
+                  return (facility.License.Number == FacilityService.facility) ? _.assign(facility, {selected: '#7a4116'}) : _.assign(facility, {selected: '#ffffff'})
+                })
                 this._facilities = new ObservableArray(facilities);
                 this._isLoading = false;
             });

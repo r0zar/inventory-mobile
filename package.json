@@ -37,7 +37,7 @@
     "random-words": "^1.0.0",
     "reflect-metadata": "~0.1.10",
     "rxjs": "~5.5.5",
-    "tns-core-modules": "~3.4.0",
+    "tns-core-modules": "^3.4.1",
     "zone.js": "~0.8.18"
   },
   "devDependencies": {

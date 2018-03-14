@@ -8,6 +8,7 @@ import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { Transfer } from "./shared/transfer.model";
 import { TransferService } from "./shared/transfer.service";
+import { MetrcService } from "../shared/metrc.service";
 
 import _ = require('lodash');
 
@@ -31,6 +32,7 @@ export class TransferListComponent implements OnInit {
     private _transfers: ObservableArray<Transfer> = new ObservableArray<Transfer>([]);
 
     constructor (
+        private _metrcService: MetrcService,
         private _transferService: TransferService,
         private _routerExtensions: RouterExtensions,
     ){}
@@ -43,12 +45,7 @@ export class TransferListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
-        /* ***********************************************************
-        * The data is retrieved remotely from FireBase.
-        * The actual data retrieval code is wrapped in a data service.
-        * Check out the service in transfers/shared/transfer.service.ts
-        *************************************************************/
-        this._transferService.load()
+        this._metrcService.getTransfers()
             .finally(() => {
               this._isLoading = false
             })
@@ -56,6 +53,20 @@ export class TransferListComponent implements OnInit {
                 this._transfers = new ObservableArray(transfers);
                 this._isLoading = false;
             });
+
+        /* ***********************************************************
+        * The data is retrieved remotely from FireBase.
+        * The actual data retrieval code is wrapped in a data service.
+        * Check out the service in transfers/shared/transfer.service.ts
+        *************************************************************/
+        // this._transferService.load()
+        //     .finally(() => {
+        //       this._isLoading = false
+        //     })
+        //     .subscribe((transfers: Array<Transfer>) => {
+        //         this._transfers = new ObservableArray(transfers);
+        //         this._isLoading = false;
+        //     });
 
     }
 

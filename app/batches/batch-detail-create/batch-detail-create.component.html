@@ -1,0 +1,22 @@
+<ActionBar class="action-bar">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()"></NavigationButton>
+    <Label class="action-bar-title" text="Add New Item" horizontalAlignment="center"></Label>
+    <ActionItem ios.position="right" android.position="right">
+        <Label text="Create" class="action-batch" verticalAlignment="center" (tap)="onDoneButtonTap()"></Label>
+    </ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+    <ScrollView>
+        <StackLayout class="batch-list">
+
+          <RadDataForm tkExampleTitle tkToggleNavButton [source]="batch" [isReadOnly]="false">
+
+
+          </RadDataForm>
+
+        </StackLayout>
+    </ScrollView>
+
+</GridLayout>

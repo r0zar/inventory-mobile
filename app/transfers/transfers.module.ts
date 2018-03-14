@@ -1,6 +1,5 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
-import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angular";
 import { NativeScriptUIDataFormModule } from "nativescript-pro-ui/dataform/angular";
 
@@ -19,7 +18,6 @@ import { TransferService } from "./shared/transfer.service";
     imports: [
         TransfersRoutingModule,
         NativeScriptCommonModule,
-        NativeScriptFormsModule,
         NativeScriptUIListViewModule,
         NativeScriptUIDataFormModule,
         SharedModule

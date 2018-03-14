@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { ObservableArray } from "data/observable-array";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ListViewEventData } from "nativescript-pro-ui/listview";
+import { DataFormEventData } from "nativescript-pro-ui/dataform";
 import firebase = require("nativescript-plugin-firebase");
 import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-ui/sidedrawer";
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
@@ -100,7 +101,7 @@ export class ItemListComponent implements OnInit {
     }
 
     onAddButtonTap(): void {
-        this._routerExtensions.navigate(["/items/item-detail-edit", _.random(0, 999999999999999)],
+        this._routerExtensions.navigate(["/items/item-detail-create"],
             {
                 animated: true,
                 transition: {

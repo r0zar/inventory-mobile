@@ -26,7 +26,6 @@ import { Page } from "ui/page";
 })
 export class FacilityDetailComponent implements OnInit {
     private _facility: Facility;
-    //private _rooms: Room;
 
     constructor(
         private _metrcService: MetrcService,
@@ -45,31 +44,45 @@ export class FacilityDetailComponent implements OnInit {
         * Learn more about how to get navigation parameters in this documentation article:
         * http://docs.nativescript.org/angular/core-concepts/angular-navigation.html#passing-parameter
         *************************************************************/
+
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
                 const facilityLicenseNumber = params.id;
 
-                // this._facility = this._facilityService.getFacilityById(facilityId);
+                //let selected = this._facilityService.getFacilityById(facilityLicenseNumber);
+                //console.dir(selected)
+
                 this._metrcService.getFacilities()
                     .subscribe((facilities: Array<any>) => {
                         this._facility = new Facility(facilities.find(facility => facility.License.Number == facilityLicenseNumber));
+                        // this doesnt work on the emulator for some reason...
+                        this._facility.selected = (this._facility.LicenseNumber == FacilityService.facility) ? 'orange' : 'gray'
                     });
             });
     }
 
-    onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View) {
+    onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View, fabView: View) {
         // If the header content is still visiible
-        if (scrollView.verticalOffset < 250) {
+        if (scrollView.verticalOffset < 200) {
             const offset = scrollView.verticalOffset / 2;
             if (scrollView.ios) {
                 // iOS adjust the position with an animation to create a smother scrolling effect.
                 topView.animate({ translate: { x: 0, y: offset } }).then(() => { }, () => { });
+                fabView.animate({ translate: { x: 0, y: -1 * offset } }).then(() => { }, () => { });
+                fabView.animate({ translate: { x: 0, y: offset } }).then(() => { }, () => { });
             } else {
                 // Android, animations are jerky so instead just adjust the position without animation.
                 topView.translateY = Math.floor(offset);
+                fabView.translateY = Math.floor(-1 * offset);
+                fabView.translateX = Math.floor(offset);
             }
         }
+    }
+
+    fabTap(): void {
+      FacilityService.facility = this._facility.LicenseNumber
+      this._facility.selected = 'orange'
     }
 
     get facility(): Facility {
@@ -86,7 +99,15 @@ export class FacilityDetailComponent implements OnInit {
     * The back button is essential for a master-detail feature.
     *************************************************************/
     onBackButtonTap(): void {
-        this._routerExtensions.backToPreviousPage();
+        this._routerExtensions.navigate(["/facilities"],
+            {
+                animated: true,
+                transition: {
+                    name: "slideRight",
+                    duration: 200,
+                    curve: "ease"
+                }
+            })
     }
 
     /* ***********************************************************

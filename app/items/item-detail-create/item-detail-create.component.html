@@ -1,0 +1,43 @@
+<ActionBar class="action-bar">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()"></NavigationButton>
+    <Label class="action-bar-title" text="Add New Item" horizontalAlignment="center"></Label>
+    <ActionItem ios.position="right" android.position="right">
+        <Label text="Create" class="action-item" verticalAlignment="center" (tap)="onDoneButtonTap()"></Label>
+    </ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+    <ScrollView>
+        <StackLayout class="item-list">
+
+          <RadDataForm tkExampleTitle tkToggleNavButton [source]="item" [isReadOnly]="false">
+            <TKEntityProperty tkDataFormProperty name="Strain" displayName="Strain" [valuesProvider]="strains">
+                <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="ItemCategory" displayName="Item Category" [valuesProvider]="itemCategories">
+                <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="UnitOfMeasure" displayName="Unit Of Measure" [valuesProvider]="unitsOfMeasure">
+                <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
+                <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="DefaultLabTestingState"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="UnitOfMeasureName"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="ProductCategoryName"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="ProductCategoryType"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="QuantityType"></TKEntityProperty>
+                  <!-- these apparently arnt part of the body...? -->
+                <TKEntityProperty tkPropertyGroupProperties name="StrainId"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="StrainName"></TKEntityProperty>
+            </TKPropertyGroup>
+
+
+          </RadDataForm>
+
+        </StackLayout>
+    </ScrollView>
+
+</GridLayout>

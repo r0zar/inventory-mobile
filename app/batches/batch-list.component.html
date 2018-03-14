@@ -1,0 +1,59 @@
+<ActionBar class="action-bar">
+    <!--
+    Use the NavigationButton as a side-drawer button in Android because ActionItems are shown on the right side of the ActionBar
+    -->
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <!--
+    Use the ActionItem for IOS with position set to left. Using the NavigationButton as a side-drawer button in iOS is not possible, because its function is to always navigate back in the application.
+    -->
+    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left"></ActionItem>
+    <Label class="action-bar-title" text="Plant Batches" horizontalAlignment="center"></Label>
+    <ActionItem ios.position="right" android.position="right" (tap)="onAddButtonTap()">
+        <Label text="Add" class="action-item"></Label>
+    </ActionItem>
+</ActionBar>
+
+<!--
+RadSideDrawer is a UI component part of the Progress NativeScript UI set of components.
+Learn more about the RadSideDrawer UI component and how it can be customized in this documentation article:
+http://docs.telerik.com/devtools/nativescript-ui/Controls/Angular/SideDrawer/getting-started
+The RadSideDrawer component is designed to be used as a root element and
+it shouldn't have any other siblings other than the <ActionBar> component.
+-->
+<RadSideDrawer #drawer showOverNavigation="true" [drawerTransition]="sideDrawerTransition">
+    <!--
+    Use the tkDrawerContent directive to display the content of the app drawer on this page.
+    -->
+    <StackLayout tkDrawerContent>
+        <MyDrawer [selectedPage]="'Plant Batches'"></MyDrawer>
+    </StackLayout>
+
+    <!--
+    Use the tkMainContent directive to display the content of the page when you have an app drawer.
+    -->
+    <GridLayout class="page page-content" tkMainContent>
+
+
+
+      <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+      <GridLayout rows="0, *">
+        <ListView row="1" [items]="batches" (itemTap)="onBatchItemTap($event)">
+            <ng-template let-item="item">
+                <StackLayout [class.odd]="odd" [class.even]="even">
+                  <GridLayout columns="auto, *" rows="auto, auto">
+                    <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf06c;"></Label>
+                    <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.Name'></Label>
+                  </GridLayout>
+                </StackLayout>
+            </ng-template>
+        </ListView>
+        <!-- <FAB #actionItem1 row="1" (tap)="actionItem1Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem2 row="1" (tap)="actionItem2Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem3 row="1" (tap)="actionItem3Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem4 row="1" (tap)="actionItem4Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB row="1" (tap)="fabTap(actionItem1, actionItem2, actionItem3, actionItem4)" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB> -->
+      </GridLayout>
+
+
+    </GridLayout>
+</RadSideDrawer>

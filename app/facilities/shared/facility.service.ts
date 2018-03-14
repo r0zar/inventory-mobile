@@ -2,6 +2,7 @@ import { Injectable, NgZone } from "@angular/core";
 import { Http } from "@angular/http";
 import firebase = require("nativescript-plugin-firebase");
 import { Observable } from "rxjs/Observable";
+import { getString, setString } from "application-settings";
 
 import { Config } from "../../shared/config";
 import { Facility } from "./facility.model";
@@ -42,6 +43,14 @@ export class FacilityService {
         return this._facilities.filter((facility) => {
             return facility.LicenseNumber == id;
         })[0];
+    }
+
+    static get facility(): string {
+      return getString("facility");
+    }
+
+    static set facility(thefacility: string) {
+      setString("facility", thefacility);
     }
 
     load(): Observable<any> {

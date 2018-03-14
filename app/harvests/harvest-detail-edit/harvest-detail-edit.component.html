@@ -1,0 +1,28 @@
+<ActionBar class="action-bar">
+    <!--HACK - we should remove the navigation button-->
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()"></NavigationButton>
+    <Label class="action-bar-title" text="Edit Item Details" horizontalAlignment="center"></Label>
+    <ActionItem ios.position="right" android.position="right">
+        <Label text="Done" class="action-item" verticalAlignment="center" (tap)="onDoneButtonTap()"></Label>
+    </ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+    <ScrollView>
+        <StackLayout class="harvest-list">
+
+          <RadDataForm tkExampleTitle tkToggleNavButton [source]="harvest" [isReadOnly]="false">
+
+            <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
+                <TKEntityProperty tkPropertyGroupProperties name="Id">
+                  <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor" type="Number"></TKPropertyEditor>
+                </TKEntityProperty>
+            </TKPropertyGroup>
+          </RadDataForm>
+
+        </StackLayout>
+    </ScrollView>
+
+    <ActivityIndicator [busy]="isUpdating"></ActivityIndicator>
+</GridLayout>

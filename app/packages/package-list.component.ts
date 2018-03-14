@@ -8,6 +8,7 @@ import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { Package } from "./shared/package.model";
 import { PackageService } from "./shared/package.service";
+import { MetrcService } from "../shared/metrc.service";
 
 import _ = require('lodash');
 
@@ -31,6 +32,7 @@ export class PackageListComponent implements OnInit {
     private _packages: ObservableArray<Package> = new ObservableArray<Package>([]);
 
     constructor (
+        private _metrcService: MetrcService,
         private _packageService: PackageService,
         private _routerExtensions: RouterExtensions,
     ){}
@@ -43,12 +45,7 @@ export class PackageListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
-        /* ***********************************************************
-        * The data is retrieved remotely from FireBase.
-        * The actual data retrieval code is wrapped in a data service.
-        * Check out the service in packages/shared/package.service.ts
-        *************************************************************/
-        this._packageService.load()
+        this._metrcService.getPackages()
             .finally(() => {
               this._isLoading = false
             })
@@ -56,6 +53,20 @@ export class PackageListComponent implements OnInit {
                 this._packages = new ObservableArray(packages);
                 this._isLoading = false;
             });
+
+        /* ***********************************************************
+        * The data is retrieved remotely from FireBase.
+        * The actual data retrieval code is wrapped in a data service.
+        * Check out the service in packages/shared/package.service.ts
+        *************************************************************/
+        // this._packageService.load()
+        //     .finally(() => {
+        //       this._isLoading = false
+        //     })
+        //     .subscribe((packages: Array<Package>) => {
+        //         this._packages = new ObservableArray(packages);
+        //         this._isLoading = false;
+        //     });
 
     }
 

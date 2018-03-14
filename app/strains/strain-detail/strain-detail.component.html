@@ -1,0 +1,28 @@
+<ActionBar class="action-bar">
+    <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()">
+    </NavigationButton>
+    <Label class="action-bar-title" [text]="strain.Name" horizontalAlignment="center"></Label>
+    <!-- <ActionItem ios.position="right" android.position="right" (tap)="onEditButtonTap()">
+        <Label text="Edit" class="action-item"></Label>
+    </ActionItem> -->
+</ActionBar>
+<ScrollView class="page" #scrollView (scroll)="onScroll($event, scrollView, topView, fabView)">
+	<StackLayout>
+		<StackLayout #topView height="200" style="background-image: url('~/images/strains.jpg'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+			<!-- this is the header for collapsing --->
+			<!-- Note: this can be any type of layout you want -->
+      <GridLayout rows="0, *">
+          <FAB #fabView row="1" (tap)="fabTap()" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB>
+      </GridLayout>
+		</StackLayout>
+		<StackLayout width="100%" backgroundColor="white" padding="10">
+			<!--Add your page content here-->
+      <RadDataForm tkExampleTitle tkToggleNavButton [source]="strain" [isReadOnly]="true">
+
+      <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
+          <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+      </TKPropertyGroup>
+      </RadDataForm>
+		</StackLayout>
+	</StackLayout>
+</ScrollView>

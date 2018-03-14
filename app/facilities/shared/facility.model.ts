@@ -16,6 +16,7 @@ export class Facility {
     LicenseType: string;
     imageUrl: string;
     imageStoragePath: string;
+    selected: string;
 
     constructor(options: any) {
         this.HireDate = options.HireDate;
