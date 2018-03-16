@@ -54,20 +54,6 @@ export class StrainListComponent implements OnInit {
                 this._isLoading = false;
             });
 
-        /* ***********************************************************
-        * The data is retrieved remotely from FireBase.
-        * The actual data retrieval code is wrapped in a data service.
-        * Check out the service in strains/shared/strain.service.ts
-        *************************************************************/
-        // this._strainService.load()
-        //     .finally(() => {
-        //       this._isLoading = false
-        //     })
-        //     .subscribe((strains: Array<Strain>) => {
-        //         this._strains = new ObservableArray(strains);
-        //         this._isLoading = false;
-        //     });
-
     }
 
     get strains(): ObservableArray<Strain> {
@@ -100,7 +86,7 @@ export class StrainListComponent implements OnInit {
     }
 
     onAddButtonTap(): void {
-        this._routerExtensions.navigate(["/strains/strain-detail-edit", _.random(0, 999999999999999)],
+        this._routerExtensions.navigate(["/strains/create"],
             {
                 animated: true,
                 transition: {

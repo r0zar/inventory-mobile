@@ -3,14 +3,13 @@ import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
 import { Strain } from "../shared/strain.model";
-import { StrainService } from "../shared/strain.service";
 import { MetrcService } from "../../shared/metrc.service";
 
 import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
 import { Image } from 'tns-core-modules/ui/image';
-import { screen } from 'platform';
 import { View } from 'tns-core-modules/ui/core/view';
 import { Page } from "ui/page";
+import { confirm } from "ui/dialogs";;
 
 
 /* ***********************************************************
@@ -25,10 +24,11 @@ import { Page } from "ui/page";
 })
 export class StrainDetailComponent implements OnInit {
     private _strain: Strain;
+    private _fabMenuOpen: boolean = false;
+    private _isLoading: boolean = false;
 
     constructor(
         private _metrcService: MetrcService,
-        private _strainService: StrainService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
     ) { }
@@ -39,6 +39,7 @@ export class StrainDetailComponent implements OnInit {
     * private property that holds it inside the component.
     *************************************************************/
     ngOnInit(): void {
+        this._isLoading = true;
         /* ***********************************************************
         * Learn more about how to get navigation parameters in this documentation article:
         * http://docs.nativescript.org/angular/core-concepts/angular-navigation.html#passing-parameter
@@ -46,36 +47,97 @@ export class StrainDetailComponent implements OnInit {
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
-                const strainId = params.id;
-
-                //this._strain = this._strainService.getStrainById(strainId);
-                this._metrcService.getStrains()
-                    .subscribe((strains: Array<any>) => {
-                        this._strain = new Strain(strains.find(strain => strain.Id == strainId));
-                    });
+              this._metrcService.getStrain(params.id)
+                .subscribe((strain: Strain) => {
+                  this._strain = new Strain(strain)
+                  this._isLoading = false;
+                });
             });
     }
 
-    onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View, fabView: View) {
+    onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View, fabView: View, actionItem1: View, actionItem2: View) {
         // If the header content is still visiible
         if (scrollView.verticalOffset < 200) {
             const offset = scrollView.verticalOffset / 2;
             if (scrollView.ios) {
                 // iOS adjust the position with an animation to create a smother scrolling effect.
                 topView.animate({ translate: { x: 0, y: offset } }).then(() => { }, () => { });
-                fabView.animate({ translate: { x: 0, y: -1 * offset } }).then(() => { }, () => { });
-                fabView.animate({ translate: { x: 0, y: offset } }).then(() => { }, () => { });
+                fabView.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
+                if (this._fabMenuOpen) {
+                  actionItem1.animate({ opacity: 1-offset/50 }).then(() => { }, () => { });
+                  actionItem2.animate({ opacity: 1-offset/50 }).then(() => { }, () => { });
+                } else {
+                  actionItem1.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
+                  actionItem2.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
+                }
             } else {
                 // Android, animations are jerky so instead just adjust the position without animation.
                 topView.translateY = Math.floor(offset);
                 fabView.translateY = Math.floor(-1 * offset);
                 fabView.translateX = Math.floor(offset);
+                if (this._fabMenuOpen) {
+                  actionItem1.opacity = 1-offset/50
+                  actionItem2.opacity = 1-offset/50
+                } else {
+                  actionItem1.translateY = Math.floor(-1 * offset);
+                  actionItem1.translateX = Math.floor(offset);
+                  actionItem2.translateY = Math.floor(-1 * offset);
+                  actionItem2.translateX = Math.floor(offset);
+                }
             }
         }
     }
 
+    fabTap(actionItem1: View, actionItem2: View): void {
+      this._fabMenuOpen = !this._fabMenuOpen
+      if (this._fabMenuOpen) {
+        actionItem1.animate({ translate: { x: -70, y: 0 } }).then(() => { }, () => { });
+        actionItem2.animate({ translate: { x: -50, y: -60 } }).then(() => { }, () => { });
+      } else {
+        actionItem1.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
+        actionItem2.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
+      }
+    }
+
+    actionItem1Tap(): void {
+      console.log('edit strain')
+      this.onEditButtonTap()
+    }
+
+    actionItem2Tap(): void {
+      console.log('delete strain')
+      let options = {
+          title: "Delete Strain",
+          message: "Are you sure you want to delete this strain?",
+          okButtonText: "Yes",
+          cancelButtonText: "No",
+          neutralButtonText: "Cancel"
+      };
+      confirm(options).then((result: boolean) => {
+        if (result) {
+          this._isLoading = true;
+          this._metrcService.deleteStrain(this._strain)
+            .subscribe(() => {
+              this._isLoading = false
+              this._routerExtensions.navigate(["/strains"],
+                  {
+                      animated: true,
+                      transition: {
+                          name: "fade",
+                          duration: 1000
+                      }
+                  });
+            })
+        }
+      });
+    }
+
     get strain(): Strain {
         return this._strain;
+    }
+
+    get isLoading(): boolean {
+        return this._isLoading;
     }
 
     /* ***********************************************************
@@ -90,7 +152,7 @@ export class StrainDetailComponent implements OnInit {
     * Check out the edit page in the /strains/strain-detail-edit folder.
     *************************************************************/
     onEditButtonTap(): void {
-        this._routerExtensions.navigate(["/strains/strain-detail-edit", this._strain.Id],
+        this._routerExtensions.navigate(["/strains/edit", this._strain.Id],
             {
                 animated: true,
                 transition: {

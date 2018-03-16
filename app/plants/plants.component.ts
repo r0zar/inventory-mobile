@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild, Inject } from "@angular/core";
 import { ObservableArray } from "data/observable-array";
+import { RouterExtensions } from "nativescript-angular/router";
+import { ListViewEventData } from "nativescript-pro-ui/listview";
+import { DataFormEventData } from "nativescript-pro-ui/dataform";
 import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-ui/sidedrawer";
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 import { SelectedIndexChangedEventData, TabView, TabViewItem } from "tns-core-modules/ui/tab-view";
@@ -7,7 +10,6 @@ import { isAndroid } from "platform";
 import { View } from 'tns-core-modules/ui/core/view';
 
 import { Plant } from "./shared/plant.model";
-import { PlantService } from "./shared/plant.service";
 import { MetrcService } from "../shared/metrc.service";
 // import { BarcodeScanner } from 'nativescript-barcodescanner';
 // import { registerElement } from "nativescript-angular/element-registry";
@@ -32,12 +34,13 @@ export class PlantsComponent implements OnInit {
     private _title: string;
     private _fabMenuOpen: boolean = false;
     private _sideDrawerTransition: DrawerTransitionBase;
-    private _plants: ObservableArray<Plant> = new ObservableArray<Plant>([]);
+    private _vegetativePlants: ObservableArray<Plant> = new ObservableArray<Plant>([]);
+    private _floweringPlants: ObservableArray<Plant> = new ObservableArray<Plant>([]);
 
     constructor(
       //private barcodeScanner: BarcodeScanner
-      private _plantService: PlantService,
       private _metrcService: MetrcService,
+      private _routerExtensions: RouterExtensions
     ){}
 
 
@@ -48,49 +51,31 @@ export class PlantsComponent implements OnInit {
         this._isLoading = true;
         this._sideDrawerTransition = new SlideInOnTopTransition();
 
-        this._plantService.load()
+        this._metrcService.getVegetativePlants()
             .finally(() => {
               this._isLoading = false
             })
             .subscribe((plants: Array<Plant>) => {
-                this._plants = new ObservableArray(plants);
+                this._vegetativePlants = new ObservableArray(plants);
+                this._isLoading = false;
+            });
+
+        this._metrcService.getFloweringPlants()
+            .finally(() => {
+              this._isLoading = false
+            })
+            .subscribe((plants: Array<Plant>) => {
+                this._floweringPlants = new ObservableArray(plants);
                 this._isLoading = false;
             });
     }
 
-    fabTap(actionItem1: View, actionItem2: View, actionItem3: View, actionItem4: View): void {
-      this._fabMenuOpen = !this._fabMenuOpen
-      if (this._fabMenuOpen) {
-        actionItem1.animate({ translate: { x: -70, y: 0 } }).then(() => { }, () => { });
-        actionItem2.animate({ translate: { x: -60, y: -65 } }).then(() => { }, () => { });
-        actionItem3.animate({ translate: { x: -40, y: -125 } }).then(() => { }, () => { });
-        actionItem4.animate({ translate: { x: 0, y: -175 } }).then(() => { }, () => { });
-      } else {
-        actionItem1.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
-        actionItem2.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
-        actionItem3.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
-        actionItem4.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
-      }
+    get vegetativePlants(): ObservableArray<Plant> {
+        return this._vegetativePlants;
     }
 
-    get plants(): ObservableArray<Plant> {
-        return this._plants;
-    }
-
-    get immaturePlants(): Array<Plant> {
-        return this._plants.filter(plant => plant.GrowthPhase == "Immature");
-    }
-
-    get vegetativePlants(): Array<Plant> {
-        return this._plants.filter(plant => plant.GrowthPhase == "Vegetative");
-    }
-
-    get floweringPlants(): Array<Plant> {
-        return this._plants.filter(plant => plant.GrowthPhase == "Flowering");
-    }
-
-    get harvestedPlants(): Array<Plant> {
-        return this._plants.filter(plant => plant.GrowthPhase == "Harvested");
+    get floweringPlants(): ObservableArray<Plant> {
+        return this._floweringPlants;
     }
 
     get isLoading(): boolean {
@@ -130,6 +115,21 @@ export class PlantsComponent implements OnInit {
     //   })
     //
     // }
+
+    onPlantsItemTap(args: ListViewEventData): void {
+        const tappedItemItem = args.view.bindingContext;
+
+        this._routerExtensions.navigate(["/plants/plant-detail", tappedItemItem.Id],
+        {
+            animated: true,
+            transition: {
+                name: "slide",
+                duration: 200,
+                curve: "ease"
+            }
+        });
+
+    }
 
 
     get title(): string {

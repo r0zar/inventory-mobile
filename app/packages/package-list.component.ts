@@ -10,6 +10,11 @@ import { Package } from "./shared/package.model";
 import { PackageService } from "./shared/package.service";
 import { MetrcService } from "../shared/metrc.service";
 
+import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
+import { View } from 'tns-core-modules/ui/core/view';
+import { Page } from "ui/page";
+
+
 import _ = require('lodash');
 
 @Component({
@@ -24,11 +29,10 @@ export class PackageListComponent implements OnInit {
     * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
     *************************************************************/
     @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
-
+    private _package: Package;
+    private _fabMenuOpen: boolean = false;
     private _sideDrawerTransition: DrawerTransitionBase;
-
     private _isLoading: boolean = false;
-
     private _packages: ObservableArray<Package> = new ObservableArray<Package>([]);
 
     constructor (
@@ -54,20 +58,58 @@ export class PackageListComponent implements OnInit {
                 this._isLoading = false;
             });
 
-        /* ***********************************************************
-        * The data is retrieved remotely from FireBase.
-        * The actual data retrieval code is wrapped in a data service.
-        * Check out the service in packages/shared/package.service.ts
-        *************************************************************/
-        // this._packageService.load()
-        //     .finally(() => {
-        //       this._isLoading = false
-        //     })
-        //     .subscribe((packages: Array<Package>) => {
-        //         this._packages = new ObservableArray(packages);
-        //         this._isLoading = false;
-        //     });
+    }
 
+    fabTap(actionItem1: View, actionItem2: View, actionItem3: View): void {
+      this._fabMenuOpen = !this._fabMenuOpen
+      if (this._fabMenuOpen) {
+        actionItem1.animate({ translate: { x: -70, y: 0 } }).then(() => { }, () => { });
+        actionItem2.animate({ translate: { x: -50, y: -60 } }).then(() => { }, () => { });
+        actionItem3.animate({ translate: { x: -30, y: -120 } }).then(() => { }, () => { });
+      } else {
+        actionItem1.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
+        actionItem2.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
+        actionItem3.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
+      }
+    }
+
+    actionItem1Tap(): void {
+      console.log('create package from ingredients/packages')
+      this._routerExtensions.navigate(["/packages/create", this._package.Label],
+          {
+              animated: true,
+              transition: {
+                  name: "flipLeft",
+                  duration: 500,
+                  curve: "linear"
+              }
+          });
+    }
+
+    actionItem2Tap(): void {
+      console.log('create package for testing from ingredients/packages')
+      this._routerExtensions.navigate(["/packages/createtesting", this._package.Label],
+          {
+              animated: true,
+              transition: {
+                  name: "flipLeft",
+                  duration: 500,
+                  curve: "linear"
+              }
+          });
+    }
+
+    actionItem3Tap(): void {
+      console.log('create package of plantings from batch')
+      this._routerExtensions.navigate(["/packages/createplantings", this._package.Label],
+          {
+              animated: true,
+              transition: {
+                  name: "flipLeft",
+                  duration: 500,
+                  curve: "linear"
+              }
+          });
     }
 
     get packages(): ObservableArray<Package> {

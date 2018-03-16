@@ -1,0 +1,27 @@
+<ActionBar class="action-bar">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()"></NavigationButton>
+    <Label class="action-bar-title" text="Edit Strain" horizontalAlignment="center"></Label>
+    <ActionItem ios.position="right" android.position="right">
+        <Label text="Done" class="action-item" verticalAlignment="center" (tap)="onDoneButtonTap()"></Label>
+    </ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+    <ScrollView>
+        <StackLayout class="item-list">
+
+          <RadDataForm tkExampleTitle tkToggleNavButton [source]="strain" [isReadOnly]="false">
+
+            <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
+              <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+              <TKEntityProperty tkPropertyGroupProperties name="Genetics"></TKEntityProperty>
+              <TKEntityProperty tkPropertyGroupProperties name="TestingStatus"></TKEntityProperty>
+            </TKPropertyGroup>
+          </RadDataForm>
+
+        </StackLayout>
+    </ScrollView>
+    <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+
+</GridLayout>

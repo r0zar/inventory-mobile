@@ -9,20 +9,20 @@
 </ActionBar>
 
 <GridLayout class="page page-content">
+
     <ScrollView>
         <StackLayout class="batch-list">
 
           <RadDataForm tkExampleTitle tkToggleNavButton [source]="batch" [isReadOnly]="false">
 
             <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
-                <TKEntityProperty tkPropertyGroupProperties name="Id">
-                  <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor" type="Number"></TKPropertyEditor>
-                </TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="ActualDate"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="Strain"></TKEntityProperty>
             </TKPropertyGroup>
           </RadDataForm>
 
         </StackLayout>
     </ScrollView>
-
     <ActivityIndicator [busy]="isUpdating"></ActivityIndicator>
 </GridLayout>

@@ -1,22 +1,52 @@
 <ActionBar class="action-bar">
     <NavigationButton visibility="collapsed"></NavigationButton>
     <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()"></NavigationButton>
-    <Label class="action-bar-title" text="Add New Item" horizontalAlignment="center"></Label>
+    <Label class="action-bar-title" text="Add New Batch" horizontalAlignment="center"></Label>
     <ActionItem ios.position="right" android.position="right">
-        <Label text="Create" class="action-batch" verticalAlignment="center" (tap)="onDoneButtonTap()"></Label>
+        <Label text="Create" class="action-item" verticalAlignment="center" (tap)="onDoneButtonTap()"></Label>
     </ActionItem>
 </ActionBar>
 
 <GridLayout class="page page-content">
     <ScrollView>
-        <StackLayout class="batch-list">
+        <StackLayout class="item-list">
 
           <RadDataForm tkExampleTitle tkToggleNavButton [source]="batch" [isReadOnly]="false">
+            <TKEntityProperty tkDataFormProperty name="Count">
+              <TKPropertyEditor tkEntityPropertyEditor type="Number"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="Strain" displayName="Strain" [valuesProvider]="strains">
+                <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="Type" displayName="Type" [valuesProvider]="batchTypes">
+                <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="ActualDate" displayName="Actual Date">
+                <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
 
+            <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
+                <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
 
+                <TKEntityProperty tkPropertyGroupProperties name="LiveCount"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="PackagedCount"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="HarvestedCount"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="DestroyedCount"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="PlantedDate"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="LastModified"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="SourcePlantId"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="SourcePlantLabel"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="SourcePackageId"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="SourcePackageLabel"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="RoomId"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="RoomName"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="StrainId"></TKEntityProperty>
+                <TKEntityProperty tkPropertyGroupProperties name="StrainName"></TKEntityProperty>
+            </TKPropertyGroup>
           </RadDataForm>
 
         </StackLayout>
     </ScrollView>
+    <ActivityIndicator [busy]="isCreating"></ActivityIndicator>
 
 </GridLayout>

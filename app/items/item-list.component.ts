@@ -55,20 +55,6 @@ export class ItemListComponent implements OnInit {
                 this._isLoading = false;
             });
 
-        /* ***********************************************************
-        * The data is retrieved remotely from FireBase.
-        * The actual data retrieval code is wrapped in a data service.
-        * Check out the service in items/shared/item.service.ts
-        *************************************************************/
-        // this._itemService.load()
-        //     .finally(() => {
-        //       this._isLoading = false
-        //     })
-        //     .subscribe((items: Array<Item>) => {
-        //         this._items = new ObservableArray(items);
-        //         this._isLoading = false;
-        //     });
-
     }
 
     get items(): ObservableArray<Item> {

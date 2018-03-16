@@ -46,5 +46,9 @@ it shouldn't have any other siblings other than the <ActionBar> component.
               </StackLayout>
           </ng-template>
       </ListView>
+      <GridLayout *ngIf="!rooms.length" class="page page-content" tkMainContent>
+          <Label class="page-icon fa" text="&#xf248;"></Label>
+          <Label class="page-placeholder" text="No defined rooms."></Label>
+      </GridLayout>
     </GridLayout>
 </RadSideDrawer>

@@ -1,0 +1,37 @@
+<ActionBar class="action-bar">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()"></NavigationButton>
+    <Label class="action-bar-title" text="Create New Package" horizontalAlignment="center"></Label>
+    <ActionItem ios.position="right" android.position="right">
+        <Label text="Done" class="action-item" verticalAlignment="center" (tap)="onDoneButtonTap()"></Label>
+    </ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+    <ScrollView>
+        <StackLayout class="item-list">
+
+          <RadDataForm tkExampleTitle tkToggleNavButton [source]="batchPackage" [isReadOnly]="false">
+            <TKEntityProperty tkDataFormProperty name="Room" [valuesProvider]="rooms">
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="Item" [valuesProvider]="itemCategories">
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="Count">
+              <TKPropertyEditor tkEntityPropertyEditor type="Number"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="ActualDate">
+              <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
+              <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+            </TKPropertyGroup>
+          </RadDataForm>
+
+        </StackLayout>
+    </ScrollView>
+    <ActivityIndicator [busy]="isCreating"></ActivityIndicator>
+
+</GridLayout>

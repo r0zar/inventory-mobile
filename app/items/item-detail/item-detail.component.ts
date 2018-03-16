@@ -7,9 +7,9 @@ import { MetrcService } from "../../shared/metrc.service";
 
 import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
 import { Image } from 'tns-core-modules/ui/image';
-import { screen } from 'platform';
 import { View } from 'tns-core-modules/ui/core/view';
 import { Page } from "ui/page";
+import { confirm } from "ui/dialogs";;
 
 
 /* ***********************************************************
@@ -25,6 +25,7 @@ import { Page } from "ui/page";
 export class ItemDetailComponent implements OnInit {
     private _item: Item;
     private _fabMenuOpen: boolean = false;
+    private _isLoading: boolean = false;
 
     constructor(
         private _metrcService: MetrcService,
@@ -39,6 +40,7 @@ export class ItemDetailComponent implements OnInit {
     * private property that holds it inside the component.
     *************************************************************/
     ngOnInit(): void {
+        this._isLoading = true;
         /* ***********************************************************
         * Learn more about how to get navigation parameters in this documentation article:
         * http://docs.nativescript.org/angular/core-concepts/angular-navigation.html#passing-parameter
@@ -46,11 +48,11 @@ export class ItemDetailComponent implements OnInit {
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
-                const itemId = params.id;
-
-                //this._item = this._itemService.getItemById(itemId);
-                this._metrcService.getItem(params.id)
-                    .subscribe((item: Item) => this._item = new Item(item));
+              this._metrcService.getItem(params.id)
+                .subscribe((item: Item) => {
+                  this._item = new Item(item)
+                  this._isLoading = false;
+                });
             });
     }
 
@@ -88,8 +90,34 @@ export class ItemDetailComponent implements OnInit {
       this.onEditButtonTap()
     }
 
+
+
     actionItem2Tap(): void {
-      console.log('delete')
+      console.log('delete item')
+      let options = {
+          title: "Delete Item",
+          message: "Are you sure you want to delete this item?",
+          okButtonText: "Yes",
+          cancelButtonText: "No",
+          neutralButtonText: "Cancel"
+      };
+      confirm(options).then((result: boolean) => {
+        if (result) {
+          this._isLoading = true;
+          this._metrcService.deleteItem(this._item)
+            .subscribe(() => {
+              this._isLoading = false
+              this._routerExtensions.navigate(["/items"],
+                  {
+                      animated: true,
+                      transition: {
+                          name: "fade",
+                          duration: 1000
+                      }
+                  });
+            })
+        }
+      });
     }
 
     get item(): Item {

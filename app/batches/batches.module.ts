@@ -6,6 +6,8 @@ import { NativeScriptUIDataFormModule } from "nativescript-pro-ui/dataform/angul
 import { SharedModule } from "../shared/shared.module";
 import { BatchDetailEditComponent } from "./batch-detail-edit/batch-detail-edit-component";
 import { BatchDetailCreateComponent } from "./batch-detail-create/batch-detail-create-component";
+import { BatchDetailPackageComponent } from "./batch-detail-package/batch-detail-package.component";
+import { BatchDetailGrowthPhaseComponent } from "./batch-detail-growthphase/batch-detail-growthphase.component";
 import { MyImageAddRemoveComponent } from "./batch-detail-edit/my-image-add-remove/my-image-add-remove.component";
 import { MyListSelectorModalViewComponent } from "./batch-detail-edit/my-list-selector/my-list-selector-modal-view.component"; // tslint:disable-line:max-line-length
 import { MyListSelectorComponent } from "./batch-detail-edit/my-list-selector/my-list-selector.component";
@@ -28,6 +30,8 @@ import { BatchService } from "./shared/batch.service";
         BatchDetailComponent,
         BatchDetailEditComponent,
         BatchDetailCreateComponent,
+        BatchDetailPackageComponent,
+        BatchDetailGrowthPhaseComponent,
         MyListSelectorComponent,
         MyListSelectorModalViewComponent,
         MyImageAddRemoveComponent

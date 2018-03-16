@@ -11,7 +11,7 @@
     <ScrollView>
         <StackLayout class="item-list">
 
-          <RadDataForm tkExampleTitle tkToggleNavButton [source]="item" [isReadOnly]="false">
+          <RadDataForm tkExampleTitle tkToggleNavButton [source]="item" [isReadOnly]="false" (propertyCommitted)="dfPropertyCommitted()">
             <TKEntityProperty tkDataFormProperty name="Strain" displayName="Strain" [valuesProvider]="strains">
                 <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
             </TKEntityProperty>
@@ -36,6 +36,8 @@
 
 
           </RadDataForm>
+
+          <Button class="btn btn-primary btn-active" id="button" text="Generate Name" (tap)="onTap($event)"></Button>
 
         </StackLayout>
     </ScrollView>

@@ -18,6 +18,10 @@
 		<StackLayout width="100%" backgroundColor="white" padding="10">
 			<!--Add your page content here-->
       <RadDataForm tkExampleTitle tkToggleNavButton [source]="room" [isReadOnly]="true">
+
+        <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
+          <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+        </TKPropertyGroup>
       </RadDataForm>
 		</StackLayout>
 	</StackLayout>

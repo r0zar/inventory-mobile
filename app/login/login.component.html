@@ -2,9 +2,9 @@
     <Label class="action-bar-title" text="KipoTrac"></Label>
 </ActionBar>
 <ScrollView>
-    <StackLayout class="login-stack page p-t-15">
+    <StackLayout class="login-stack page p-t-15 m-t-10">
 
-        <Image [ngClass]="{'loading': loading, 'login-failed': loginFailed}" src="~/images/kipo.png" stretch="fill" height="200" width="200" horizontalAlignment="center"></Image>
+        <Image [ngClass]="{'loading': loading, 'login-failed': loginFailed}" class="m-t-20" src="~/images/kipo.png" stretch="fill" height="200" width="200" horizontalAlignment="center"></Image>
 
         <TextField class="m-t-20 m-l-15 m-r-15" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalization="none"
             [(ngModel)]="email"></TextField>
@@ -14,8 +14,8 @@
 
         <Button class="btn btn-primary" text="SIGN IN" (tap)="onSigninButtonTap()"></Button>
 
-        <GridLayout columns="80, *, auto" rows="auto, *" >
-          <Switch col="0" checked="{{rememberMe}}" (checkedChange)="onRememberMeToggle($event)" horizontalAlignment="right"></Switch>
+        <GridLayout columns="90, *, auto" rows="auto, *" >
+          <Switch col="0" class="m-t-8 m-b-10 m-l-25" checked="{{rememberMe}}" (checkedChange)="onRememberMeToggle($event)" horizontalAlignment="right"></Switch>
           <Label col="1" class="m-t-8 m-b-10 m-l-15 m-r-15" text="Remember Me" horizontalAlignment="left"></Label>
         </GridLayout>
 

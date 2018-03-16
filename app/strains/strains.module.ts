@@ -4,7 +4,8 @@ import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angul
 import { NativeScriptUIDataFormModule } from "nativescript-pro-ui/dataform/angular";
 
 import { SharedModule } from "../shared/shared.module";
-import { StrainDetailEditComponent } from "./strain-detail-edit/strain-detail-edit-component";
+import { EditComponent } from "./edit/edit.component";
+import { CreateComponent } from "./create/create.component";
 import { MyImageAddRemoveComponent } from "./strain-detail-edit/my-image-add-remove/my-image-add-remove.component";
 import { MyListSelectorModalViewComponent } from "./strain-detail-edit/my-list-selector/my-list-selector-modal-view.component"; // tslint:disable-line:max-line-length
 import { MyListSelectorComponent } from "./strain-detail-edit/my-list-selector/my-list-selector.component";
@@ -25,7 +26,8 @@ import { StrainService } from "./shared/strain.service";
     declarations: [
         StrainListComponent,
         StrainDetailComponent,
-        StrainDetailEditComponent,
+        EditComponent,
+        CreateComponent,
         MyListSelectorComponent,
         MyListSelectorModalViewComponent,
         MyImageAddRemoveComponent

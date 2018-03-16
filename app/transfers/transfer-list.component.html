@@ -33,8 +33,6 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     -->
     <GridLayout class="page page-content" tkMainContent>
 
-
-
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
       <ListView [items]="transfers" (itemTap)="onTransferItemTap($event)">
           <ng-template let-item="item">
@@ -47,5 +45,9 @@ it shouldn't have any other siblings other than the <ActionBar> component.
               </StackLayout>
           </ng-template>
       </ListView>
+      <GridLayout *ngIf="!transfers.length" class="page page-content" tkMainContent>
+          <Label class="page-icon fa" text="&#xf0d1;"></Label>
+          <Label class="page-placeholder" text="No active transfers."></Label>
+      </GridLayout>
     </GridLayout>
 </RadSideDrawer>

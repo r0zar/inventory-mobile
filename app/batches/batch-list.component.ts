@@ -73,9 +73,9 @@ export class BatchListComponent implements OnInit {
       this._fabMenuOpen = !this._fabMenuOpen
       if (this._fabMenuOpen) {
         actionItem1.animate({ translate: { x: -70, y: 0 } }).then(() => { }, () => { });
-        actionItem2.animate({ translate: { x: -60, y: -65 } }).then(() => { }, () => { });
-        actionItem3.animate({ translate: { x: -40, y: -125 } }).then(() => { }, () => { });
-        actionItem4.animate({ translate: { x: 0, y: -175 } }).then(() => { }, () => { });
+        actionItem2.animate({ translate: { x: -50, y: -60 } }).then(() => { }, () => { });
+        actionItem3.animate({ translate: { x: -30, y: -120 } }).then(() => { }, () => { });
+        actionItem4.animate({ translate: { x: 0, y: -180 } }).then(() => { }, () => { });
       } else {
         actionItem1.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
         actionItem2.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });

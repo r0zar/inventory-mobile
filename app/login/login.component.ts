@@ -33,8 +33,8 @@ export class LoginComponent implements OnInit {
         /* ***********************************************************
         * Use the "ngOnInit" handler to initialize data for this component.
         *************************************************************/
-        this.email = 'ross.ragsdale@gmail.com'
-        this.password = 'red12345'
+        this.email = ''
+        this.password = ''
         this.rememberMe = true
         this.loading = false
         this.loginFailed = false

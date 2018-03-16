@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
-import { alert } from "ui/dialogs";;
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { alert } from "ui/dialogs";
 import { EventData } from "data/observable";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
@@ -24,8 +25,10 @@ export class ItemDetailCreateComponent implements OnInit {
     private _strains: any;
     private _unitsOfMeasure: any;
     private _itemCategories: any;
+    private units: any;
 
     constructor(
+        private http: HttpClient,
         private _metrcService: MetrcService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
@@ -38,7 +41,7 @@ export class ItemDetailCreateComponent implements OnInit {
     *************************************************************/
     ngOnInit(): void {
 
-        this._item = new Item({})
+        this._item = new Item({UnitOfMeasure: 'Each'})
 
         this._metrcService.getStrains()
             .subscribe((strains: Array<any>) => {
@@ -47,18 +50,18 @@ export class ItemDetailCreateComponent implements OnInit {
 
         this._metrcService.getUnitsOfMeasure()
             .subscribe((units: Array<any>) => {
-                this._unitsOfMeasure = _.map(units, 'Name')
+                this.units = units
+                this._unitsOfMeasure = units
             });
 
         this._metrcService.getItemCategories()
             .subscribe((categories: Array<any>) => {
-                this._itemCategories = _.map(categories, 'Name')
+                this._itemCategories = categories
             });
 
     }
 
     get item(): Item {
-        console.dir(this._item)
         return this._item;
     }
 
@@ -67,11 +70,30 @@ export class ItemDetailCreateComponent implements OnInit {
     }
 
     get itemCategories(): any {
-        return this._itemCategories;
+        return _.map(this._itemCategories, 'Name');
     }
 
     get unitsOfMeasure(): any {
-        return this._unitsOfMeasure;
+        return _.map(this._unitsOfMeasure, 'Name');
+    }
+
+    dfPropertyCommitted(): void {
+      let quantityType = _.find(this._itemCategories, {Name: this._item.ItemCategory}).QuantityType
+      this._unitsOfMeasure = _.filter(this.units, {QuantityType: quantityType})
+    }
+
+    onTap(): void {
+      let item = _.words(this._item.ItemCategory)[0]
+      this.http.get<any[]>(`https://api.datamuse.com/words?rel_jjb=${item}`)
+          .subscribe((words: Array<any>) => {
+              var adjective = _.capitalize(_.sample(words).word)
+              this.http.get<any[]>(`https://api.datamuse.com/words?ml=${this._item.Strain}`)
+                .subscribe((words: Array<any>) => {
+                    var noun = _.capitalize(_.sample(words).word)
+                    this._item.Name = `${adjective} ${noun}`
+                    this._item = new Item(this._item)
+                });
+          });
     }
 
     /* ***********************************************************

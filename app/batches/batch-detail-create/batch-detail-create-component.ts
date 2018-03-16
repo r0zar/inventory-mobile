@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { alert } from "ui/dialogs";;
 import { EventData } from "data/observable";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
@@ -23,9 +24,11 @@ export class BatchDetailCreateComponent implements OnInit {
     private _batch: Batch;
     private _strains: any;
     private _unitsOfMeasure: any;
-    private _batchCategories: any;
+    private _batchTypes: any;
+    private _isCreating: boolean = false;
 
     constructor(
+        private http: HttpClient,
         private _metrcService: MetrcService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
@@ -38,17 +41,29 @@ export class BatchDetailCreateComponent implements OnInit {
     *************************************************************/
     ngOnInit(): void {
 
-        this._batch = new Batch({})
-
         this._metrcService.getStrains()
             .subscribe((strains: Array<any>) => {
                 this._strains = _.map(strains, 'Name')
             });
 
+        this._metrcService.getBatchTypes()
+            .subscribe((batchTypes: Array<any>) => {
+                this._batchTypes = batchTypes
+            });
+
+        this.http.get<any[]>("https://api.datamuse.com/words?rel_jjb=marijuana")
+            .subscribe((words: Array<any>) => {
+                var adjective = _.capitalize(_.sample(words).word)
+                this.http.get<any[]>("https://api.datamuse.com/words?rel_jja=grass")
+                  .subscribe((words: Array<any>) => {
+                      var noun = _.capitalize(_.sample(words).word)
+                      this._batch = new Batch({Name: `${adjective} ${noun}`, ActualDate: new Date(), Type: 'Clone'})
+                  });
+            });
+
     }
 
     get batch(): Batch {
-        console.dir(this._batch)
         return this._batch;
     }
 
@@ -56,12 +71,16 @@ export class BatchDetailCreateComponent implements OnInit {
         return this._strains;
     }
 
-    get batchCategories(): any {
-        return this._batchCategories;
+    get batchTypes(): any {
+        return this._batchTypes;
     }
 
     get unitsOfMeasure(): any {
         return this._unitsOfMeasure;
+    }
+
+    get isCreating(): boolean {
+        return this._isCreating;
     }
 
     /* ***********************************************************
@@ -69,7 +88,9 @@ export class BatchDetailCreateComponent implements OnInit {
     * Check out the data service as batches/shared/batch.service.ts
     *************************************************************/
     onDoneButtonTap(): void {
+        this._isCreating = true
         this._metrcService.createPlantings(this._batch)
+            .finally(() => this._isCreating = false)
             .subscribe((batch: Batch) => this._routerExtensions.backToPreviousPage());
     }
 

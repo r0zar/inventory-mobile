@@ -4,13 +4,15 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { StrainListComponent } from "./strain-list.component";
 import { StrainDetailComponent } from "./strain-detail/strain-detail.component";
-import { StrainDetailEditComponent } from "./strain-detail-edit/strain-detail-edit-component";
+import { EditComponent } from "./edit/edit.component";
+import { CreateComponent } from "./create/create.component";
 import { AuthGuard } from "../shared/auth-guard.service";
 
 const routes: Routes = [
     { path: "", component: StrainListComponent, canActivate: [AuthGuard] },
     { path: "strain-detail/:id", component: StrainDetailComponent, canActivate: [AuthGuard] },
-    { path: "strain-detail-edit/:id", component: StrainDetailEditComponent, canActivate: [AuthGuard] }
+    { path: "edit/:id", component: EditComponent, canActivate: [AuthGuard] },
+    { path: "create", component: CreateComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

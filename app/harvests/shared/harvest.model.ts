@@ -47,3 +47,53 @@ export class Harvest {
         this.imageStoragePath = options.imageStoragePath;
     }
 }
+
+export class Package {
+  Harvest: number;
+  Room: string;
+  Item: string;
+  Weight: number;
+  UnitOfWeight: string;
+  Tag: string;
+  IsProductionBatch: boolean;
+  ProductionBatchNumber: string;
+  ProductRequiresRemediation: boolean;
+  RemediateProduct: boolean;
+  RemediationMethodId: string;
+  RemediationDate: string;
+  RemediationSteps: string;
+  ActualDate: string;
+
+  constructor(options: any){
+    this.Harvest = Number(options.Harvest);
+    this.Room = options.Room;
+    this.Item = options.Item;
+    this.Weight = Number(options.Weight);
+    this.UnitOfWeight = options.UnitOfWeight;
+    this.Tag = options.Tag;
+    this.IsProductionBatch = options.IsProductionBatch;
+    this.ProductionBatchNumber = options.ProductionBatchNumber;
+    this.ProductRequiresRemediation = options.ProductRequiresRemediation;
+    this.RemediateProduct = options.RemediateProduct;
+    this.RemediationMethodId = options.RemediationMethodId;
+    this.RemediationDate = options.RemediationDate;
+    this.RemediationSteps = options.RemediationSteps;
+    this.ActualDate = options.ActualDate;
+
+  }
+}
+
+export class Waste {
+  Id: number;
+  UnitOfWeight: string;
+  WasteWeight: number;
+  ActualDate: string;
+
+  constructor(options: any){
+    this.Id = Number(options.Id);
+    this.UnitOfWeight = options.UnitOfWeight;
+    this.WasteWeight = Number(options.WasteWeight);
+    this.ActualDate = options.ActualDate;
+
+  }
+}

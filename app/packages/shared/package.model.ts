@@ -31,6 +31,7 @@ export class Package {
     ArchivedDate: string;
     FinishedDate: string;
     LastModified: string;
+    ActualDate: string;
     imageUrl: string;
     imageStoragePath: string;
 
@@ -67,7 +68,71 @@ export class Package {
         this.ArchivedDate = options.ArchivedDate;
         this.FinishedDate = options.FinishedDate;
         this.LastModified = options.LastModified;
+        this.ActualDate = options.ActualDate;
         this.imageUrl = options.imageUrl;
         this.imageStoragePath = options.imageStoragePath;
     }
+}
+
+export class Adjustment {
+  Label: string;
+  Quantity: number;
+  UnitOfMeasure: string;
+  AdjustmentReason: string;
+  AdjustmentDate: string;
+  ReasonNote: string;
+
+  constructor(options: any){
+    this.Label = options.Label;
+    this.Quantity = Number(options.Quantity);
+    this.UnitOfMeasure = options.UnitOfMeasure;
+    this.AdjustmentReason = options.AdjustmentReason;
+    this.ReasonNote = options.ReasonNote;
+  }
+}
+
+export class Change {
+  Label: string;
+  Item: string;
+
+  constructor(options: any){
+    this.Label = options.Label;
+    this.Item = options.Item;
+  }
+}
+
+export class Plantings {
+  PackageLabel: string;
+  PackageAdjustmentAmount: number;
+  PackageAdjustmentUnitOfMeasureName: string;
+  PlantBatchName: string;
+  PlantBatchType: string;
+  PlantCount: number;
+  StrainName: string;
+  PlantedDate: string;
+
+  constructor(options: any){
+    this.PackageLabel = options.PackageLabel;
+    this.PackageAdjustmentAmount = Number(options.PackageAdjustmentAmount);
+    this.PackageAdjustmentUnitOfMeasureName = options.PackageAdjustmentUnitOfMeasureName;
+    this.PlantBatchName = options.PlantBatchName;
+    this.PlantBatchType = options.PlantBatchType;
+    this.PlantCount = Number(options.PlantCount);
+    this.StrainName = options.StrainName;
+    this.PlantedDate = options.PlantedDate;
+  }
+}
+
+export class Remediation {
+  PackageLabel: string;
+  RemediationMethodName: string;
+  RemediationDate: string;
+  RemediationSteps: string;
+
+  constructor(options: any){
+    this.PackageLabel = options.PackageLabel;
+    this.RemediationMethodName = options.RemediationMethodName;
+    this.RemediationDate = options.RemediationDate;
+    this.RemediationSteps = options.RemediationSteps;
+  }
 }

@@ -6,13 +6,16 @@
         <Label text="Edit" class="action-item"></Label>
     </ActionItem> -->
 </ActionBar>
-<ScrollView class="page" #scrollView (scroll)="onScroll($event, scrollView, topView, fabView)">
+<ScrollView class="page" #scrollView (scroll)="onScroll($event, scrollView, topView, fabView, actionItem1, actionItem2, actionItem3)">
 	<StackLayout>
-		<StackLayout #topView height="200" style="background-image: url('https://www.growerschoiceseeds.com/wp-content/uploads/2015/11/Jack-Herer-Feminized-Cannabis-Seeds.png'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+		<StackLayout #topView height="200" style="background-image: url('http://www.medicalmarijuanaadvisor.net/wp-content/uploads/2017/02/marijuana-clones.jpg'); background-repeat: no-repeat; background-position: center; background-size: cover;">
 			<!-- this is the header for collapsing --->
 			<!-- Note: this can be any type of layout you want -->
       <GridLayout rows="0, *">
-          <FAB #fabView row="1" (tap)="fabTap()" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem3 row="1" (tap)="actionItem3Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem2 row="1" (tap)="actionItem2Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem1 row="1" (tap)="actionItem1Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #fabView row="1" (tap)="fabTap(actionItem1, actionItem2, actionItem3)" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB>
       </GridLayout>
 		</StackLayout>
 		<StackLayout width="100%" backgroundColor="white" padding="10">
@@ -20,17 +23,13 @@
       <RadDataForm tkExampleTitle tkToggleNavButton [source]="batch" [isReadOnly]="true">
 
         <TKPropertyGroup tkDataFormGroups collapsible="true" collapsed="true" name="Room Information" hidden="false">
-            <TKEntityProperty tkPropertyGroupProperties name="RoomId"></TKEntityProperty>
             <TKEntityProperty tkPropertyGroupProperties name="RoomName"></TKEntityProperty>
         </TKPropertyGroup>
         <TKPropertyGroup tkDataFormGroups collapsible="true" collapsed="true" name="Strain Information" hidden="false">
-            <TKEntityProperty tkPropertyGroupProperties name="StrainId"></TKEntityProperty>
             <TKEntityProperty tkPropertyGroupProperties name="StrainName"></TKEntityProperty>
         </TKPropertyGroup>
         <TKPropertyGroup tkDataFormGroups collapsible="true" collapsed="true" name="Batch Source Information" hidden="false">
-            <TKEntityProperty tkPropertyGroupProperties name="SourcePackageId"></TKEntityProperty>
             <TKEntityProperty tkPropertyGroupProperties name="SourcePackageLabel"></TKEntityProperty>
-            <TKEntityProperty tkPropertyGroupProperties name="SourcePlantId"></TKEntityProperty>
             <TKEntityProperty tkPropertyGroupProperties name="SourcePlantLabel"></TKEntityProperty>
         </TKPropertyGroup>
         <TKPropertyGroup tkDataFormGroups collapsible="true" collapsed="true" name="Plant Batch Details" hidden="false" index=0>
@@ -51,6 +50,12 @@
 
         <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
             <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+            <TKEntityProperty tkPropertyGroupProperties name="ActualDate"></TKEntityProperty>
+            <TKEntityProperty tkPropertyGroupProperties name="Strain"></TKEntityProperty>
+            <TKEntityProperty tkPropertyGroupProperties name="RoomId"></TKEntityProperty>
+            <TKEntityProperty tkPropertyGroupProperties name="StrainId"></TKEntityProperty>
+            <TKEntityProperty tkPropertyGroupProperties name="SourcePackageId"></TKEntityProperty>
+            <TKEntityProperty tkPropertyGroupProperties name="SourcePlantId"></TKEntityProperty>
         </TKPropertyGroup>
       </RadDataForm>
 		</StackLayout>

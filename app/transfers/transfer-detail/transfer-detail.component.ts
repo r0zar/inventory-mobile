@@ -3,7 +3,7 @@ import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
 import { Transfer } from "../shared/transfer.model";
-import { TransferService } from "../shared/transfer.service";
+import { MetrcService } from "../../shared/metrc.service"
 
 import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
 import { Image } from 'tns-core-modules/ui/image';
@@ -26,7 +26,7 @@ export class TransferDetailComponent implements OnInit {
     private _transfer: Transfer;
 
     constructor(
-        private _transferService: TransferService,
+        private _metrcService: MetrcService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
     ) { }
@@ -46,7 +46,11 @@ export class TransferDetailComponent implements OnInit {
             .forEach((params) => {
                 const transferId = params.id;
 
-                this._transfer = this._transferService.getTransferById(transferId);
+                //this._transfer = this._transferService.getTransferById(transferId);
+                this._metrcService.getTransfers()
+                    .subscribe((transfers: Array<any>) => {
+                        this._transfer = new Transfer(transfers.find(t => t.Id == transferId));
+                    });
             });
     }
 
@@ -73,21 +77,5 @@ export class TransferDetailComponent implements OnInit {
     *************************************************************/
     onBackButtonTap(): void {
         this._routerExtensions.backToPreviousPage();
-    }
-
-    /* ***********************************************************
-    * The master-detail template comes with an example of an item edit page.
-    * Check out the edit page in the /transfers/transfer-detail-edit folder.
-    *************************************************************/
-    onEditButtonTap(): void {
-        this._routerExtensions.navigate(["/transfers/transfer-detail-edit", this._transfer.Id],
-            {
-                animated: true,
-                transition: {
-                    name: "slideTop",
-                    duration: 200,
-                    curve: "ease"
-                }
-            });
     }
 }

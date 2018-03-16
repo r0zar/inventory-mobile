@@ -10,6 +10,7 @@ import { Item } from "../items/shared/item.model"
 import { Strain } from "../strains/shared/strain.model"
 import { Room } from "../rooms/shared/room.model"
 import { Batch } from "../batches/shared/batch.model"
+import { Plant } from "../plants/shared/plant.model"
 import { Package } from "../packages/shared/package.model"
 import { Transfer } from "../transfers/shared/transfer.model"
 import { Harvest } from "../harvests/shared/harvest.model"
@@ -55,12 +56,12 @@ export class MetrcService {
   }
 
   createRooms({licenseNumber, Rooms}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/rooms/v1/create?licenseNumber=${licenseNumber}`, Rooms, {headers: this.header})
+      return this.http.post(`${this.rootUrl}/rooms/v1/create?licenseNumber=${FacilityService.facility}`, Rooms, {headers: this.header})
         .pipe(catchError(this.handleError('createRooms', [])));
   }
 
   updateRooms({licenseNumber, Rooms}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/rooms/v1/create?licenseNumber=${licenseNumber}`, Rooms, {headers: this.header})
+      return this.http.post(`${this.rootUrl}/rooms/v1/update?licenseNumber=${FacilityService.facility}`, Rooms, {headers: this.header})
         .pipe(catchError(this.handleError('updateRooms', [])));
   }
 
@@ -71,14 +72,24 @@ export class MetrcService {
         .pipe(catchError(this.handleError('getStrains', [])));
   }
 
-  createStrains({licenseNumber, Strains}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/strains/v1/create?licenseNumber=${licenseNumber}`, Strains, {headers: this.header})
+  getStrain(id: number): Observable<Strain> {
+      return this.http.get<Strain>(`${this.rootUrl}/strains/v1/${id}`, {headers: this.header})
+        .pipe(tap(strain => console.dir(strain)), catchError(this.handleError<Strain>(`getStrain id=${id}`)));
+  }
+
+  createStrains(Strain): Observable<any> {
+      return this.http.post(`${this.rootUrl}/strains/v1/create?licenseNumber=${FacilityService.facility}`, [Strain], {headers: this.header})
         .pipe(catchError(this.handleError('createStrains', [])));
   }
 
-  updateStrains({licenseNumber, Strains}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/strains/v1/update?licenseNumber=${licenseNumber}`, Strains, {headers: this.header})
+  updateStrains(Strain): Observable<any> {
+      return this.http.post(`${this.rootUrl}/strains/v1/update?licenseNumber=${FacilityService.facility}`, [Strain], {headers: this.header})
         .pipe(catchError(this.handleError('updateStrains', [])));
+  }
+
+  deleteStrain(Strain): Observable<any> {
+      return this.http.delete(`${this.rootUrl}/strains/v1/${Strain.Id}?licenseNumber=${FacilityService.facility}`, {headers: this.header})
+        .pipe(catchError(this.handleError('deleteStrain', [])));
   }
 
   // plant batches
@@ -88,9 +99,19 @@ export class MetrcService {
         .pipe(catchError(this.handleError('getBatches', [])));
   }
 
+  getBatchTypes(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.rootUrl}/plantbatches/v1/types`, {headers: this.header})
+        .pipe(catchError(this.handleError('getBatchTypes', [])));
+  }
+
   createPlantings(Batch): Observable<any> {
       return this.http.post(`${this.rootUrl}/plantbatches/v1/createplantings?licenseNumber=${FacilityService.facility}`, [Batch], {headers: this.header})
         .pipe(catchError(this.handleError('createPlantings', [])));
+  }
+
+  createBatchPackage(Batch): Observable<any> {
+      return this.http.post(`${this.rootUrl}/plantbatches/v1/createPackages?licenseNumber=${FacilityService.facility}`, [Batch], {headers: this.header})
+        .pipe(catchError(this.handleError('createBatchPackage', [])));
   }
 
   changeGrowthPhase(Batch): Observable<any> {
@@ -105,23 +126,48 @@ export class MetrcService {
 
   // plants
 
-  movePlants({licenseNumber, Plants}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/plants/v1/moveplants?licenseNumber=${licenseNumber}`, Plants, {headers: this.header})
+  getPlantById(id: number): Observable<Plant> {
+      return this.http.get<Plant>(`${this.rootUrl}/plants/v1/${id}`, {headers: this.header})
+        .pipe(tap(plant => console.dir(plant)), catchError(this.handleError<Plant>(`getPlantById id=${id}`)));
+  }
+
+  getVegetativePlants(): Observable<Plant[]> {
+      return this.http.get<Plant[]>(`${this.rootUrl}/plants/v1/vegetative?licenseNumber=${FacilityService.facility}`, {headers: this.header})
+        .pipe(catchError(this.handleError('getVegetativePlants', [])));
+  }
+
+  getFloweringPlants(): Observable<Plant[]> {
+      return this.http.get<Plant[]>(`${this.rootUrl}/plants/v1/flowering?licenseNumber=${FacilityService.facility}`, {headers: this.header})
+        .pipe(catchError(this.handleError('getFloweringPlants', [])));
+  }
+
+  movePlants(Plant): Observable<any> {
+      return this.http.post(`${this.rootUrl}/plants/v1/moveplants?licenseNumber=${FacilityService.facility}`, [Plant], {headers: this.header})
         .pipe(catchError(this.handleError('movePlants', [])));
   }
 
-  destroyPlants({licenseNumber, Plants}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/plants/v1/destroyplants?licenseNumber=${licenseNumber}`, Plants, {headers: this.header})
+  changeGrowthPhases(Plant): Observable<any> {
+      return this.http.post(`${this.rootUrl}/plants/v1/changegrowthphases?licenseNumber=${FacilityService.facility}`, [Plant], {headers: this.header})
+        .pipe(catchError(this.handleError('changeGrowthPhases', [])));
+  }
+
+  destroyPlants(Plant): Observable<any> {
+      return this.http.post(`${this.rootUrl}/plants/v1/destroyplants?licenseNumber=${FacilityService.facility}`, [Plant], {headers: this.header})
         .pipe(catchError(this.handleError('destroyPlants', [])));
   }
 
-  manicurePlants({licenseNumber, Plants}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/plants/v1/manicureplants?licenseNumber=${licenseNumber}`, Plants, {headers: this.header})
+  createClones(Plant): Observable<any> {
+      return this.http.post(`${this.rootUrl}/plants/v1/create/plantings?licenseNumber=${FacilityService.facility}`, [Plant], {headers: this.header})
+        .pipe(catchError(this.handleError('createClones', [])));
+  }
+
+  manicurePlants(Plant): Observable<any> {
+      return this.http.post(`${this.rootUrl}/plants/v1/manicureplants?licenseNumber=${FacilityService.facility}`, [Plant], {headers: this.header})
         .pipe(catchError(this.handleError('manicurePlants', [])));
   }
 
-  harvestPlants({licenseNumber, Plants}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/plants/v1/harvestplants?licenseNumber=${licenseNumber}`, Plants, {headers: this.header})
+  harvestPlants(Plant): Observable<any> {
+      return this.http.post(`${this.rootUrl}/plants/v1/harvestplants?licenseNumber=${FacilityService.facility}`, [Plant], {headers: this.header})
         .pipe(catchError(this.handleError('harvestPlants', [])));
   }
 
@@ -132,23 +178,23 @@ export class MetrcService {
         .pipe(catchError(this.handleError('getHarvests', [])));
   }
 
-  createPackageFromHarvest({licenseNumber, Harvest}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/harvests/v1/createpackages?licenseNumber=${licenseNumber}`, [Harvest], {headers: this.header})
+  createPackageFromHarvest(Harvest): Observable<any> {
+      return this.http.post(`${this.rootUrl}/harvests/v1/createpackages?licenseNumber=${FacilityService.facility}`, [Harvest], {headers: this.header})
         .pipe(catchError(this.handleError('createPackageFromHarvest', [])));
   }
 
-  removeWaste({licenseNumber, Waste}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/harvests/v1/removewaste?licenseNumber=${licenseNumber}`, [Waste], {headers: this.header})
+  removeWaste(Waste): Observable<any> {
+      return this.http.post(`${this.rootUrl}/harvests/v1/removewaste?licenseNumber=${FacilityService.facility}`, [Waste], {headers: this.header})
         .pipe(catchError(this.handleError('removeWaste', [])));
   }
 
-  finishHarvest({licenseNumber, Harvest}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/harvests/v1/finish?licenseNumber=${licenseNumber}`, [Harvest], {headers: this.header})
+  finishHarvest(Harvest): Observable<any> {
+      return this.http.post(`${this.rootUrl}/harvests/v1/finish?licenseNumber=${FacilityService.facility}`, [Harvest], {headers: this.header})
         .pipe(catchError(this.handleError('finishHarvest', [])));
   }
 
-  unfinishHarvest({licenseNumber, Harvest}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/harvests/v1/unfinish?licenseNumber=${licenseNumber}`, [Harvest], {headers: this.header})
+  unfinishHarvest(Harvest): Observable<any> {
+      return this.http.post(`${this.rootUrl}/harvests/v1/unfinish?licenseNumber=${FacilityService.facility}`, [Harvest], {headers: this.header})
         .pipe(catchError(this.handleError('unfinishHarvest', [])));
   }
 
@@ -179,6 +225,11 @@ export class MetrcService {
         .pipe(catchError(this.handleError('updateItem', [])));
   }
 
+  deleteItem(Item): Observable<any> {
+      return this.http.delete(`${this.rootUrl}/items/v1/${Item.Id}?licenseNumber=${FacilityService.facility}`, {headers: this.header})
+        .pipe(catchError(this.handleError('deleteItem', [])));
+  }
+
   // packages
 
   getPackages(): Observable<Package[]> {
@@ -186,29 +237,44 @@ export class MetrcService {
         .pipe(catchError(this.handleError('getPackages', [])));
   }
 
-  createPackageFromPackages({licenseNumber, Package}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/packages/v1/create?licenseNumber=${licenseNumber}`, [Package], {headers: this.header})
+  createPackageFromPackages(Package): Observable<any> {
+      return this.http.post(`${this.rootUrl}/packages/v1/create?licenseNumber=${FacilityService.facility}`, [Package], {headers: this.header})
         .pipe(catchError(this.handleError('createPackageFromPackages', [])));
   }
 
-  changePackageItem({licenseNumber, Package}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/packages/v1/change/item?licenseNumber=${licenseNumber}`, [Package], {headers: this.header})
+  createLabTestPackage(Package): Observable<any> {
+      return this.http.post(`${this.rootUrl}/packages/v1/create/testing?licenseNumber=${FacilityService.facility}`, [Package], {headers: this.header})
+        .pipe(catchError(this.handleError('createLabTestPackage', [])));
+  }
+
+  createPackageFromPlantings(Package): Observable<any> {
+      return this.http.post(`${this.rootUrl}/packages/v1/create/plantings?licenseNumber=${FacilityService.facility}`, [Package], {headers: this.header})
+        .pipe(catchError(this.handleError('createPackageFromPlantings', [])));
+  }
+
+  changePackageItem(Package): Observable<any> {
+      return this.http.post(`${this.rootUrl}/packages/v1/change/item?licenseNumber=${FacilityService.facility}`, [Package], {headers: this.header})
         .pipe(catchError(this.handleError('changePackageItem', [])));
   }
 
-  adjustPackage({licenseNumber, Package}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/packages/v1/adjust?licenseNumber=${licenseNumber}`, [Package], {headers: this.header})
+  adjustPackage(Package): Observable<any> {
+      return this.http.post(`${this.rootUrl}/packages/v1/adjust?licenseNumber=${FacilityService.facility}`, [Package], {headers: this.header})
         .pipe(catchError(this.handleError('adjustPackage', [])));
   }
 
-  finishPackage({licenseNumber, Package}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/packages/v1/finish?licenseNumber=${licenseNumber}`, [Package], {headers: this.header})
+  finishPackage(Package): Observable<any> {
+      return this.http.post(`${this.rootUrl}/packages/v1/finish?licenseNumber=${FacilityService.facility}`, [Package], {headers: this.header})
         .pipe(catchError(this.handleError('finishPackage', [])));
   }
 
-  unfinishPackage({licenseNumber, Package}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/packages/v1/unfinish?licenseNumber=${licenseNumber}`, [Package], {headers: this.header})
+  unfinishPackage(Package): Observable<any> {
+      return this.http.post(`${this.rootUrl}/packages/v1/unfinish?licenseNumber=${FacilityService.facility}`, [Package], {headers: this.header})
         .pipe(catchError(this.handleError('finishunfinishPackagePackage', [])));
+  }
+
+  remediatePackage(Package): Observable<any> {
+      return this.http.post(`${this.rootUrl}/packages/v1/remediate?licenseNumber=${FacilityService.facility}`, [Package], {headers: this.header})
+        .pipe(catchError(this.handleError('remediatePackage', [])));
   }
 
   // transfers
@@ -220,25 +286,25 @@ export class MetrcService {
 
   // sales receipts
 
-  createSalesReceipt({licenseNumber, Sale}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/sales/v1/receipts?licenseNumber=${licenseNumber}`, [Sale], {headers: this.header})
+  createSalesReceipt(Sale): Observable<any> {
+      return this.http.post(`${this.rootUrl}/sales/v1/receipts?licenseNumber=${FacilityService.facility}`, [Sale], {headers: this.header})
         .pipe(catchError(this.handleError('createSalesReceipt', [])));
   }
 
-  updateSalesReceipt({licenseNumber, Sale}): Observable<any> {
-      return this.http.put(`${this.rootUrl}/sales/v1/receipts?licenseNumber=${licenseNumber}`, [Sale], {headers: this.header})
+  updateSalesReceipt(Sale): Observable<any> {
+      return this.http.put(`${this.rootUrl}/sales/v1/receipts?licenseNumber=${FacilityService.facility}`, [Sale], {headers: this.header})
         .pipe(catchError(this.handleError('updateSalesReceipt', [])));
   }
 
-  voidSalesReceipt({licenseNumber, Sale}): Observable<any> {
-      return this.http.delete(`${this.rootUrl}/sales/v1/receipts/${Sale.Id}?licenseNumber=${licenseNumber}`, {headers: this.header})
+  voidSalesReceipt(Sale): Observable<any> {
+      return this.http.delete(`${this.rootUrl}/sales/v1/receipts/${Sale.Id}?licenseNumber=${FacilityService.facility}`, {headers: this.header})
         .pipe(catchError(this.handleError('voidSalesReceipt', [])));
   }
 
   // lab tests
 
-  recordLabTest({licenseNumber, Test}): Observable<any> {
-      return this.http.post(`${this.rootUrl}/labtests/v1/record?licenseNumber=${licenseNumber}`, [Test], {headers: this.header})
+  recordLabTest(Test): Observable<any> {
+      return this.http.post(`${this.rootUrl}/labtests/v1/record?licenseNumber=${FacilityService.facility}`, [Test], {headers: this.header})
         .pipe(catchError(this.handleError('recordLabTest', [])));
   }
 

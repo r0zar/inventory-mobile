@@ -4,10 +4,6 @@ import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angul
 import { NativeScriptUIDataFormModule } from "nativescript-pro-ui/dataform/angular";
 
 import { SharedModule } from "../shared/shared.module";
-import { TransferDetailEditComponent } from "./transfer-detail-edit/transfer-detail-edit-component";
-import { MyImageAddRemoveComponent } from "./transfer-detail-edit/my-image-add-remove/my-image-add-remove.component";
-import { MyListSelectorModalViewComponent } from "./transfer-detail-edit/my-list-selector/my-list-selector-modal-view.component"; // tslint:disable-line:max-line-length
-import { MyListSelectorComponent } from "./transfer-detail-edit/my-list-selector/my-list-selector.component";
 import { TransferDetailComponent } from "./transfer-detail/transfer-detail.component";
 import { TransferListComponent } from "./transfer-list.component";
 import { TransfersRoutingModule } from "./transfers-routing.module";
@@ -25,13 +21,8 @@ import { TransferService } from "./shared/transfer.service";
     declarations: [
         TransferListComponent,
         TransferDetailComponent,
-        TransferDetailEditComponent,
-        MyListSelectorComponent,
-        MyListSelectorModalViewComponent,
-        MyImageAddRemoveComponent
     ],
     entryComponents: [
-        MyListSelectorModalViewComponent
     ],
     providers: [
         TransferService,

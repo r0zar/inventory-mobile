@@ -54,20 +54,6 @@ export class TransferListComponent implements OnInit {
                 this._isLoading = false;
             });
 
-        /* ***********************************************************
-        * The data is retrieved remotely from FireBase.
-        * The actual data retrieval code is wrapped in a data service.
-        * Check out the service in transfers/shared/transfer.service.ts
-        *************************************************************/
-        // this._transferService.load()
-        //     .finally(() => {
-        //       this._isLoading = false
-        //     })
-        //     .subscribe((transfers: Array<Transfer>) => {
-        //         this._transfers = new ObservableArray(transfers);
-        //         this._isLoading = false;
-        //     });
-
     }
 
     get transfers(): ObservableArray<Transfer> {

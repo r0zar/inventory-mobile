@@ -46,5 +46,9 @@ it shouldn't have any other siblings other than the <ActionBar> component.
               </StackLayout>
           </ng-template>
       </ListView>
+      <GridLayout *ngIf="!harvests.length" class="page page-content" tkMainContent>
+          <Label class="page-icon fa" text="&#xf18c;"></Label>
+          <Label class="page-placeholder" text="No active harvests."></Label>
+      </GridLayout>
     </GridLayout>
 </RadSideDrawer>

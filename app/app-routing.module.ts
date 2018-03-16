@@ -20,10 +20,8 @@ const routes: Routes = [
     { path: "packages", loadChildren: "./packages/packages.module#PackagesModule", canActivate: [AuthGuard] },
     { path: "transfers", loadChildren: "./transfers/transfers.module#TransfersModule", canActivate: [AuthGuard] },
     { path: "settings", loadChildren: "./settings/settings.module#SettingsModule", canActivate: [AuthGuard] },
-    { path: "subscription", loadChildren: "./subscription/subscription.module#SubscriptionModule", canActivate: [AuthGuard] },
     { path: "payment", loadChildren: "./payment/payment.module#PaymentModule", canActivate: [AuthGuard] },
-    { path: "credits", loadChildren: "./credits/credits.module#CreditsModule", canActivate: [AuthGuard] },
-    { path: "cars", loadChildren: "./cars/cars.module#CarsModule", canActivate: [AuthGuard] }
+    { path: "credits", loadChildren: "./credits/credits.module#CreditsModule", canActivate: [AuthGuard] }
 ];
 
 @NgModule({
