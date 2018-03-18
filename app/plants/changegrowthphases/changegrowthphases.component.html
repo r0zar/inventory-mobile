@@ -12,9 +12,17 @@
         <StackLayout class="item-list">
 
           <RadDataForm tkExampleTitle tkToggleNavButton [source]="growthPhaseChange" [isReadOnly]="false">
+            <!-- <TKEntityProperty tkDataFormProperty name="NewTag" [valuesProvider]="tags">
+                <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty> -->
+            <TKEntityProperty tkDataFormProperty name="GrowthPhase" valuesProvider="Vegetative, Flowering">
+                <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor"></TKPropertyEditor>
+            </TKEntityProperty>
 
             <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
               <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+              <TKEntityProperty tkPropertyGroupProperties name="Label"></TKEntityProperty>
+              <TKEntityProperty tkPropertyGroupProperties name="NewTag"></TKEntityProperty>
             </TKPropertyGroup>
           </RadDataForm>
 

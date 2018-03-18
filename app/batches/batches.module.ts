@@ -8,6 +8,7 @@ import { BatchDetailEditComponent } from "./batch-detail-edit/batch-detail-edit-
 import { BatchDetailCreateComponent } from "./batch-detail-create/batch-detail-create-component";
 import { BatchDetailPackageComponent } from "./batch-detail-package/batch-detail-package.component";
 import { BatchDetailGrowthPhaseComponent } from "./batch-detail-growthphase/batch-detail-growthphase.component";
+import { DestroyComponent } from "./destroy/destroy.component";
 import { MyImageAddRemoveComponent } from "./batch-detail-edit/my-image-add-remove/my-image-add-remove.component";
 import { MyListSelectorModalViewComponent } from "./batch-detail-edit/my-list-selector/my-list-selector-modal-view.component"; // tslint:disable-line:max-line-length
 import { MyListSelectorComponent } from "./batch-detail-edit/my-list-selector/my-list-selector.component";
@@ -32,6 +33,7 @@ import { BatchService } from "./shared/batch.service";
         BatchDetailCreateComponent,
         BatchDetailPackageComponent,
         BatchDetailGrowthPhaseComponent,
+        DestroyComponent,
         MyListSelectorComponent,
         MyListSelectorModalViewComponent,
         MyImageAddRemoveComponent

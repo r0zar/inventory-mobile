@@ -56,7 +56,7 @@ export class CreateTestingComponent implements OnInit {
 
     }
 
-    get nounPackage(): Package {
+    get package(): Package {
         return this._package;
     }
 

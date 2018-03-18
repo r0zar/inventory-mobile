@@ -17,9 +17,9 @@ const routes: Routes = [
     { path: "package-detail/:id", component: PackageDetailComponent, canActivate: [AuthGuard] },
     { path: "adjust/:id", component: AdjustComponent, canActivate: [AuthGuard] },
     { path: "changeitem/:id", component: ChangeItemComponent, canActivate: [AuthGuard] },
-    { path: "create/:id", component: CreateComponent, canActivate: [AuthGuard] },
-    { path: "createplantings/:id", component: CreatePlantingsComponent, canActivate: [AuthGuard] },
-    { path: "createtesting/:id", component: CreateTestingComponent, canActivate: [AuthGuard] },
+    { path: "create", component: CreateComponent, canActivate: [AuthGuard] },
+    { path: "createplantings", component: CreatePlantingsComponent, canActivate: [AuthGuard] },
+    { path: "createtesting", component: CreateTestingComponent, canActivate: [AuthGuard] },
     { path: "remediate/:id", component: RemediateComponent, canActivate: [AuthGuard] }
 ];
 

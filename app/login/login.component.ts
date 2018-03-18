@@ -6,6 +6,16 @@ import {RouterExtensions} from "nativescript-angular/router";
 import { Switch } from "ui/switch";
 import * as dialogs from "ui/dialogs";
 
+// this is to fix the soft keyboard on login thing
+import { isAndroid } from "platform";
+import * as app from 'application';
+declare var android: any; //bypass the TS warnings
+if (android) {
+     // prevent the soft keyboard from showing initially when textfields are present
+     app.android.startActivity.getWindow().setSoftInputMode(
+     android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+ }
+
 /* ***********************************************************
 * Before you can navigate to this page from your app, you need to reference this page's module in the
 * global app router module. Add the following object to the global array of routes:
@@ -66,6 +76,8 @@ export class LoginComponent implements OnInit {
           }
         })
         .then(result => {
+          firebase.analytics.logEvent({key: "log_in", parameters: [{key: "email", value: this.email}]})
+            .then(() => console.log("Firebase Analytics event logged"));
           this.routerExtensions.navigate(["/home"], { clearHistory: true })
         })
         .catch(error => {

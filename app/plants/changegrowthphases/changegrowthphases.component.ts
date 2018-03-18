@@ -10,6 +10,8 @@ import { MetrcService } from "../../shared/metrc.service";
 
 import _ = require('lodash');
 
+const tags = require('../../shared/CML17-0000001_plantTags.json')
+
 /* ***********************************************************
 * This is the noun verb component.
 * This component gets the selected data noun, provides options to verb the noun and saves the changes.
@@ -23,6 +25,7 @@ export class ChangeGrowthPhasesComponent implements OnInit {
     private _growthPhaseChange: GrowthPhaseChange;
     private _rooms: any;
     private _isLoading: boolean = false;
+    private tags: any = tags;
 
     constructor(
         private http: HttpClient,
@@ -48,7 +51,7 @@ export class ChangeGrowthPhasesComponent implements OnInit {
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
               this._metrcService.getPlantById(params.id)
-                .subscribe((plant: Plant) => this._growthPhaseChange = new GrowthPhaseChange(plant));
+                .subscribe((plant: Plant) => this._growthPhaseChange = new GrowthPhaseChange(_.extend(plant, {GrowthPhase: 'Flowering'})));
             });
 
     }

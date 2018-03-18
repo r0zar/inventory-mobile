@@ -135,6 +135,15 @@ export class BatchDetailComponent implements OnInit {
 
     actionItem3Tap(): void {
       console.log('destroy batch')
+      this._routerExtensions.navigate(["/batches/destroy", this._batch.Id],
+          {
+              animated: true,
+              transition: {
+                  name: "flipLeft",
+                  duration: 500,
+                  curve: "linear"
+              }
+          });
     }
 
     get batch(): Batch {

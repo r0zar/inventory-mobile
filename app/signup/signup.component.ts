@@ -41,6 +41,8 @@ export class SignupComponent implements OnInit {
             .catch( errorMessage => console.log(errorMessage))
           firebase.sendEmailVerification()
             .catch( error => console.log("Error sending email verification: " + error))
+          firebase.analytics.logEvent({key: "sign_up", parameters: [{key: "email", value: this.email}, {key: "name", value: this.name}]})
+            .then(() => console.log("Firebase Analytics event logged"));
           dialogs.alert({title: "Hey " + name, message: "Your account has been created.", okButtonText: "Nice!"})
             .then( () => this.routerExtensions.navigate(["/home"], { clearHistory: true }))
         })

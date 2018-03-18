@@ -41,14 +41,14 @@ export class Plant {
         this.HarvestedWetWeight = options.HarvestedWetWeight || '';
         this.HarvestCount = Number(options.HarvestCount)
         this.IsOnHold = options.IsOnHold
-        this.PlantedDate = options.PlantedDate || '';
-        this.VegetativeDate = options.VegetativeDate || '';
-        this.FloweringDate = options.FloweringDate || '';
-        this.HarvestedDate = options.HarvestedDate || '';
-        this.DestroyedDate = options.DestroyedDate || '';
-        this.DestroyedNote = options.DestroyedNote || '';
-        this.DestroyedByUserName = options.DestroyedByUserName || '';
-        this.LastModified = options.LastModified || '';
+        this.PlantedDate = options.PlantedDate;
+        this.VegetativeDate = options.VegetativeDate;
+        this.FloweringDate = options.FloweringDate;
+        this.HarvestedDate = options.HarvestedDate;
+        this.DestroyedDate = options.DestroyedDate;
+        this.DestroyedNote = options.DestroyedNote;
+        this.DestroyedByUserName = options.DestroyedByUserName;
+        this.LastModified = options.LastModified;
     }
 }
 
@@ -124,6 +124,7 @@ export class Plantings {
 
 export class Harvest {
     Plant: string;
+    Label: string;
     Weight: number;
     UnitOfWeight: string;
     DryingRoom: string;
@@ -133,7 +134,9 @@ export class Harvest {
     // this constructor was designed to convert Plants
     constructor(options: any) {
       this.Plant = options.Label || '';
+      this.Label = options.Label || '';
       this.Weight = Number(options.Weight);
+      this.UnitOfWeight = options.UnitOfWeight || 'Grams';
       this.DryingRoom = options.DryingRoom || '';
       this.HarvestName = options.HarvestName || '';
       this.ActualDate = options.ActualDate || new Date();

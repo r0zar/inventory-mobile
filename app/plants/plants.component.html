@@ -48,7 +48,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                       </StackLayout>
                   </ng-template>
                 </ListView>
-                <GridLayout *ngIf="!vegetativePlants.length" class="page page-content" tkMainContent>
+                <GridLayout row="1" *ngIf="!vegetativePlants.length" class="page page-content" tkMainContent>
                     <Label class="page-icon fa" text="&#xf18c;"></Label>
                     <Label class="page-placeholder" text="No active vegetative plants."></Label>
                 </GridLayout>
@@ -66,11 +66,10 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                       </StackLayout>
                   </ng-template>
                 </ListView>
-                <GridLayout *ngIf="!floweringPlants.length" class="page page-content" tkMainContent>
+                <GridLayout row="1" *ngIf="!floweringPlants.length" class="page page-content" tkMainContent>
                     <Label class="page-icon fa" text="&#xf1bb;"></Label>
                     <Label class="page-placeholder" text="No active flowering plants."></Label>
                 </GridLayout>
-              </GridLayout>
               </GridLayout>
             </StackLayout>
         </TabView>

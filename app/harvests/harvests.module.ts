@@ -4,9 +4,6 @@ import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angul
 import { NativeScriptUIDataFormModule } from "nativescript-pro-ui/dataform/angular";
 
 import { SharedModule } from "../shared/shared.module";
-import { MyImageAddRemoveComponent } from "./harvest-detail-edit/my-image-add-remove/my-image-add-remove.component";
-import { MyListSelectorModalViewComponent } from "./harvest-detail-edit/my-list-selector/my-list-selector-modal-view.component"; // tslint:disable-line:max-line-length
-import { MyListSelectorComponent } from "./harvest-detail-edit/my-list-selector/my-list-selector.component";
 import { HarvestDetailComponent } from "./harvest-detail/harvest-detail.component";
 import { CreatePackageComponent } from "./createpackage/createpackage.component";
 import { RemoveWasteComponent } from "./removewaste/removewaste.component";
@@ -28,12 +25,8 @@ import { HarvestService } from "./shared/harvest.service";
         HarvestDetailComponent,
         CreatePackageComponent,
         RemoveWasteComponent,
-        MyListSelectorComponent,
-        MyListSelectorModalViewComponent,
-        MyImageAddRemoveComponent
     ],
     entryComponents: [
-        MyListSelectorModalViewComponent
     ],
     providers: [
         HarvestService,

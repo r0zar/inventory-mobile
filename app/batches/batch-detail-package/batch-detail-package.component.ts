@@ -17,8 +17,7 @@ import _ = require('lodash');
 @Component({
     moduleId: module.id,
     selector: "BatchDetailPackage",
-    templateUrl: "./batch-detail-package.component.html",
-    styleUrls: ["../batch-detail-edit/batch-detail-edit.component.scss"]
+    templateUrl: "./batch-detail-package.component.html"
 })
 export class BatchDetailPackageComponent implements OnInit {
     private _batchPackage: BatchPackage;

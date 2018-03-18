@@ -22,6 +22,8 @@ import _ = require('lodash');
 export class CreatePackageComponent implements OnInit {
     private _package: Package;
     private _rooms: any;
+    private _items: any;
+    private _unitsOfWeight: any;
     private _itemCategories: any;
     private _isLoading: boolean = false;
 
@@ -44,11 +46,20 @@ export class CreatePackageComponent implements OnInit {
                 this._rooms = _.map(rooms, 'Name')
             });
 
+        this._metrcService.getItems()
+            .subscribe((items: Array<any>) => {
+                this._items = _.map(items, 'Name')
+            });
+
+        this._metrcService.getUnitsOfMeasure()
+            .subscribe((units: Array<any>) => {
+                this._unitsOfWeight = units
+            });
+
         this._metrcService.getItemCategories()
             .subscribe((itemCategories: Array<any>) => {
                 this._itemCategories = _.map(itemCategories, 'Name')
             });
-
 
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
@@ -64,12 +75,20 @@ export class CreatePackageComponent implements OnInit {
         return this._rooms;
     }
 
+    get items(): any {
+        return this._items;
+    }
+
     get itemCategories(): any {
         return this._itemCategories;
     }
 
     get isLoading(): boolean {
         return this._isLoading;
+    }
+
+    get unitsOfWeight(): any {
+        return _.map(_.filter(this._unitsOfWeight, {QuantityType: 'WeightBased'}), 'Name');
     }
 
     /* ***********************************************************

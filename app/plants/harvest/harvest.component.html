@@ -12,11 +12,26 @@
         <StackLayout class="item-list">
 
           <RadDataForm tkExampleTitle tkToggleNavButton [source]="harvest" [isReadOnly]="false">
+            <TKEntityProperty tkDataFormProperty name="Weight">
+              <TKPropertyEditor tkEntityPropertyEditor type="Decimal"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="UnitOfWeight"  [valuesProvider]="unitsOfWeight">
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="DryingRoom" [valuesProvider]="rooms">
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="ActualDate">
+              <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
 
             <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
-              <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+              <TKEntityProperty tkPropertyGroupProperties name="Plant"></TKEntityProperty>
+              <TKEntityProperty tkPropertyGroupProperties name="Label"></TKEntityProperty>
             </TKPropertyGroup>
           </RadDataForm>
+
+          <Button class="btn btn-primary btn-active" id="button" text="Generate Name" (tap)="onTap()"></Button>
 
         </StackLayout>
     </ScrollView>

@@ -17,8 +17,7 @@ import _ = require('lodash');
 @Component({
     moduleId: module.id,
     selector: "BatchDetailCreate",
-    templateUrl: "./batch-detail-create.component.html",
-    styleUrls: ["../batch-detail-edit/batch-detail-edit.component.scss"]
+    templateUrl: "./batch-detail-create.component.html"
 })
 export class BatchDetailCreateComponent implements OnInit {
     private _batch: Batch;
@@ -91,7 +90,16 @@ export class BatchDetailCreateComponent implements OnInit {
         this._isCreating = true
         this._metrcService.createPlantings(this._batch)
             .finally(() => this._isCreating = false)
-            .subscribe((batch: Batch) => this._routerExtensions.backToPreviousPage());
+            .subscribe((batch: Batch) => this._routerExtensions.navigate(['/batches'],
+                {
+                    animated: true,
+                    transition: {
+                        name: "slideBottom",
+                        duration: 200,
+                        curve: "ease"
+                    }
+                })
+              );
     }
 
     /* ***********************************************************

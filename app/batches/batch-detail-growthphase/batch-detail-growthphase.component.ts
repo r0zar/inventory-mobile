@@ -17,8 +17,7 @@ import _ = require('lodash');
 @Component({
     moduleId: module.id,
     selector: "BatchDetailPackage",
-    templateUrl: "./batch-detail-growthphase.component.html",
-    styleUrls: ["../batch-detail-edit/batch-detail-edit.component.scss"]
+    templateUrl: "./batch-detail-growthphase.component.html"
 })
 export class BatchDetailGrowthPhaseComponent implements OnInit {
     private _batchGrowthPhase: BatchGrowthPhase;
@@ -53,7 +52,7 @@ export class BatchDetailGrowthPhaseComponent implements OnInit {
 
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
-            .forEach((params) => this._batchGrowthPhase = new BatchGrowthPhase({Id: params.id, GrowthDate: new Date()}));
+            .forEach((params) => this._batchGrowthPhase = new BatchGrowthPhase({Id: params.id, GrowthDate: new Date(), GrowthPhase: 'Vegetative'}));
 
     }
 

@@ -6,7 +6,7 @@
         <Label text="Edit" class="action-item"></Label>
     </ActionItem> -->
 </ActionBar>
-<ScrollView class="page" #scrollView (scroll)="onScroll($event, scrollView, topView, fabView, actionItem1, actionItem2, actionItem3, actionItem4)">
+<ScrollView class="page" #scrollView (scroll)="onScroll($event, scrollView, fabView, actionItem1, actionItem2, actionItem3, actionItem4)">
 	<StackLayout>
     <!-- for some reason the paralax is bugging out on JUST packages... -->
 		<!-- <StackLayout #topView height="200" style="background-image: url('~/images/packages.jpg'); background-repeat: no-repeat; background-position: center; background-size: cover;"> -->
@@ -14,10 +14,10 @@
 			<!-- this is the header for collapsing --->
 			<!-- Note: this can be any type of layout you want -->
       <GridLayout rows="0, *">
-        <FAB #actionItem4 row="1" (tap)="actionItem4Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
-        <FAB #actionItem3 row="1" (tap)="actionItem3Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
-        <FAB #actionItem2 row="1" (tap)="actionItem2Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
-        <FAB #actionItem1 row="1" (tap)="actionItem1Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem4 row="1" (tap)="actionItem4Tap()" icon="~/images/correct-symbol.png" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem3 row="1" (tap)="actionItem3Tap()" icon="~/images/font-selection-editor.png" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem2 row="1" (tap)="actionItem2Tap()" icon="~/images/sort-arrows.png" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem1 row="1" (tap)="actionItem1Tap()" icon="~/images/tag.png" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
         <FAB #fabView row="1" (tap)="fabTap(actionItem1, actionItem2, actionItem3, actionItem4)" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB>
       </GridLayout>
 		</StackLayout>

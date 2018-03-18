@@ -23,6 +23,7 @@ import { Page } from "ui/page";
 export class PlantDetailComponent implements OnInit {
     private _plant: Plant;
     private _fabMenuOpen: boolean = false;
+    private isLabeled: boolean = true;
 
     constructor(
         private _metrcService: MetrcService,
@@ -44,7 +45,10 @@ export class PlantDetailComponent implements OnInit {
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
                 this._metrcService.getPlantById(params.id)
-                    .subscribe((plant: Plant) => this._plant = new Plant(plant));
+                    .subscribe((plant: Plant) => {
+                      this._plant = new Plant(plant)
+                      this.isLabeled = plant.Label != null
+                    });
             });
     }
 
@@ -117,16 +121,16 @@ export class PlantDetailComponent implements OnInit {
         actionItem1.animate({ translate: { x: -70, y: 0 } }).then(() => { }, () => { });
         actionItem2.animate({ translate: { x: -50, y: -60 } }).then(() => { }, () => { });
         actionItem3.animate({ translate: { x: -30, y: -120 } }).then(() => { }, () => { });
-        actionItem4.animate({ translate: { x: -140, y: 0 } }).then(() => { }, () => { });
-        actionItem5.animate({ translate: { x: -120, y: -60 } }).then(() => { }, () => { });
-        actionItem6.animate({ translate: { x: -100, y: -120 } }).then(() => { }, () => { });
+        if (this.isLabeled) {actionItem4.animate({ translate: { x: -140, y: 0 } }).then(() => { }, () => { })}
+        if (this.isLabeled) {actionItem5.animate({ translate: { x: -120, y: -60 } }).then(() => { }, () => { })}
+        if (this.isLabeled) {actionItem6.animate({ translate: { x: -100, y: -120 } }).then(() => { }, () => { })}
       } else {
         actionItem1.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
         actionItem2.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
         actionItem3.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
-        actionItem4.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
-        actionItem5.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
-        actionItem6.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
+        if (this.isLabeled) {actionItem4.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { })}
+        if (this.isLabeled) {actionItem5.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { })}
+        if (this.isLabeled) {actionItem6.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { })}
       }
     }
 
@@ -210,6 +214,10 @@ export class PlantDetailComponent implements OnInit {
 
     get plant(): Plant {
         return this._plant;
+    }
+
+    get name(): string {
+      return this._plant.PlantBatchName;
     }
 
     /* ***********************************************************

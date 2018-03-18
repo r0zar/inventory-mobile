@@ -3,13 +3,11 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angular";
 import { NativeScriptUIDataFormModule } from "nativescript-pro-ui/dataform/angular";
 
-import { SharedModule } from "../shared/shared.module";
-import { RoomDetailEditComponent } from "./room-detail-edit/room-detail-edit-component";
-import { MyImageAddRemoveComponent } from "./room-detail-edit/my-image-add-remove/my-image-add-remove.component";
-import { MyListSelectorModalViewComponent } from "./room-detail-edit/my-list-selector/my-list-selector-modal-view.component"; // tslint:disable-line:max-line-length
-import { MyListSelectorComponent } from "./room-detail-edit/my-list-selector/my-list-selector.component";
+import { SharedModule } from "../shared/shared.module";;
 import { RoomDetailComponent } from "./room-detail/room-detail.component";
 import { RoomListComponent } from "./room-list.component";
+import { CreateComponent } from "./create/create.component";
+import { EditComponent } from "./edit/edit.component";
 import { RoomsRoutingModule } from "./rooms-routing.module";
 import { RoomEditService } from "./shared/room-edit.service";
 import { RoomService } from "./shared/room.service";
@@ -25,13 +23,10 @@ import { RoomService } from "./shared/room.service";
     declarations: [
         RoomListComponent,
         RoomDetailComponent,
-        RoomDetailEditComponent,
-        MyListSelectorComponent,
-        MyListSelectorModalViewComponent,
-        MyImageAddRemoveComponent
+        CreateComponent,
+        EditComponent
     ],
     entryComponents: [
-        MyListSelectorModalViewComponent
     ],
     providers: [
         RoomService,

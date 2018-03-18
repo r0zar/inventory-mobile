@@ -75,7 +75,7 @@ export class PackageListComponent implements OnInit {
 
     actionItem1Tap(): void {
       console.log('create package from ingredients/packages')
-      this._routerExtensions.navigate(["/packages/create", this._package.Label],
+      this._routerExtensions.navigate(["/packages/create"],
           {
               animated: true,
               transition: {
@@ -88,7 +88,7 @@ export class PackageListComponent implements OnInit {
 
     actionItem2Tap(): void {
       console.log('create package for testing from ingredients/packages')
-      this._routerExtensions.navigate(["/packages/createtesting", this._package.Label],
+      this._routerExtensions.navigate(["/packages/createtesting"],
           {
               animated: true,
               transition: {
@@ -101,7 +101,7 @@ export class PackageListComponent implements OnInit {
 
     actionItem3Tap(): void {
       console.log('create package of plantings from batch')
-      this._routerExtensions.navigate(["/packages/createplantings", this._package.Label],
+      this._routerExtensions.navigate(["/packages/createplantings"],
           {
               animated: true,
               transition: {

@@ -36,7 +36,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
       <ListView [items]="facilities" (itemTap)="onFacilityItemTap($event)">
           <ng-template let-item="item">
-              <StackLayout [class.odd]="odd" [class.even]="even" [backgroundColor]="item.selected">
+              <StackLayout [class.odd]="odd" [class.even]="even" [backgroundColor]="item.backgroundColor" [color]="item.fontColor">
                 <GridLayout columns="auto, *, 40" rows="auto, auto">
                   <Label col="0" class="m-t-20 m-b-20 m-l-20 fa fa-small" text="&#xf015;"></Label>
                   <Label col="1" class="m-t-20 m-b-20 m-l-20" [text]='item.DisplayName'></Label>

@@ -22,6 +22,8 @@ import _ = require('lodash');
 export class ManicureComponent implements OnInit {
     private _manicure: Harvest;
     private _rooms: any;
+    private plant: Plant;
+    private _unitsOfWeight: any;
     private _isLoading: boolean = false;
 
     constructor(
@@ -43,11 +45,20 @@ export class ManicureComponent implements OnInit {
                 this._rooms = _.map(rooms, 'Name')
             });
 
+        this._metrcService.getUnitsOfMeasure()
+            .subscribe((units: Array<any>) => {
+                this._unitsOfWeight = units
+            });
+
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
               this._metrcService.getPlantById(params.id)
-                .subscribe((plant: Plant) => this._manicure = new Harvest(plant));
+                .subscribe((plant: Plant) => {
+                  this.plant = plant;
+                  this._manicure = new Harvest(plant)
+                  this.onTap()
+                });
             });
 
     }
@@ -63,6 +74,26 @@ export class ManicureComponent implements OnInit {
     get isLoading(): boolean {
         return this._isLoading;
     }
+
+    get unitsOfWeight(): any {
+        return _.map(_.filter(this._unitsOfWeight, {QuantityType: 'WeightBased'}), 'Name');
+    }
+
+    onTap(): void {
+      var adjective = '';
+      var noun = '';
+      this.http.get<any[]>(`https://api.datamuse.com/words?ml=${this.plant.StrainName}`)
+        .subscribe((words: Array<any>) => {
+            adjective = _.capitalize(_.sample(words).word)
+            this._manicure = new Harvest(_.extend(this._manicure, {HarvestName: `${adjective} ${noun}`}))
+        });
+      this.http.get<any[]>(`https://api.datamuse.com/words?ml=harvest`)
+        .subscribe((words: Array<any>) => {
+            noun = _.capitalize(_.sample(words).word)
+            this._manicure = new Harvest(_.extend(this._manicure, {HarvestName: `${adjective} ${noun}`}))
+        });
+    }
+
 
     /* ***********************************************************
     * The verb done button uses the data service to save the updated values of the data noun details.

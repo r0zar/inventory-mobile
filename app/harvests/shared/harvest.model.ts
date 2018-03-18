@@ -66,19 +66,19 @@ export class Package {
 
   constructor(options: any){
     this.Harvest = Number(options.Harvest);
-    this.Room = options.Room;
-    this.Item = options.Item;
+    this.Room = options.Room || '';
+    this.Item = options.Item || '';
     this.Weight = Number(options.Weight);
-    this.UnitOfWeight = options.UnitOfWeight;
-    this.Tag = options.Tag;
-    this.IsProductionBatch = options.IsProductionBatch;
-    this.ProductionBatchNumber = options.ProductionBatchNumber;
-    this.ProductRequiresRemediation = options.ProductRequiresRemediation;
-    this.RemediateProduct = options.RemediateProduct;
-    this.RemediationMethodId = options.RemediationMethodId;
-    this.RemediationDate = options.RemediationDate;
-    this.RemediationSteps = options.RemediationSteps;
-    this.ActualDate = options.ActualDate;
+    this.UnitOfWeight = options.UnitOfWeight || '';
+    this.Tag = options.Tag || '';
+    this.IsProductionBatch = options.IsProductionBatch || false;
+    this.ProductionBatchNumber = options.ProductionBatchNumber || '';
+    this.ProductRequiresRemediation = options.ProductRequiresRemediation || false;
+    this.RemediateProduct = options.RemediateProduct || false;
+    this.RemediationMethodId = options.RemediationMethodId || '';
+    this.RemediationDate = options.RemediationDate || '';
+    this.RemediationSteps = options.RemediationSteps || '';
+    this.ActualDate = options.ActualDate || new Date();
 
   }
 }
@@ -91,9 +91,9 @@ export class Waste {
 
   constructor(options: any){
     this.Id = Number(options.Id);
-    this.UnitOfWeight = options.UnitOfWeight;
+    this.UnitOfWeight = options.UnitOfWeight || '';
     this.WasteWeight = Number(options.WasteWeight);
-    this.ActualDate = options.ActualDate;
+    this.ActualDate = options.ActualDate || new Date();
 
   }
 }

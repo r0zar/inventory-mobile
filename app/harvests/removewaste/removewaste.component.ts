@@ -22,6 +22,7 @@ import _ = require('lodash');
 export class RemoveWasteComponent implements OnInit {
     private _waste: Waste;
     private _rooms: any;
+    private _unitsOfWeight: any;
     private _itemCategories: any;
     private _isLoading: boolean = false;
 
@@ -42,6 +43,11 @@ export class RemoveWasteComponent implements OnInit {
         this._metrcService.getRooms()
             .subscribe((rooms: Array<any>) => {
                 this._rooms = _.map(rooms, 'Name')
+            });
+
+        this._metrcService.getUnitsOfMeasure()
+            .subscribe((units: Array<any>) => {
+                this._unitsOfWeight = units
             });
 
         this._metrcService.getItemCategories()
@@ -70,6 +76,10 @@ export class RemoveWasteComponent implements OnInit {
 
     get isLoading(): boolean {
         return this._isLoading;
+    }
+
+    get unitsOfWeight(): any {
+        return _.map(_.filter(this._unitsOfWeight, {QuantityType: 'WeightBased'}), 'Name');
     }
 
     /* ***********************************************************

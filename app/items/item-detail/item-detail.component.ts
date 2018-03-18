@@ -124,6 +124,10 @@ export class ItemDetailComponent implements OnInit {
         return this._item;
     }
 
+    get isLoading(): boolean {
+        return this._isLoading;
+    }
+
     /* ***********************************************************
     * The back button is essential for a master-detail feature.
     *************************************************************/

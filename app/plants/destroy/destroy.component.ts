@@ -53,7 +53,6 @@ export class DestroyComponent implements OnInit {
     }
 
     get destroy(): Destroy {
-      console.dir(this._destroy)
         return this._destroy;
     }
 
@@ -73,7 +72,16 @@ export class DestroyComponent implements OnInit {
         this._isLoading = true
         this._metrcService.destroyPlants(this._destroy)
             .finally(() => this._isLoading = false)
-            .subscribe(() => this._routerExtensions.backToPreviousPage());
+            .subscribe(() => {
+                this._routerExtensions.navigate(["/plants"],
+                    {
+                        animated: true,
+                        transition: {
+                            name: "fade",
+                            duration: 1000
+                        }
+                    })
+            });
     }
 
     /* ***********************************************************

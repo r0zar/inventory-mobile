@@ -1,7 +1,7 @@
 <ActionBar class="action-bar">
     <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()">
     </NavigationButton>
-    <Label class="action-bar-title" [text]="plant.PlantBatchName" horizontalAlignment="center"></Label>
+    <Label class="action-bar-title" [text]="name" horizontalAlignment="center"></Label>
     <!-- <ActionItem ios.position="right" android.position="right" (tap)="onEditButtonTap()">
         <Label text="Edit" class="action-item"></Label>
     </ActionItem> -->
@@ -12,12 +12,12 @@
 			<!-- this is the header for collapsing --->
 			<!-- Note: this can be any type of layout you want -->
       <GridLayout rows="0, *">
-        <FAB #actionItem6 row="1" (tap)="actionItem6Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
-        <FAB #actionItem5 row="1" (tap)="actionItem5Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
-        <FAB #actionItem4 row="1" (tap)="actionItem4Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
-        <FAB #actionItem3 row="1" (tap)="actionItem3Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
-        <FAB #actionItem2 row="1" (tap)="actionItem2Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
-        <FAB #actionItem1 row="1" (tap)="actionItem1Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem6 row="1" (tap)="actionItem6Tap()" icon="~/images/branch.png" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem5 row="1" (tap)="actionItem5Tap()" icon="~/images/cut.png" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem4 row="1" (tap)="actionItem4Tap()" icon="~/images/code-fork-symbol.png" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem3 row="1" (tap)="actionItem3Tap()" icon="~/images/trash.png" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem2 row="1" (tap)="actionItem2Tap()" icon="~/images/arrow-up.png" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
+        <FAB #actionItem1 row="1" (tap)="actionItem1Tap()" icon="~/images/share-option.png" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>
         <FAB #fabView row="1" (tap)="fabTap(actionItem1, actionItem2, actionItem3, actionItem4, actionItem5, actionItem6)" icon="res://icon" rippleColor="#db7d34" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #ffffff; horizontal-align: right; vertical-align: bottom; "></FAB>
       </GridLayout>
 		</StackLayout>

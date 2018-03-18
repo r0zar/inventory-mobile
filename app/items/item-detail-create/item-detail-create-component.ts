@@ -17,8 +17,7 @@ import _ = require('lodash');
 @Component({
     moduleId: module.id,
     selector: "ItemDetailCreate",
-    templateUrl: "./item-detail-create.component.html",
-    styleUrls: ["../item-detail-edit/item-detail-edit.component.scss"]
+    templateUrl: "./item-detail-create.component.html"
 })
 export class ItemDetailCreateComponent implements OnInit {
     private _item: Item;
@@ -84,16 +83,18 @@ export class ItemDetailCreateComponent implements OnInit {
 
     onTap(): void {
       let item = _.words(this._item.ItemCategory)[0]
+      var adjective = '';
+      var noun = '';
       this.http.get<any[]>(`https://api.datamuse.com/words?rel_jjb=${item}`)
-          .subscribe((words: Array<any>) => {
-              var adjective = _.capitalize(_.sample(words).word)
-              this.http.get<any[]>(`https://api.datamuse.com/words?ml=${this._item.Strain}`)
-                .subscribe((words: Array<any>) => {
-                    var noun = _.capitalize(_.sample(words).word)
-                    this._item.Name = `${adjective} ${noun}`
-                    this._item = new Item(this._item)
-                });
-          });
+        .subscribe((words: Array<any>) => {
+            adjective = _.capitalize(_.sample(words).word)
+            this._item = new Item(_.extend(this._item, {Name: `${adjective} ${noun}`}))
+        });
+      this.http.get<any[]>(`https://api.datamuse.com/words?ml=${this._item.Strain}`)
+        .subscribe((words: Array<any>) => {
+            noun = _.capitalize(_.sample(words).word)
+            this._item = new Item(_.extend(this._item, {Name: `${adjective} ${noun}`}))
+        });
     }
 
     /* ***********************************************************

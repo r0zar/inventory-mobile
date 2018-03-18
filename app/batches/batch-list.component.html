@@ -47,9 +47,8 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                 </StackLayout>
             </ng-template>
         </ListView>
-        <GridLayout *ngIf="!batches.length" class="page page-content" tkMainContent>
+        <GridLayout row="1" *ngIf="!batches.length" class="page page-content" tkMainContent>
             <Label class="page-icon fa" text="&#xf06c;"></Label>
-            <Label class="page-placeholder" text="No active batches."></Label>
             <Label class="page-placeholder" text="Add a new batch to get started."></Label>
         </GridLayout>
         <!-- <FAB #actionItem1 row="1" (tap)="actionItem1Tap()" icon="" rippleColor="#f1f1f1" class="fab-button" style="height: 60; width: 60; margin: 15; background-color: #db7d34; horizontal-align: right; vertical-align: bottom; "></FAB>

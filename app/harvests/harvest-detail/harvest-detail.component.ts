@@ -25,6 +25,8 @@ import { Page } from "ui/page";
 export class HarvestDetailComponent implements OnInit {
     private _harvest: Harvest;
     private _fabMenuOpen: boolean = false;
+    private _isLoading: boolean = false;
+    private isFinished: boolean = false;
 
     constructor(
         private _metrcService: MetrcService,
@@ -46,17 +48,17 @@ export class HarvestDetailComponent implements OnInit {
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
-                const harvestId = params.id;
 
                 //this._harvest = this._harvestService.getHarvestById(harvestId);
-                this._metrcService.getHarvests()
-                    .subscribe((harvests: Array<any>) => {
-                        this._harvest = new Harvest(harvests.find(harvest => harvest.Id == harvestId));
+                this._metrcService.getHarvest(params.id)
+                    .subscribe((harvest: Harvest) => {
+                        this._harvest = new Harvest(harvest);
+                        this.isFinished = this._harvest.FinishedDate ? true : false
                     });
             });
     }
 
-    onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View, fabView: View, actionItem1: View, actionItem2: View, actionItem3: View) {
+    onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View, fabView: View, actionItem1: View, actionItem2: View, actionItem3: View, actionItem4: View) {
         // If the header content is still visiible
         if (scrollView.verticalOffset < 200) {
             const offset = scrollView.verticalOffset / 2;
@@ -68,10 +70,12 @@ export class HarvestDetailComponent implements OnInit {
                   actionItem1.animate({ opacity: 1-offset/50 }).then(() => { }, () => { });
                   actionItem2.animate({ opacity: 1-offset/50 }).then(() => { }, () => { });
                   actionItem3.animate({ opacity: 1-offset/50 }).then(() => { }, () => { });
+                  actionItem4.animate({ opacity: 1-offset/50 }).then(() => { }, () => { });
                 } else {
                   actionItem1.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
                   actionItem2.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
                   actionItem3.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
+                  actionItem4.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
                 }
             } else {
                 // Android, animations are jerky so instead just adjust the position without animation.
@@ -82,6 +86,7 @@ export class HarvestDetailComponent implements OnInit {
                   actionItem1.opacity = 1-offset/50
                   actionItem2.opacity = 1-offset/50
                   actionItem3.opacity = 1-offset/50
+                  actionItem4.opacity = 1-offset/50
                 } else {
                   actionItem1.translateY = Math.floor(-1 * offset);
                   actionItem1.translateX = Math.floor(offset);
@@ -89,21 +94,25 @@ export class HarvestDetailComponent implements OnInit {
                   actionItem2.translateX = Math.floor(offset);
                   actionItem3.translateY = Math.floor(-1 * offset);
                   actionItem3.translateX = Math.floor(offset);
+                  actionItem4.translateY = Math.floor(-1 * offset);
+                  actionItem4.translateX = Math.floor(offset);
                 }
             }
         }
     }
 
-    fabTap(actionItem1: View, actionItem2: View, actionItem3: View): void {
+    fabTap(actionItem1: View, actionItem2: View, actionItem3: View, actionItem4: View): void {
       this._fabMenuOpen = !this._fabMenuOpen
       if (this._fabMenuOpen) {
         actionItem1.animate({ translate: { x: -70, y: 0 } }).then(() => { }, () => { });
         actionItem2.animate({ translate: { x: -50, y: -60 } }).then(() => { }, () => { });
-        actionItem3.animate({ translate: { x: -30, y: -120 } }).then(() => { }, () => { });
+        if (this.isFinished) {actionItem4.animate({ translate: { x: -30, y: -120 } }).then(() => { }, () => { })}
+        else {actionItem3.animate({ translate: { x: -30, y: -120 } }).then(() => { }, () => { })}
       } else {
         actionItem1.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
         actionItem2.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
-        actionItem3.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
+        if (this.isFinished) {actionItem4.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { })}
+        else {actionItem3.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { })}
       }
     }
 
@@ -134,11 +143,25 @@ export class HarvestDetailComponent implements OnInit {
     }
 
     actionItem3Tap(): void {
-      console.log('finish/unfinish harvest')
+      console.log('finish harvest')
+      this._isLoading = true;
+      this._metrcService.finishHarvest({Id: this._harvest.Id, ActualDate: new Date()})
+        .subscribe(() => this._isLoading = false)
+    }
+
+    actionItem4Tap(): void {
+      console.log('unfinish harvest')
+      this._isLoading = true;
+      this._metrcService.unfinishHarvest({Id: this._harvest.Id})
+        .subscribe(() => this._isLoading = false)
     }
 
     get harvest(): Harvest {
         return this._harvest;
+    }
+
+    get isLoading(): boolean {
+        return this._isLoading;
     }
 
     /* ***********************************************************

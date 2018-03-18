@@ -64,7 +64,7 @@ export class BatchPackage {
       this.Item = options.Item || '';
       this.Tag = options.Tag || '';
       this.Count = Number(options.Count);
-      this.ActualDate = options.ActualDate || '';
+      this.ActualDate = options.ActualDate || new Date();
   }
 }
 
@@ -83,7 +83,7 @@ export class BatchGrowthPhase {
       this.GrowthPhase = options.GrowthPhase || '';
       this.StartingTag = options.StartingTag || '';
       this.Count = Number(options.Count);
-      this.GrowthDate = options.GrowthDate || '';
+      this.GrowthDate = options.GrowthDate || new Date();
   }
 }
 
@@ -98,6 +98,6 @@ export class BatchDestroy {
       this.Id = Number(options.Id);
       this.ReasonNote = options.ReasonNote || '';
       this.Count = Number(options.Count);
-      this.ActualDate = options.ActualDate || '';
+      this.ActualDate = options.ActualDate || new Date();
   }
 }

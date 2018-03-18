@@ -100,7 +100,7 @@ export class RoomListComponent implements OnInit {
     }
 
     onAddButtonTap(): void {
-        this._routerExtensions.navigate(["/rooms/room-detail-edit", _.random(0, 999999999999999)],
+        this._routerExtensions.navigate(["/rooms/create"],
             {
                 animated: true,
                 transition: {

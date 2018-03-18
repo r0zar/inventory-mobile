@@ -45,7 +45,7 @@ export class HarvestListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
-        this._metrcService.getHarvests()
+        this._metrcService.getHarvests('active')
             .finally(() => {
               this._isLoading = false
             })

@@ -8,6 +8,7 @@ import { BatchDetailEditComponent } from "./batch-detail-edit/batch-detail-edit-
 import { BatchDetailCreateComponent } from "./batch-detail-create/batch-detail-create-component";
 import { BatchDetailPackageComponent } from "./batch-detail-package/batch-detail-package.component";
 import { BatchDetailGrowthPhaseComponent } from "./batch-detail-growthphase/batch-detail-growthphase.component";
+import { DestroyComponent } from "./destroy/destroy.component";
 import { AuthGuard } from "../shared/auth-guard.service";
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
     { path: "batch-detail-edit/:id", component: BatchDetailEditComponent, canActivate: [AuthGuard] },
     { path: "batch-detail-create", component: BatchDetailCreateComponent, canActivate: [AuthGuard] },
     { path: "batch-detail-package/:id", component: BatchDetailPackageComponent, canActivate: [AuthGuard] },
-    { path: "batch-detail-growthphase/:id", component: BatchDetailGrowthPhaseComponent, canActivate: [AuthGuard] }
+    { path: "batch-detail-growthphase/:id", component: BatchDetailGrowthPhaseComponent, canActivate: [AuthGuard] },
+    { path: "destroy/:id", component: DestroyComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

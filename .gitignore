@@ -16,3 +16,4 @@ typings/
 report/
 test-results.xml
 .tmp_backup/
+fabric.json
