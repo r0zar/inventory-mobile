@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    xmlns:android="http://schemas.android.com/apk/res/android" package="__PACKAGE__" android:versionCode="10103" android:versionName="1.1.3">
+    xmlns:android="http://schemas.android.com/apk/res/android" package="__PACKAGE__" android:versionCode="10104" android:versionName="1.1.4">
     <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" />
     <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="__APILEVEL__" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -18,12 +18,12 @@
         <activity android:name="com.tns.ErrorReportActivity" />
         <service android:name="org.nativescript.plugins.firebase.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service android:name="org.nativescript.plugins.firebase.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
     </application>
