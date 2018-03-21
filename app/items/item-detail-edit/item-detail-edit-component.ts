@@ -19,16 +19,10 @@ import _ = require('lodash');
 @Component({
     moduleId: module.id,
     selector: "ItemDetailEdit",
-    templateUrl: "./item-detail-edit.component.html",
-    styleUrls: ["./item-detail-edit.component.scss"]
+    templateUrl: "./item-detail-edit.component.html"
 })
 export class ItemDetailEditComponent implements OnInit {
     private _item: Item;
-    private _itemClassOptions: Array<string> = [];
-    private _itemDoorOptions: Array<number> = [];
-    private _itemSeatOptions: Array<string> = [];
-    private _itemTransmissionOptions: Array<string> = [];
-    private _isItemImageDirty: boolean = false;
     private _isUpdating: boolean = false;
     private _strains: any;
     private _unitsOfMeasure: any;
@@ -101,31 +95,6 @@ export class ItemDetailEditComponent implements OnInit {
 
     get unitsOfMeasure(): any {
         return this._unitsOfMeasure;
-    }
-
-    get itemClassOptions(): Array<string> {
-        return this._itemClassOptions;
-    }
-
-    get itemDoorOptions(): Array<number> {
-        return this._itemDoorOptions;
-    }
-
-    get itemSeatOptions(): Array<string> {
-        return this._itemSeatOptions;
-    }
-
-    get itemTransmissionOptions(): Array<string> {
-        return this._itemTransmissionOptions;
-    }
-
-    get itemImageUrl(): string {
-        return this._item.imageUrl;
-    }
-
-    set itemImageUrl(value: string) {
-        this._item.imageUrl = value;
-        this._isItemImageDirty = true;
     }
 
     /* ***********************************************************

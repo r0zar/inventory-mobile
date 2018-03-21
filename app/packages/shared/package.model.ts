@@ -85,9 +85,10 @@ export class Adjustment {
   constructor(options: any){
     this.Label = options.Label;
     this.Quantity = Number(options.Quantity);
-    this.UnitOfMeasure = options.UnitOfMeasure;
-    this.AdjustmentReason = options.AdjustmentReason;
-    this.ReasonNote = options.ReasonNote;
+    this.UnitOfMeasure = options.UnitOfMeasure || 'Grams';
+    this.AdjustmentReason = options.AdjustmentReason || '';
+    this.AdjustmentDate = options.AdjustmentDate || new Date();
+    this.ReasonNote = options.ReasonNote || '';
   }
 }
 
@@ -96,8 +97,8 @@ export class Change {
   Item: string;
 
   constructor(options: any){
-    this.Label = options.Label;
-    this.Item = options.Item;
+    this.Label = options.Label || '';
+    this.Item = options.Item || '';
   }
 }
 
@@ -112,14 +113,14 @@ export class Plantings {
   PlantedDate: string;
 
   constructor(options: any){
-    this.PackageLabel = options.PackageLabel;
+    this.PackageLabel = options.PackageLabel || '';
     this.PackageAdjustmentAmount = Number(options.PackageAdjustmentAmount);
-    this.PackageAdjustmentUnitOfMeasureName = options.PackageAdjustmentUnitOfMeasureName;
-    this.PlantBatchName = options.PlantBatchName;
-    this.PlantBatchType = options.PlantBatchType;
+    this.PackageAdjustmentUnitOfMeasureName = options.PackageAdjustmentUnitOfMeasureName || 'Grams';
+    this.PlantBatchName = options.PlantBatchName || '';
+    this.PlantBatchType = options.PlantBatchType || 'Clone';
     this.PlantCount = Number(options.PlantCount);
-    this.StrainName = options.StrainName;
-    this.PlantedDate = options.PlantedDate;
+    this.StrainName = options.StrainName || '';
+    this.PlantedDate = options.PlantedDate || new Date();
   }
 }
 
@@ -130,9 +131,33 @@ export class Remediation {
   RemediationSteps: string;
 
   constructor(options: any){
-    this.PackageLabel = options.PackageLabel;
-    this.RemediationMethodName = options.RemediationMethodName;
-    this.RemediationDate = options.RemediationDate;
-    this.RemediationSteps = options.RemediationSteps;
+    this.PackageLabel = options.PackageLabel || '';
+    this.RemediationMethodName = options.RemediationMethodName || '';
+    this.RemediationDate = options.RemediationDate || new Date();
+    this.RemediationSteps = options.RemediationSteps || '';
+  }
+}
+
+export class Create {
+  Tag: string;
+  Room: string;
+  Item: string;
+  Quantity: number;
+  UnitOfMeasure: string;
+  IsProductionBatch: boolean;
+  ProductionBatchNumber: string;
+  ProductRequiresRemediation: boolean;
+  ActualDate: string;
+
+  constructor(options: any){
+    this.Tag = options.Label || '';
+    this.Room = options.Room || '';
+    this.Item = options.Item || '';
+    this.Quantity = Number(options.Quantity);
+    this.UnitOfMeasure = options.UnitOfMeasure || 'Grams';
+    this.IsProductionBatch = options.IsProductionBatch || false;
+    this.ProductionBatchNumber = options.ProductionBatchNumber || '';
+    this.ProductRequiresRemediation = options.ProductRequiresRemediation || false;
+    this.ActualDate = options.ActualDate || new Date();
   }
 }

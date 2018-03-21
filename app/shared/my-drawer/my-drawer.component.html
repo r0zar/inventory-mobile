@@ -15,17 +15,17 @@ Feel free to customize layouts and components to change how your app drawer look
             </MyDrawerItem>
             <MyDrawerItem title="Facilities" route="/facilities" icon="&#xf015;" [isSelected]="isPageSelected('Facilities')">
             </MyDrawerItem>
-            <MyDrawerItem title="Rooms" route="/rooms" icon="&#xf248;" [isSelected]="isPageSelected('Rooms')">
+            <MyDrawerItem *ngIf="cultivation" title="Rooms" route="/rooms" icon="&#xf248;" [isSelected]="isPageSelected('Rooms')">
             </MyDrawerItem>
             <MyDrawerItem title="Strains" route="/strains" icon="&#xf226;" [isSelected]="isPageSelected('Strains')">
             </MyDrawerItem>
             <MyDrawerItem title="Items" route="/items" icon="&#xf02c;" [isSelected]="isPageSelected('Items')">
             </MyDrawerItem>
-            <MyDrawerItem title="Plant Batches" route="/batches" icon="&#xf06c;" [isSelected]="isPageSelected('Plant Batches')">
+            <MyDrawerItem *ngIf="cultivation" title="Plant Batches" route="/batches" icon="&#xf06c;" [isSelected]="isPageSelected('Plant Batches')">
             </MyDrawerItem>
-            <MyDrawerItem title="Mature Plants" route="/plants" icon="&#xf1bb;" [isSelected]="isPageSelected('Mature Plants')">
+            <MyDrawerItem *ngIf="cultivation" title="Mature Plants" route="/plants" icon="&#xf1bb;" [isSelected]="isPageSelected('Mature Plants')">
             </MyDrawerItem>
-            <MyDrawerItem title="Harvests" route="/harvests" icon="&#xf18c;" [isSelected]="isPageSelected('Harvests')">
+            <MyDrawerItem *ngIf="cultivation" title="Harvests" route="/harvests" icon="&#xf18c;" [isSelected]="isPageSelected('Harvests')">
             </MyDrawerItem>
             <MyDrawerItem title="Packages" route="/packages" icon="&#xf187;" [isSelected]="isPageSelected('Packages')">
             </MyDrawerItem>

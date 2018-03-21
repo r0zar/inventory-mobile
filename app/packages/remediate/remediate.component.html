@@ -12,9 +12,12 @@
         <StackLayout class="item-list">
 
           <RadDataForm tkExampleTitle tkToggleNavButton [source]="remediation" [isReadOnly]="false">
+            <TKEntityProperty tkDataFormProperty name="RemediationDate">
+              <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
 
             <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
-              <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+              <TKEntityProperty tkPropertyGroupProperties name="PackageLabel"></TKEntityProperty>
             </TKPropertyGroup>
           </RadDataForm>
 

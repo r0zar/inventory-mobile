@@ -7,6 +7,7 @@ import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
 import { Plantings } from "../shared/package.model";
 import { MetrcService } from "../../shared/metrc.service";
+import { BarcodeScanner } from 'nativescript-barcodescanner';
 
 import _ = require('lodash');
 
@@ -22,10 +23,13 @@ import _ = require('lodash');
 export class CreatePlantingsComponent implements OnInit {
     private _plantings: Plantings;
     private _rooms: any;
-    private _itemCategories: any;
+    private _batches: any;
+    private _unitsOfWeight: any;
+    private _strains: any;
     private _isLoading: boolean = false;
 
     constructor(
+        private barcodeScanner: BarcodeScanner,
         private http: HttpClient,
         private _metrcService: MetrcService,
         private _pageRoute: PageRoute,
@@ -44,15 +48,37 @@ export class CreatePlantingsComponent implements OnInit {
                 this._rooms = _.map(rooms, 'Name')
             });
 
-        this._metrcService.getItemCategories()
-            .subscribe((itemCategories: Array<any>) => {
-                this._itemCategories = _.map(itemCategories, 'Name')
+        this._metrcService.getBatches()
+            .subscribe((batches: Array<any>) => {
+                this._batches = _.map(batches, 'Name')
             });
 
+        this._metrcService.getUnitsOfMeasure()
+            .subscribe((units: Array<any>) => {
+                this._unitsOfWeight = units
+            });
+
+        this._metrcService.getStrains()
+            .subscribe((strains: Array<any>) => {
+                this._strains = _.map(strains, 'Name')
+            });
 
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
-            .forEach((params) => this._plantings = new Plantings({PackageLabel: params.id}));
+            .forEach((params) => {
+              let adjective = ''
+              let noun = ''
+              this.http.get<any[]>("https://api.datamuse.com/words?rel_jjb=marijuana")
+                .subscribe((words: Array<any>) => {
+                    adjective = _.capitalize(_.sample(words).word)
+                    this._plantings = new Plantings({PackageLabel: params.id, PlantBatchName: `${adjective} ${noun}`})
+                });
+              this.http.get<any[]>("https://api.datamuse.com/words?rel_jja=grass")
+                .subscribe((words: Array<any>) => {
+                    noun = _.capitalize(_.sample(words).word)
+                    this._plantings = new Plantings({PackageLabel: params.id, PlantBatchName: `${adjective} ${noun}`})
+                });
+            });
 
     }
 
@@ -64,12 +90,57 @@ export class CreatePlantingsComponent implements OnInit {
         return this._rooms;
     }
 
-    get itemCategories(): any {
-        return this._itemCategories;
+    get batches(): any {
+        return this._batches;
+    }
+
+    get unitsOfWeight(): any {
+        return _.map(_.filter(this._unitsOfWeight, {QuantityType: 'WeightBased'}), 'Name');
+    }
+
+    get strains(): any {
+        return this._strains;
     }
 
     get isLoading(): boolean {
         return this._isLoading;
+    }
+
+    onScanTap(): void {
+      var scanner = this.barcodeScanner;
+      scanner.available()
+        .then(() => {
+          scanner.hasCameraPermission()
+            .then(granted => {
+              if (granted) {
+                this.barcode(scanner)
+              } else {
+                scanner.requestCameraPermission()
+                  .then(granted => {
+                    return granted ? this.barcode(scanner) : null
+                  })
+              }
+            })
+
+        })
+    }
+
+    barcode(scanner: BarcodeScanner): void {
+      scanner.scan({
+        message: "Scan the new package RFID tag.",
+        orientation: 'landscape',
+        formats: "CODE_128",
+        torchOn: true,
+        showTorchButton: true,
+        openSettingsIfPermissionWasPreviouslyDenied: true,
+        resultDisplayDuration: 500,
+        closeCallback: () => { console.log("Scanner closed"); }, // invoked when the scanner was closed
+        reportDuplicates: true // which is the default
+      })
+      .then(result => {
+        this._plantings.PackageLabel = result.text
+      })
+      .catch(error => console.log("No scan: " + error))
     }
 
     /* ***********************************************************

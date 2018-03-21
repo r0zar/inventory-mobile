@@ -37,7 +37,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
 
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
       <GridLayout rows="0, *">
-        <ListView row="1" [items]="batches" (itemTap)="onBatchItemTap($event)">
+        <RadListView row="1" [items]="batches" (itemTap)="onBatchItemTap($event)" pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiated($event)">
             <ng-template let-item="item">
                 <StackLayout [class.odd]="odd" [class.even]="even">
                   <GridLayout columns="auto, *" rows="auto, auto">
@@ -46,7 +46,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                   </GridLayout>
                 </StackLayout>
             </ng-template>
-        </ListView>
+        </RadListView>
         <GridLayout row="1" *ngIf="!batches.length" class="page page-content" tkMainContent>
             <Label class="page-icon fa" text="&#xf06c;"></Label>
             <Label class="page-placeholder" text="Add a new batch to get started."></Label>

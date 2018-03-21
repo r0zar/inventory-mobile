@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { Component, OnInit, ViewChild, Input, ElementRef } from "@angular/core";
 import { ObservableArray } from "data/observable-array";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ListViewEventData } from "nativescript-pro-ui/listview";
@@ -9,6 +9,7 @@ import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 import { Package } from "./shared/package.model";
 import { PackageService } from "./shared/package.service";
 import { MetrcService } from "../shared/metrc.service";
+import { Data } from "../shared/data.service";
 
 import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
 import { View } from 'tns-core-modules/ui/core/view';
@@ -29,6 +30,9 @@ export class PackageListComponent implements OnInit {
     * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
     *************************************************************/
     @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
+    @ViewChild("fabView") fabView: ElementRef;
+    @ViewChild("actionItem1") actionItem1: ElementRef;
+    @ViewChild("actionItem2") actionItem2: ElementRef;
     private _package: Package;
     private _fabMenuOpen: boolean = false;
     private _sideDrawerTransition: DrawerTransitionBase;
@@ -39,6 +43,7 @@ export class PackageListComponent implements OnInit {
         private _metrcService: MetrcService,
         private _packageService: PackageService,
         private _routerExtensions: RouterExtensions,
+        private data: Data,
     ){}
 
 
@@ -46,30 +51,32 @@ export class PackageListComponent implements OnInit {
     * Use the sideDrawerTransition property to change the open/close animation of the drawer.
     *************************************************************/
     ngOnInit(): void {
+        let fabView = <View>this.fabView.nativeElement;
+        fabView.opacity = 0
+        let actionItem1 = <View>this.actionItem1.nativeElement;
+        actionItem1.opacity = 0
+        let actionItem2 = <View>this.actionItem2.nativeElement;
+        actionItem2.opacity = 0
+
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
-        this._metrcService.getPackages()
-            .finally(() => {
-              this._isLoading = false
-            })
-            .subscribe((packages: Array<Package>) => {
-                this._packages = new ObservableArray(packages);
-                this._isLoading = false;
-            });
+        this._metrcService.getPackages('active')
+          .subscribe((packages: Array<Package>) => {
+              this._packages = new ObservableArray(packages);
+              this._isLoading = false;
+          });
 
     }
 
-    fabTap(actionItem1: View, actionItem2: View, actionItem3: View): void {
+    fabTap(actionItem1: View, actionItem2: View): void {
       this._fabMenuOpen = !this._fabMenuOpen
       if (this._fabMenuOpen) {
         actionItem1.animate({ translate: { x: -70, y: 0 } }).then(() => { }, () => { });
         actionItem2.animate({ translate: { x: -50, y: -60 } }).then(() => { }, () => { });
-        actionItem3.animate({ translate: { x: -30, y: -120 } }).then(() => { }, () => { });
       } else {
         actionItem1.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
         actionItem2.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
-        actionItem3.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
       }
     }
 
@@ -99,19 +106,6 @@ export class PackageListComponent implements OnInit {
           });
     }
 
-    actionItem3Tap(): void {
-      console.log('create package of plantings from batch')
-      this._routerExtensions.navigate(["/packages/createplantings"],
-          {
-              animated: true,
-              transition: {
-                  name: "flipLeft",
-                  duration: 500,
-                  curve: "linear"
-              }
-          });
-    }
-
     get packages(): ObservableArray<Package> {
         return this._packages;
     }
@@ -119,6 +113,43 @@ export class PackageListComponent implements OnInit {
     get isLoading(): boolean {
         return this._isLoading;
     }
+
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this._metrcService.getPackages('active')
+            .subscribe((packages: Array<Package>) => {
+                this._packages = new ObservableArray(packages);
+                args.object.notifyPullToRefreshFinished();
+            });
+    }
+
+    public onItemSelected(args: ListViewEventData, fabView: View, actionItem1: View, actionItem2: View) {
+        this.data.storage = _.map(args.object.getSelectedItems(), 'Label')
+
+        if (this.data.storage.length) {
+          fabView.opacity = 1
+          actionItem1.opacity = 1
+          actionItem2.opacity = 1
+        } else {
+          fabView.opacity = 0
+          actionItem1.opacity = 0
+          actionItem2.opacity = 0
+        }
+    }
+
+    public onItemDeselected(args: ListViewEventData, fabView: View, actionItem1: View, actionItem2: View) {
+        this.data.storage = _.map(args.object.getSelectedItems(), 'Label')
+
+        if (this.data.storage.length) {
+          fabView.opacity = 1
+          actionItem1.opacity = 1
+          actionItem2.opacity = 1
+        } else {
+          fabView.opacity = 0
+          actionItem1.opacity = 0
+          actionItem2.opacity = 0
+        }
+    }
+
 
     /* ***********************************************************
     * Use the "itemTap" event handler of the <RadListView> to navigate to the
@@ -139,19 +170,6 @@ export class PackageListComponent implements OnInit {
                 curve: "ease"
             }
         });
-    }
-
-    onAddButtonTap(): void {
-        this._routerExtensions.navigate(["/packages/package-detail-edit", _.random(0, 999999999999999)],
-            {
-                animated: true,
-                transition: {
-                    name: "slideTop",
-                    duration: 200,
-                    curve: "ease"
-                }
-            });
-
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {

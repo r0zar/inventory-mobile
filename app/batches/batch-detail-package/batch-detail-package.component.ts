@@ -7,6 +7,7 @@ import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
 import { Batch, BatchPackage } from "../shared/batch.model";
 import { MetrcService } from "../../shared/metrc.service";
+import { BarcodeScanner } from 'nativescript-barcodescanner';
 
 import _ = require('lodash');
 
@@ -26,6 +27,7 @@ export class BatchDetailPackageComponent implements OnInit {
     private _isCreating: boolean = false;
 
     constructor(
+        private barcodeScanner: BarcodeScanner,
         private http: HttpClient,
         private _metrcService: MetrcService,
         private _pageRoute: PageRoute,
@@ -70,6 +72,41 @@ export class BatchDetailPackageComponent implements OnInit {
 
     get isCreating(): boolean {
         return this._isCreating;
+    }
+
+    onScanTap(): void {
+      var scanner = this.barcodeScanner;
+      scanner.available()
+        .then(() => {
+          scanner.hasCameraPermission()
+            .then(granted => {
+              if (granted) {
+                this.barcode(scanner)
+              } else {
+                scanner.requestCameraPermission()
+                  .then(granted => {
+                    return granted ? this.barcode(scanner) : null
+                  })
+              }
+            })
+
+        })
+    }
+
+    barcode(scanner: BarcodeScanner): void {
+      scanner.scan({
+        message: "Scan the new package RFID tag.",
+        orientation: 'landscape',
+        formats: "CODE_128",
+        torchOn: true,
+        showTorchButton: true,
+        openSettingsIfPermissionWasPreviouslyDenied: true,
+        resultDisplayDuration: 500,
+        closeCallback: () => { console.log("Scanner closed"); }, // invoked when the scanner was closed
+        reportDuplicates: true // which is the default
+      })
+      .then(result => this._batchPackage.Tag = result.text)
+      .catch(error => console.log("No scan: " + error))
     }
 
     /* ***********************************************************

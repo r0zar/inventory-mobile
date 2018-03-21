@@ -78,6 +78,17 @@ export class FacilityListComponent implements OnInit {
         return this._isLoading;
     }
 
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this._metrcService.getFacilities()
+            .subscribe((facilities: Array<Facility>) => {
+                let f = _.map(facilities, facility => {
+                  return (facility.License.Number == FacilityService.facility) ? _.assign(facility, {backgroundColor: '#7a4116', fontColor: 'white'}) : facility
+                })
+                this._facilities = new ObservableArray(facilities);
+                args.object.notifyPullToRefreshFinished();
+            });
+    }
+
     /* ***********************************************************
     * Use the "itemTap" event handler of the <RadListView> to navigate to the
     * item details page. Retrieve a reference for the data item (the id) and pass it

@@ -12,9 +12,21 @@
         <StackLayout class="item-list">
 
           <RadDataForm tkExampleTitle tkToggleNavButton [source]="adjustment" [isReadOnly]="false">
+            <TKEntityProperty tkDataFormProperty name="Quantity" displayName="Quantity net change" [valuesProvider]="items">
+              <TKPropertyEditor tkEntityPropertyEditor type="Decimal"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="UnitOfMeasure" [valuesProvider]="unitsOfWeight">
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="AdjustmentReason" valuesProvider="Package Display Sample, Enforcement Testing, Free Medicinal Cannabis Goods, Incorrect Quantity, Mandated Destruction, Non-Metrc User Transfer, On-Site Testing, Over Pulled , Oversold, Plants Unpacked, Scale Variance, Spoilage, Theft, Under Pulled , Undersold, Voluntary Surrender, Waste (Unusable Product), Weight Change Due to Moisture">
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="AdjustmentDate">
+              <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
 
             <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
-              <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+              <TKEntityProperty tkPropertyGroupProperties name="Label"></TKEntityProperty>
             </TKPropertyGroup>
           </RadDataForm>
 

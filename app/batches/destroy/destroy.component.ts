@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
-import { alert } from "ui/dialogs";;
+import { alert } from "ui/dialogs";
 import { EventData } from "data/observable";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
 

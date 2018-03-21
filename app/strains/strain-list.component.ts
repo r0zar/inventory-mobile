@@ -64,6 +64,14 @@ export class StrainListComponent implements OnInit {
         return this._isLoading;
     }
 
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this._metrcService.getStrains()
+            .subscribe((strains: Array<Strain>) => {
+                this._strains = new ObservableArray(strains);
+                args.object.notifyPullToRefreshFinished();
+            });
+    }
+
     /* ***********************************************************
     * Use the "itemTap" event handler of the <RadListView> to navigate to the
     * strain details page. Retrieve a reference for the data strain (the id) and pass it

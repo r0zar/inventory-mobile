@@ -78,6 +78,14 @@ export class RoomListComponent implements OnInit {
         return this._isLoading;
     }
 
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this._metrcService.getRooms()
+            .subscribe((rooms: Array<Room>) => {
+                this._rooms = new ObservableArray(rooms);
+                args.object.notifyPullToRefreshFinished();
+            });
+    }
+
     /* ***********************************************************
     * Use the "itemTap" event handler of the <RadListView> to navigate to the
     * room details page. Retrieve a reference for the data room (the id) and pass it

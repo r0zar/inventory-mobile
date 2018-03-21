@@ -37,7 +37,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
             -->
             <StackLayout *tabItem="{title: 'Vegetative', iconSource: getIconSource('vegetative')}">
               <GridLayout rows="0, *">
-                <ListView row="1" [items]="vegetativePlants" (itemTap)="onPlantsItemTap($event)">
+                <RadListView row="1" [items]="vegetativePlants" (itemTap)="onPlantsItemTap($event)" pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiated1($event)">
                   <ng-template let-item="item">
                       <StackLayout [class.odd]="odd" [class.even]="even">
                         <GridLayout columns="auto, *, 70" rows="auto, auto">
@@ -47,7 +47,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                         </GridLayout>
                       </StackLayout>
                   </ng-template>
-                </ListView>
+                </RadListView>
                 <GridLayout row="1" *ngIf="!vegetativePlants.length" class="page page-content" tkMainContent>
                     <Label class="page-icon fa" text="&#xf18c;"></Label>
                     <Label class="page-placeholder" text="No active vegetative plants."></Label>
@@ -56,7 +56,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
             </StackLayout>
             <StackLayout *tabItem="{title: 'Flowering', iconSource: getIconSource('flowering')}">
               <GridLayout rows="0, *">
-                <ListView row="1" [items]="floweringPlants" (itemTap)="onPlantsItemTap($event)">
+                <RadListView row="1" [items]="floweringPlants" (itemTap)="onPlantsItemTap($event)" pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiated2($event)">
                   <ng-template let-item="item">
                       <StackLayout [class.odd]="odd" [class.even]="even">
                         <GridLayout columns="auto, *" rows="auto, auto">
@@ -65,7 +65,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                         </GridLayout>
                       </StackLayout>
                   </ng-template>
-                </ListView>
+                </RadListView>
                 <GridLayout row="1" *ngIf="!floweringPlants.length" class="page page-content" tkMainContent>
                     <Label class="page-icon fa" text="&#xf1bb;"></Label>
                     <Label class="page-placeholder" text="No active flowering plants."></Label>

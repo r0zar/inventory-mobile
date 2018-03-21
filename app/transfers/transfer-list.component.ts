@@ -64,6 +64,14 @@ export class TransferListComponent implements OnInit {
         return this._isLoading;
     }
 
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this._metrcService.getTransfers()
+            .subscribe((transfers: Array<Transfer>) => {
+                this._transfers = new ObservableArray(transfers);
+                args.object.notifyPullToRefreshFinished();
+            });
+    }
+
     /* ***********************************************************
     * Use the "itemTap" event handler of the <RadListView> to navigate to the
     * item details page. Retrieve a reference for the data item (the id) and pass it

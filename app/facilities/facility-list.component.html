@@ -34,7 +34,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     <GridLayout class="page page-content" tkMainContent>
 
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-      <ListView [items]="facilities" (itemTap)="onFacilityItemTap($event)">
+      <RadListView [items]="facilities" (itemTap)="onFacilityItemTap($event)" pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiated($event)">
           <ng-template let-item="item">
               <StackLayout [class.odd]="odd" [class.even]="even" [backgroundColor]="item.backgroundColor" [color]="item.fontColor">
                 <GridLayout columns="auto, *, 40" rows="auto, auto">
@@ -44,6 +44,6 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                 </GridLayout>
               </StackLayout>
           </ng-template>
-      </ListView>
+      </RadListView>
     </GridLayout>
 </RadSideDrawer>

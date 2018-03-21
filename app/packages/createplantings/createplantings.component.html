@@ -12,11 +12,31 @@
         <StackLayout class="item-list">
 
           <RadDataForm tkExampleTitle tkToggleNavButton [source]="plantings" [isReadOnly]="false">
+            <TKEntityProperty tkDataFormProperty name="PackageAdjustmentAmount">
+              <TKPropertyEditor tkEntityPropertyEditor type="Decimal"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="PackageAdjustmentUnitOfMeasureName"  [valuesProvider]="unitsOfWeight">
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="PlantBatchType"  valuesProvider="Seed, Clone">
+              <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="PlantCount">
+              <TKPropertyEditor tkEntityPropertyEditor type="Number"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="StrainName"  [valuesProvider]="strains">
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="PlantedDate">
+              <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
 
             <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
-              <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+              <TKEntityProperty tkPropertyGroupProperties name="PackageLabel"></TKEntityProperty>
             </TKPropertyGroup>
           </RadDataForm>
+
+          <Button class="btn btn-primary btn-active fa" id="button" text="&#xf02a; Scan Tag" (tap)="onScanTap()"></Button>
 
         </StackLayout>
     </ScrollView>

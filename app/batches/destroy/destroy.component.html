@@ -12,6 +12,9 @@
         <StackLayout class="item-list">
 
           <RadDataForm tkExampleTitle tkToggleNavButton [source]="destroy" [isReadOnly]="false">
+            <TKEntityProperty tkDataFormProperty name="ActualDate">
+                <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
 
             <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
               <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>

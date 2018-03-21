@@ -36,7 +36,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
 
 
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-      <ListView [items]="strains" (itemTap)="onStrainItemTap($event)">
+      <RadListView [items]="strains" (itemTap)="onStrainItemTap($event)" pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiated($event)">
           <ng-template let-item="item">
               <StackLayout [class.odd]="odd" [class.even]="even">
                 <GridLayout columns="auto, *" rows="auto, auto">
@@ -45,7 +45,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                 </GridLayout>
               </StackLayout>
           </ng-template>
-      </ListView>
+      </RadListView>
       <GridLayout *ngIf="!strains.length" class="page page-content" tkMainContent>
           <Label class="page-icon fa-s" text="&#xf471;"></Label>
           <Label class="page-placeholder" text="No defined strains."></Label>

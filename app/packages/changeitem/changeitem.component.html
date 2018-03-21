@@ -12,9 +12,13 @@
         <StackLayout class="item-list">
 
           <RadDataForm tkExampleTitle tkToggleNavButton [source]="change" [isReadOnly]="false">
+            <TKEntityProperty tkDataFormProperty name="Item" [valuesProvider]="items">
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
 
             <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
               <TKEntityProperty tkPropertyGroupProperties name="Id"></TKEntityProperty>
+              <TKEntityProperty tkPropertyGroupProperties name="Label"></TKEntityProperty>
             </TKPropertyGroup>
           </RadDataForm>
 

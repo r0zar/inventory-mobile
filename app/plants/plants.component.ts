@@ -82,39 +82,21 @@ export class PlantsComponent implements OnInit {
         return this._isLoading;
     }
 
-    // onScanBarcodeTap(): void {
-    //   var scanner = this.barcodeScanner;
-    //   scanner.available().then(() => {
-    //     scanner.hasCameraPermission().then((granted) => {
-    //       if (!granted) {
-    //         scanner.requestCameraPermission()
-    //       } else {
-    //         var count = 0;
-    //         scanner.scan({
-    //             formats: "CODE_128",
-    //             continuousScanCallback: (result) => {
-    //               count++;
-    //               console.log(result.format + ": " + result.text + " (count: " + count + ")");
-    //               if (count === 3) {
-    //                 scanner.stop();
-    //               }
-    //             },
-    //             closeCallback: () => { console.log("Scanner closed"); }, // invoked when the scanner was closed
-    //             reportDuplicates: false // which is the default
-    //           }).then(
-    //               () => {
-    //                 console.log("We're now reporting scan results in 'continuousScanCallback'");
-    //               },
-    //               (error) => {
-    //                 console.log("No scan: " + error);
-    //               }
-    //           )
-    //       }
-    //     })
-    //
-    //   })
-    //
-    // }
+    public onPullToRefreshInitiated1(args: ListViewEventData) {
+        this._metrcService.getVegetativePlants()
+            .subscribe((plants: Array<Plant>) => {
+                this._vegetativePlants = new ObservableArray(plants);
+                args.object.notifyPullToRefreshFinished();
+            });
+    }
+
+    public onPullToRefreshInitiated2(args: ListViewEventData) {
+        this._metrcService.getFloweringPlants()
+            .subscribe((plants: Array<Plant>) => {
+                this._floweringPlants = new ObservableArray(plants);
+                args.object.notifyPullToRefreshFinished();
+            });
+    }
 
     onPlantsItemTap(args: ListViewEventData): void {
         const tappedItemItem = args.view.bindingContext;

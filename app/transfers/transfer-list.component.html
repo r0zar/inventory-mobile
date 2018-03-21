@@ -34,7 +34,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     <GridLayout class="page page-content" tkMainContent>
 
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-      <ListView [items]="transfers" (itemTap)="onTransferItemTap($event)">
+      <RadListView [items]="transfers" (itemTap)="onTransferItemTap($event)" pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiated($event)">
           <ng-template let-item="item">
               <StackLayout [class.odd]="odd" [class.even]="even">
                 <GridLayout columns="auto, *, 40" rows="auto, auto">
@@ -44,7 +44,7 @@ it shouldn't have any other siblings other than the <ActionBar> component.
                 </GridLayout>
               </StackLayout>
           </ng-template>
-      </ListView>
+      </RadListView>
       <GridLayout *ngIf="!transfers.length" class="page page-content" tkMainContent>
           <Label class="page-icon fa" text="&#xf0d1;"></Label>
           <Label class="page-placeholder" text="No active transfers."></Label>

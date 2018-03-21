@@ -12,6 +12,15 @@
         <StackLayout class="item-list">
 
           <RadDataForm tkExampleTitle tkToggleNavButton [source]="createPlantings" [isReadOnly]="false">
+            <TKEntityProperty tkDataFormProperty name="PlantBatchType" valuesProvider="Seed, Clone">
+              <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="PlantCount">
+              <TKPropertyEditor tkEntityPropertyEditor type="Number"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="ActualDate">
+              <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
 
             <TKPropertyGroup tkDataFormGroups collapsible="true" name="Hidden" hidden="true">
               <TKEntityProperty tkPropertyGroupProperties name="PlantLabel"></TKEntityProperty>

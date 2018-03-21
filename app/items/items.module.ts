@@ -6,9 +6,6 @@ import { NativeScriptUIDataFormModule } from "nativescript-pro-ui/dataform/angul
 import { SharedModule } from "../shared/shared.module";
 import { ItemDetailEditComponent } from "./item-detail-edit/item-detail-edit-component";
 import { ItemDetailCreateComponent } from "./item-detail-create/item-detail-create-component";
-import { MyImageAddRemoveComponent } from "./item-detail-edit/my-image-add-remove/my-image-add-remove.component";
-import { MyListSelectorModalViewComponent } from "./item-detail-edit/my-list-selector/my-list-selector-modal-view.component"; // tslint:disable-line:max-line-length
-import { MyListSelectorComponent } from "./item-detail-edit/my-list-selector/my-list-selector.component";
 import { ItemDetailComponent } from "./item-detail/item-detail.component";
 import { ItemListComponent } from "./item-list.component";
 import { ItemsRoutingModule } from "./items-routing.module";
@@ -28,12 +25,8 @@ import { ItemService } from "./shared/item.service";
         ItemDetailComponent,
         ItemDetailEditComponent,
         ItemDetailCreateComponent,
-        MyListSelectorComponent,
-        MyListSelectorModalViewComponent,
-        MyImageAddRemoveComponent
     ],
     entryComponents: [
-        MyListSelectorModalViewComponent
     ],
     providers: [
         ItemService,

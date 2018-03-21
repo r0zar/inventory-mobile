@@ -17,6 +17,7 @@ import { BatchListComponent } from "./batch-list.component";
 import { BatchesRoutingModule } from "./batches-routing.module";
 import { BatchEditService } from "./shared/batch-edit.service";
 import { BatchService } from "./shared/batch.service";
+import { BarcodeScanner } from 'nativescript-barcodescanner';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { BatchService } from "./shared/batch.service";
     ],
     providers: [
         BatchService,
-        BatchEditService
+        BatchEditService,
+        BarcodeScanner
     ],
     schemas: [
         NO_ERRORS_SCHEMA

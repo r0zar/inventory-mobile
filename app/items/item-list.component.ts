@@ -65,6 +65,14 @@ export class ItemListComponent implements OnInit {
         return this._isLoading;
     }
 
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this._metrcService.getItems()
+            .subscribe((items: Array<Item>) => {
+                this._items = new ObservableArray(items);
+                args.object.notifyPullToRefreshFinished();
+            });
+    }
+
     /* ***********************************************************
     * Use the "itemTap" event handler of the <RadListView> to navigate to the
     * item details page. Retrieve a reference for the data item (the id) and pass it

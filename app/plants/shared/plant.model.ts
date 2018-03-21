@@ -61,7 +61,7 @@ export class Move {
     constructor(options: any) {
       this.Id = Number(options.Id);
       this.Label = options.Label || '';
-      this.Room = options.Room || '';
+      this.Room = options.RoomName || '';
       this.ActualDate = options.ActualDate || new Date();
     }
 
@@ -81,7 +81,7 @@ export class GrowthPhaseChange {
       this.Label = options.Label || '';
       this.NewTag = options.Label || '';
       this.GrowthPhase = options.GrowthPhase || '';
-      this.NewRoom = options.NewRoom || '';
+      this.NewRoom = options.RoomName || '';
       this.GrowthDate = options.GrowthDate || new Date();
     }
 
@@ -114,7 +114,7 @@ export class Plantings {
     constructor(options: any) {
       this.PlantLabel = options.Label || '';
       this.PlantBatchName = options.PlantBatchName || '';
-      this.PlantBatchType = options.PlantBatchType || '';
+      this.PlantBatchType = options.PlantBatchType || 'Clone';
       this.PlantCount = Number(options.PlantCount);
       this.StrainName = options.StrainName || '';
       this.ActualDate = options.ActualDate || new Date();
@@ -137,7 +137,7 @@ export class Harvest {
       this.Label = options.Label || '';
       this.Weight = Number(options.Weight);
       this.UnitOfWeight = options.UnitOfWeight || 'Grams';
-      this.DryingRoom = options.DryingRoom || '';
+      this.DryingRoom = options.DryingRoom || options.RoomName || '';
       this.HarvestName = options.HarvestName || '';
       this.ActualDate = options.ActualDate || new Date();
     }

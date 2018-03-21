@@ -5,8 +5,10 @@ import { alert } from "ui/dialogs";;
 import { EventData } from "data/observable";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
-import { Package } from "../shared/package.model";
+import { Package, Create } from "../shared/package.model";
 import { MetrcService } from "../../shared/metrc.service";
+import { Data } from "../../shared/data.service";
+import { BarcodeScanner } from 'nativescript-barcodescanner';
 
 import _ = require('lodash');
 
@@ -20,16 +22,20 @@ import _ = require('lodash');
     templateUrl: "./createtesting.component.html"
 })
 export class CreateTestingComponent implements OnInit {
-    private _package: Package;
+    private _package: Create;
     private _rooms: any;
+    private _items: any;
+    private _unitsOfWeight: any;
     private _itemCategories: any;
     private _isLoading: boolean = false;
 
     constructor(
+        private barcodeScanner: BarcodeScanner,
         private http: HttpClient,
         private _metrcService: MetrcService,
         private _pageRoute: PageRoute,
-        private _routerExtensions: RouterExtensions
+        private _routerExtensions: RouterExtensions,
+        private data: Data
     ) { }
 
     /* ***********************************************************
@@ -44,19 +50,16 @@ export class CreateTestingComponent implements OnInit {
                 this._rooms = _.map(rooms, 'Name')
             });
 
-        this._metrcService.getItemCategories()
-            .subscribe((itemCategories: Array<any>) => {
-                this._itemCategories = _.map(itemCategories, 'Name')
+        this._metrcService.getItems()
+            .subscribe((items: Array<any>) => {
+                this._items = _.map(items, 'Name')
             });
 
-
-        this._pageRoute.activatedRoute
-            .switchMap((activatedRoute) => activatedRoute.params)
-            .forEach((params) => this._package = new Package({Tag: params.id}));
+        this._package = new Create({})
 
     }
 
-    get package(): Package {
+    get package(): Create {
         return this._package;
     }
 
@@ -64,12 +67,53 @@ export class CreateTestingComponent implements OnInit {
         return this._rooms;
     }
 
-    get itemCategories(): any {
-        return this._itemCategories;
+    get items(): any {
+        return this._items;
+    }
+
+    get unitsOfWeight(): any {
+        return _.map(_.filter(this._unitsOfWeight, {QuantityType: 'WeightBased'}), 'Name');
     }
 
     get isLoading(): boolean {
         return this._isLoading;
+    }
+
+    onScanTap(): void {
+      var scanner = this.barcodeScanner;
+      scanner.available()
+        .then(() => {
+          scanner.hasCameraPermission()
+            .then(granted => {
+              if (granted) {
+                this.barcode(scanner)
+              } else {
+                scanner.requestCameraPermission()
+                  .then(granted => {
+                    return granted ? this.barcode(scanner) : null
+                  })
+              }
+            })
+
+        })
+    }
+
+    barcode(scanner: BarcodeScanner): void {
+      scanner.scan({
+        message: "Scan the new package RFID tag.",
+        orientation: 'landscape',
+        formats: "CODE_128",
+        torchOn: true,
+        showTorchButton: true,
+        openSettingsIfPermissionWasPreviouslyDenied: true,
+        resultDisplayDuration: 500,
+        closeCallback: () => { console.log("Scanner closed"); }, // invoked when the scanner was closed
+        reportDuplicates: true // which is the default
+      })
+      .then(result => {
+        this._package.Tag = result.text
+      })
+      .catch(error => console.log("No scan: " + error))
     }
 
     /* ***********************************************************
@@ -77,10 +121,16 @@ export class CreateTestingComponent implements OnInit {
     * Check out the data service as nounes/shared/noun.service.ts
     *************************************************************/
     onDoneButtonTap(): void {
-        this._isLoading = true
-        this._metrcService.createLabTestPackage(this._package)
-            .finally(() => this._isLoading = false)
-            .subscribe(() => this._routerExtensions.backToPreviousPage());
+      let sourcePackages = {
+        Ingredients: _.map(this.data.storage, Label => {
+          return {Package: Label, Quantity: this._package.Quantity, UnitOfMeasure: this._package.UnitOfMeasure}
+        })
+      }
+      this._package.Quantity = this._package.Quantity * this.data.storage.length
+      this._isLoading = true
+      this._metrcService.createPackageFromPackages(_.extend(this._package, sourcePackages))
+          .finally(() => this._isLoading = false)
+          .subscribe(() => this._routerExtensions.backToPreviousPage());
     }
 
     /* ***********************************************************

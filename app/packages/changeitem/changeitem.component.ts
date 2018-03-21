@@ -5,7 +5,7 @@ import { alert } from "ui/dialogs";;
 import { EventData } from "data/observable";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
-import { Change } from "../shared/package.model";
+import { Package, Change } from "../shared/package.model";
 import { MetrcService } from "../../shared/metrc.service";
 
 import _ = require('lodash');
@@ -22,6 +22,7 @@ import _ = require('lodash');
 export class ChangeItemComponent implements OnInit {
     private _change: Change;
     private _rooms: any;
+    private _items: any;
     private _itemCategories: any;
     private _isLoading: boolean = false;
 
@@ -44,6 +45,11 @@ export class ChangeItemComponent implements OnInit {
                 this._rooms = _.map(rooms, 'Name')
             });
 
+        this._metrcService.getItems()
+            .subscribe((items: Array<any>) => {
+                this._items = _.map(items, 'Name')
+            });
+
         this._metrcService.getItemCategories()
             .subscribe((itemCategories: Array<any>) => {
                 this._itemCategories = _.map(itemCategories, 'Name')
@@ -52,7 +58,10 @@ export class ChangeItemComponent implements OnInit {
 
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
-            .forEach((params) => this._change = new Change({Label: params.id}));
+            .forEach((params) => {
+              this._metrcService.getPackage(params.id)
+                  .subscribe((p: Package) => this._change = new Change({Label: params.id, Item: p.ProductName}));
+            });
 
     }
 
@@ -62,6 +71,10 @@ export class ChangeItemComponent implements OnInit {
 
     get rooms(): any {
         return this._rooms;
+    }
+
+    get items(): any {
+        return this._items;
     }
 
     get itemCategories(): any {

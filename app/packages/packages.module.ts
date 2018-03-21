@@ -16,6 +16,8 @@ import { RemediateComponent } from "./remediate/remediate.component";
 
 import { PackageEditService } from "./shared/package-edit.service";
 import { PackageService } from "./shared/package.service";
+import { Data } from "../shared/data.service";
+import { BarcodeScanner } from 'nativescript-barcodescanner';
 
 @NgModule({
     imports: [
@@ -39,7 +41,9 @@ import { PackageService } from "./shared/package.service";
     ],
     providers: [
         PackageService,
-        PackageEditService
+        PackageEditService,
+        Data,
+        BarcodeScanner
     ],
     schemas: [
         NO_ERRORS_SCHEMA

@@ -47,13 +47,8 @@ export class PackageDetailComponent implements OnInit {
         this._pageRoute.activatedRoute
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
-                const packageId = params.id;
-
-                //this._package = this._packageService.getPackageById(packageId);
-                this._metrcService.getPackages()
-                    .subscribe((packages: Array<any>) => {
-                        this._package = new Package(packages.find(p => p.Id == packageId));
-                    });
+                this._metrcService.getPackage(params.id)
+                    .subscribe((p: Package) => this._package = new Package(p));
             });
     }
 
@@ -64,7 +59,8 @@ export class PackageDetailComponent implements OnInit {
       actionItem1: View,
       actionItem2: View,
       actionItem3: View,
-      actionItem4: View) {
+      actionItem4: View,
+      actionItem5: View) {
         // If the header content is still visiible
         if (scrollView.verticalOffset < 200) {
             const offset = scrollView.verticalOffset / 2;
@@ -77,11 +73,13 @@ export class PackageDetailComponent implements OnInit {
                   actionItem2.animate({ opacity: 1-offset/50 }).then(() => { }, () => { });
                   actionItem3.animate({ opacity: 1-offset/50 }).then(() => { }, () => { });
                   actionItem4.animate({ opacity: 1-offset/50 }).then(() => { }, () => { });
+                  actionItem5.animate({ opacity: 1-offset/50 }).then(() => { }, () => { });
                 } else {
                   actionItem1.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
                   actionItem2.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
                   actionItem3.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
                   actionItem4.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
+                  actionItem5.animate({ translate: { x: offset, y: -1 * offset } }).then(() => { }, () => { });
                 }
             } else {
                 // Android, animations are jerky so instead just adjust the position without animation.
@@ -93,6 +91,7 @@ export class PackageDetailComponent implements OnInit {
                   actionItem2.opacity = 1-offset/50
                   actionItem3.opacity = 1-offset/50
                   actionItem4.opacity = 1-offset/50
+                  actionItem5.opacity = 1-offset/50
                 } else {
                   actionItem1.translateY = Math.floor(-1 * offset);
                   actionItem1.translateX = Math.floor(offset);
@@ -102,23 +101,27 @@ export class PackageDetailComponent implements OnInit {
                   actionItem3.translateX = Math.floor(offset);
                   actionItem4.translateY = Math.floor(-1 * offset);
                   actionItem4.translateX = Math.floor(offset);
+                  actionItem5.translateY = Math.floor(-1 * offset);
+                  actionItem5.translateX = Math.floor(offset);
                 }
             }
         }
     }
 
-    fabTap(actionItem1: View, actionItem2: View, actionItem3: View, actionItem4: View): void {
+    fabTap(actionItem1: View, actionItem2: View, actionItem3: View, actionItem4: View, actionItem5: View): void {
       this._fabMenuOpen = !this._fabMenuOpen
       if (this._fabMenuOpen) {
         actionItem1.animate({ translate: { x: -70, y: 0 } }).then(() => { }, () => { });
         actionItem2.animate({ translate: { x: -50, y: -60 } }).then(() => { }, () => { });
         actionItem3.animate({ translate: { x: -30, y: -120 } }).then(() => { }, () => { });
         actionItem4.animate({ translate: { x: -140, y: 0 } }).then(() => { }, () => { });
+        if (this._package.PackageType == 'ImmaturePlant') {actionItem5.animate({ translate: { x: -120, y: -60 } }).then(() => { }, () => { })}
       } else {
         actionItem1.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
         actionItem2.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
         actionItem3.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
         actionItem4.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
+        actionItem5.animate({ translate: { x: 0, y: 0 } }).then(() => { }, () => { });
       }
     }
 
@@ -167,6 +170,21 @@ export class PackageDetailComponent implements OnInit {
 
     actionItem4Tap(): void {
       console.log('finish/unfinish package')
+      this._metrcService.finishPackage({Label: this._package.Label, ActualDate: new Date()})
+        .subscribe(() => {})
+    }
+
+    actionItem5Tap(): void {
+      console.log('create plantings from package')
+      this._routerExtensions.navigate(["/packages/createplantings", this._package.Label],
+          {
+              animated: true,
+              transition: {
+                  name: "flipLeft",
+                  duration: 500,
+                  curve: "linear"
+              }
+          });
     }
 
     /* ***********************************************************

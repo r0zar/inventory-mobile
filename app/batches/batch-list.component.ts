@@ -92,6 +92,14 @@ export class BatchListComponent implements OnInit {
         return this._isLoading;
     }
 
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this._metrcService.getBatches()
+            .subscribe((batches: Array<Batch>) => {
+                this._batches = new ObservableArray(batches);
+                args.object.notifyPullToRefreshFinished();
+            });
+    }
+
     /* ***********************************************************
     * Use the "itemTap" event handler of the <RadListView> to navigate to the
     * batch details page. Retrieve a reference for the data batch (the id) and pass it

@@ -32,6 +32,7 @@
     "nativescript-imagepicker": "~4.0.1",
     "nativescript-plugin-firebase": "~5.0.5",
     "nativescript-pro-ui": "~3.3.0",
+    "nativescript-purchase": "^2.0.0",
     "nativescript-theme-core": "~1.0.4",
     "random-words": "^1.0.0",
     "reflect-metadata": "~0.1.10",
@@ -64,5 +65,5 @@
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-sources": "~1.1.0"
   },
-  "author": "Ross Ragsdale"
+  "author": "KipoTrac, Inc."
 }

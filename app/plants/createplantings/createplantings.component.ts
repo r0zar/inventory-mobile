@@ -47,7 +47,20 @@ export class CreatePlantingsComponent implements OnInit {
             .switchMap((activatedRoute) => activatedRoute.params)
             .forEach((params) => {
               this._metrcService.getPlantById(params.id)
-                .subscribe((plant: Plant) => this._plantings = new Plantings(plant));
+                .subscribe((plant: Plant) => {
+                  let adjective = ''
+                  let noun = ''
+                  this.http.get<any[]>("https://api.datamuse.com/words?rel_jjb=marijuana")
+                    .subscribe((words: Array<any>) => {
+                        adjective = _.capitalize(_.sample(words).word)
+                        this._plantings = new Plantings({Label: plant.Label, PlantBatchName: `${adjective} ${noun}`, StrainName: plant.StrainName})
+                    });
+                  this.http.get<any[]>("https://api.datamuse.com/words?rel_jja=grass")
+                    .subscribe((words: Array<any>) => {
+                        noun = _.capitalize(_.sample(words).word)
+                        this._plantings = new Plantings({Label: plant.Label, PlantBatchName: `${adjective} ${noun}`, StrainName: plant.StrainName})
+                    });
+                });
             });
 
     }
@@ -70,7 +83,7 @@ export class CreatePlantingsComponent implements OnInit {
     *************************************************************/
     onDoneButtonTap(): void {
         this._isLoading = true
-        this._metrcService.createPlantings(this._plantings)
+        this._metrcService.createClones(this._plantings)
             .finally(() => this._isLoading = false)
             .subscribe(() => this._routerExtensions.backToPreviousPage());
     }

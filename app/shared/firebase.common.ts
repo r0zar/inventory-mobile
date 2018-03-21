@@ -14,10 +14,18 @@ import { AuthService } from "./auth.service";
 * will stop working.
 *************************************************************/
 firebase.init({
+    onMessageReceivedCallback: (message: any) => {
+      console.log(`Title: ${message.title}`);
+      console.log(`Body: ${message.body}`);
+      // if your server passed a custom property called 'foo', then do this:
+      console.log(`Value of 'foo': ${message.data.foo}`);
+    },
+    onPushTokenReceivedCallback: function(token) {
+      console.log("Firebase push token: " + token);
+    },
     persist: false,
     storageBucket: Config.firebaseBucket,
     onAuthStateChanged: (data: any) => {
-      console.log(JSON.stringify(data))
       if (data.loggedIn) {
         AuthService.token = data.user.uid;
       }

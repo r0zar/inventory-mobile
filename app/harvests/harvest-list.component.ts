@@ -78,6 +78,14 @@ export class HarvestListComponent implements OnInit {
         return this._isLoading;
     }
 
+    public onPullToRefreshInitiated(args: ListViewEventData) {
+        this._metrcService.getHarvests('active')
+            .subscribe((harvests: Array<Harvest>) => {
+                this._harvests = new ObservableArray(harvests);
+                args.object.notifyPullToRefreshFinished();
+            });
+    }
+
     /* ***********************************************************
     * Use the "itemTap" event handler of the <RadListView> to navigate to the
     * harvest details page. Retrieve a reference for the data harvest (the id) and pass it

@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import firebase = require("nativescript-plugin-firebase");
+import { FacilityService } from "../../facilities/shared/facility.service";
+
+import _ = require('lodash');
 
 /* ***********************************************************
 * Keep data that is displayed in your app drawer in the MyDrawer component class.
@@ -14,12 +17,14 @@ import firebase = require("nativescript-plugin-firebase");
 export class MyDrawerComponent implements OnInit {
     name: string;
     email: string;
+    cultivation: boolean = false;
     /* ***********************************************************
     * The "selectedPage" is a component input property.
     * It is used to pass the current page title from the containing page component.
     * You can check how it is used in the "isPageSelected" function below.
     *************************************************************/
     @Input() selectedPage: string;
+
 
     ngOnInit(): void {
         /* ***********************************************************
@@ -31,6 +36,15 @@ export class MyDrawerComponent implements OnInit {
             this.email = user.email
           })
           .catch(error => console.log("Trouble in paradise: " + error));
+
+        if (
+          _.includes(FacilityService.licenseType, 'Microbusiness') ||
+          _.includes(FacilityService.licenseType, 'M-Medium Mixed-Light')
+        ) {
+          this.cultivation = true;
+        } else {
+          this.cultivation = false;
+        }
     }
 
     /* ***********************************************************

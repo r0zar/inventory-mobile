@@ -11,23 +11,31 @@ export class Item {
     StrainId: number;
     Strain: string;
     StrainName: string;
-    imageUrl: string;
-    imageStoragePath: string;
+    UnitThcContent: number;
+    UnitThcContentUnitOfMeasureName: string;
+    UnitVolume: number;
+    UnitVolumeUnitOfMeasureName: string;
+    UnitWeight: number;
+    UnitWeightUnitOfMeasureName: string;
 
     constructor(options: any) {
         this.Id = Number(options.Id);
         this.Name = options.Name || '';
-        this.ItemCategory = options.ItemCategory || '';
+        this.ItemCategory = options.ProductCategoryName || '';
         this.ProductCategoryName = options.ProductCategoryName || '';
         this.ProductCategoryType = options.ProductCategoryType || '';
         this.QuantityType = options.QuantityType || '';
         this.DefaultLabTestingState = Number(options.DefaultLabTestingState);
-        this.UnitOfMeasure = options.UnitOfMeasure || '';
+        this.UnitOfMeasure = options.UnitOfMeasureName || '';
         this.UnitOfMeasureName = options.UnitOfMeasureName || '';
         this.StrainId = Number(options.StrainId);
-        this.Strain = options.Strain || '';
+        this.Strain = options.StrainName || '';
         this.StrainName = options.StrainName || '';
-        this.imageUrl = options.imageUrl;
-        this.imageStoragePath = options.imageStoragePath;
+        this.UnitThcContent =  Number(options.UnitThcContent);
+        this.UnitThcContentUnitOfMeasureName = options.UnitThcContentUnitOfMeasureName || '';
+        this.UnitVolume = Number(options.UnitVolume);
+        this.UnitVolumeUnitOfMeasureName = options.UnitVolumeUnitOfMeasureName || '';
+        this.UnitWeight = Number(options.UnitWeight);
+        this.UnitWeightUnitOfMeasureName = options.UnitWeightUnitOfMeasureName || '';
     }
 }

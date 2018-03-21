@@ -6,12 +6,16 @@ import { Facility } from "../shared/facility.model";
 import { FacilityService } from "../shared/facility.service";
 import { MetrcService } from "../../shared/metrc.service";
 
+import firebase = require("nativescript-plugin-firebase");
+import { alert } from "ui/dialogs";
+
 import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
 import { Image } from 'tns-core-modules/ui/image';
 import { screen } from 'platform';
 import { View } from 'tns-core-modules/ui/core/view';
 import { Page } from "ui/page";
 
+import _ = require('lodash');
 //import { Room } from "../../rooms/shared/room.model";
 
 /* ***********************************************************
@@ -26,6 +30,7 @@ import { Page } from "ui/page";
 })
 export class FacilityDetailComponent implements OnInit {
     private _facility: Facility;
+    private firstTime: boolean = false;
 
     constructor(
         private _metrcService: MetrcService,
@@ -60,6 +65,15 @@ export class FacilityDetailComponent implements OnInit {
                         this._facility.selected = (this._facility.LicenseNumber == FacilityService.facility) ? 'orange' : 'gray'
                     });
             });
+
+
+        firebase.getCurrentUser()
+          .then(user => firebase.getValue("/users/" + user.uid))
+          .then(user => FacilityService.facility = user.value)
+          .catch(error => {
+            alert({title: 'Woh- Looks great!', message: 'This is your facility!\nClick the star on the right to select it.\nAll the work we\'ll do from here onward will be for this facility.\nLet\'s get started!', okButtonText: "Got it"})
+            this.firstTime = true;
+          })
     }
 
     onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View, fabView: View) {
@@ -82,7 +96,13 @@ export class FacilityDetailComponent implements OnInit {
 
     fabTap(): void {
       FacilityService.facility = this._facility.LicenseNumber
+      FacilityService.licenseType = this._facility.LicenseType
       this._facility.selected = 'orange'
+      let cultivator = _.includes(FacilityService.licenseType, 'Microbusiness') || _.includes(FacilityService.licenseType, 'M-Medium Mixed-Light')
+      if (this.firstTime && cultivator) {
+        alert({title: 'Nice Job!', message: 'Now that you\'ve selected a facility, we need to set up the rooms for it.\nThis should only take a second.', okButtonText: "Let's go"})
+          .then(() => this._routerExtensions.navigate(['/rooms']))
+      }
     }
 
     get facility(): Facility {

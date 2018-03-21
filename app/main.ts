@@ -10,4 +10,7 @@ import { AppModule } from "./app.module";
 *************************************************************/
 import "./shared/firebase.common";
 
+import {enableProdMode} from '@angular/core';
+enableProdMode();
+
 platformNativeScriptDynamic().bootstrapModule(AppModule);

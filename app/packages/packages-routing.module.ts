@@ -18,7 +18,7 @@ const routes: Routes = [
     { path: "adjust/:id", component: AdjustComponent, canActivate: [AuthGuard] },
     { path: "changeitem/:id", component: ChangeItemComponent, canActivate: [AuthGuard] },
     { path: "create", component: CreateComponent, canActivate: [AuthGuard] },
-    { path: "createplantings", component: CreatePlantingsComponent, canActivate: [AuthGuard] },
+    { path: "createplantings/:id", component: CreatePlantingsComponent, canActivate: [AuthGuard] },
     { path: "createtesting", component: CreateTestingComponent, canActivate: [AuthGuard] },
     { path: "remediate/:id", component: RemediateComponent, canActivate: [AuthGuard] }
 ];
