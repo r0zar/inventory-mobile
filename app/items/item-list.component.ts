@@ -25,12 +25,10 @@ export class ItemListComponent implements OnInit {
     * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
     *************************************************************/
     @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
-
     private _sideDrawerTransition: DrawerTransitionBase;
-
     private _isLoading: boolean = false;
-
     private _items: ObservableArray<Item> = new ObservableArray<Item>([]);
+    private uid: string;
 
     constructor (
         private _itemService: ItemService,
@@ -46,14 +44,23 @@ export class ItemListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
-        this._metrcService.getItems()
-            .finally(() => {
-              this._isLoading = false
-            })
-            .subscribe((items: Array<Item>) => {
-                this._items = new ObservableArray(items);
-                this._isLoading = false;
-            });
+        // this is for creating unique ids in the sandbox
+        firebase.getCurrentUser()
+          .then(user => this.uid = user.uid)
+          .then(() => {
+
+            // main rooms lookup logic
+            this._metrcService.getItems()
+                .subscribe((items: Array<Item>) => {
+
+                    // this is for creating unique ids in the sandbox
+                    items = _.filter(items, item => _.includes(item.Name, this.uid))
+                    _.forEach(items, item => {item.Name = item.Name.replace(this.uid, '')})
+
+                    this._items = new ObservableArray(items);
+                    this._isLoading = false;
+                })
+          })
 
     }
 
@@ -66,11 +73,19 @@ export class ItemListComponent implements OnInit {
     }
 
     public onPullToRefreshInitiated(args: ListViewEventData) {
+        // main rooms lookup logic
         this._metrcService.getItems()
             .subscribe((items: Array<Item>) => {
+
+                // this is for creating unique ids in the sandbox
+                items = _.filter(items, item => _.includes(item.Name, this.uid))
+                _.forEach(items, item => {item.Name = item.Name.replace(this.uid, '')})
+
                 this._items = new ObservableArray(items);
+                this._isLoading = false;
                 args.object.notifyPullToRefreshFinished();
-            });
+            })
+
     }
 
     /* ***********************************************************

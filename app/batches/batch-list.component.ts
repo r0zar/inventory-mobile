@@ -29,6 +29,7 @@ export class BatchListComponent implements OnInit {
     private _isLoading: boolean = false;
     private _fabMenuOpen: boolean = false;
     private _batches: ObservableArray<Batch> = new ObservableArray<Batch>([]);
+    private uid: string;
 
     constructor (
         private _batchService: BatchService,
@@ -44,14 +45,24 @@ export class BatchListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
-        this._metrcService.getBatches()
-            .finally(() => {
-              this._isLoading = false
-            })
-            .subscribe((batches: Array<Batch>) => {
-                this._batches = new ObservableArray(batches);
-                this._isLoading = false;
-            });
+        // this is for creating unique ids in the sandbox
+        firebase.getCurrentUser()
+          .then(user => this.uid = user.uid)
+          .then(() => {
+
+            // main rooms lookup logic
+            this._metrcService.getBatches()
+                .subscribe((batches: Array<Batch>) => {
+
+                    // this is for creating unique ids in the sandbox
+                    batches = _.filter(batches, batch => _.includes(batch.Name, this.uid))
+                    _.forEach(batches, batch => {batch.Name = batch.Name.replace(this.uid, '')})
+
+                    this._batches = new ObservableArray(batches);
+                    this._isLoading = false;
+                })
+          })
+
 
         /* ***********************************************************
         * The data is retrieved remotely from FireBase.
@@ -93,11 +104,19 @@ export class BatchListComponent implements OnInit {
     }
 
     public onPullToRefreshInitiated(args: ListViewEventData) {
-        this._metrcService.getBatches()
-            .subscribe((batches: Array<Batch>) => {
-                this._batches = new ObservableArray(batches);
-                args.object.notifyPullToRefreshFinished();
-            });
+      // main rooms lookup logic
+      this._metrcService.getBatches()
+          .subscribe((batches: Array<Batch>) => {
+
+              // this is for creating unique ids in the sandbox
+              batches = _.filter(batches, batch => _.includes(batch.Name, this.uid))
+              _.forEach(batches, batch => {batch.Name = batch.Name.replace(this.uid, '')})
+
+              this._batches = new ObservableArray(batches);
+              this._isLoading = false;
+              args.object.notifyPullToRefreshFinished();
+          })
+
     }
 
     /* ***********************************************************

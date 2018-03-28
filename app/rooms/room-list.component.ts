@@ -24,11 +24,9 @@ export class RoomListComponent implements OnInit {
     * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
     *************************************************************/
     @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
-
     private _sideDrawerTransition: DrawerTransitionBase;
-
     private _isLoading: boolean = false;
-
+    private uid: string;
     private _rooms: ObservableArray<Room> = new ObservableArray<Room>([]);
 
     constructor (
@@ -45,15 +43,23 @@ export class RoomListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
-        this._metrcService.getRooms()
-            .finally(() => {
-              this._isLoading = false
-            })
-            .subscribe((rooms: Array<Room>) => {
-                this._rooms = new ObservableArray(rooms);
-                this._isLoading = false;
-            });
+        // this is for creating unique ids in the sandbox
+        firebase.getCurrentUser()
+          .then(user => this.uid = user.uid)
+          .then(() => {
 
+            // main rooms lookup logic
+            this._metrcService.getRooms()
+                .subscribe((rooms: Array<Room>) => {
+
+                    // this is for creating unique ids in the sandbox
+                    rooms = _.filter(rooms, room => _.includes(room.Name, this.uid))
+                    _.forEach(rooms, room => {room.Name = room.Name.replace(this.uid, '')})
+
+                    this._rooms = new ObservableArray(rooms);
+                    this._isLoading = false;
+                })
+          })
         /* ***********************************************************
         * The data is retrieved remotely from FireBase.
         * The actual data retrieval code is wrapped in a data service.
@@ -79,11 +85,19 @@ export class RoomListComponent implements OnInit {
     }
 
     public onPullToRefreshInitiated(args: ListViewEventData) {
-        this._metrcService.getRooms()
-            .subscribe((rooms: Array<Room>) => {
-                this._rooms = new ObservableArray(rooms);
-                args.object.notifyPullToRefreshFinished();
-            });
+      // main rooms lookup logic
+      this._metrcService.getRooms()
+          .subscribe((rooms: Array<Room>) => {
+
+              // this is for creating unique ids in the sandbox
+              rooms = _.filter(rooms, room => _.includes(room.Name, this.uid))
+              _.forEach(rooms, room => {room.Name = room.Name.replace(this.uid, '')})
+
+              this._rooms = new ObservableArray(rooms);
+              this._isLoading = false;
+              args.object.notifyPullToRefreshFinished();
+          })
+
     }
 
     /* ***********************************************************

@@ -1,14 +1,18 @@
 <ActionBar class="action-bar">
     <NavigationButton android.systemIcon="ic_menu_back" (tap)="onBackButtonTap()"></NavigationButton>
-    <Label class="action-bar-title" text="Payment"></Label>
+    <Label class="action-bar-title" text="Payment Settings"></Label>
 </ActionBar>
 
 <ScrollView>
   <StackLayout class="list-group-item">
     <Label text="Payment Methods" class="font-weight-bold m-t-20 m-t-10 m-b-10 m-l-20 m-r-20"></Label>
 
+    <GridLayout class="page page-content m-t-10 m-b-10 m-l-20 m-r-20" columns="auto, auto" rows="*" *ngIf="activeSubscription">
+        <Label row="0" col="0" class="fa m-t-2 m-r-10" text="&#xf09d;" horizontal-align="right"></Label>
+        <Label row="0" col="1" text="Monthly Subscription" horizontal-align="right"></Label>
+    </GridLayout>
 
-    <GridLayout class="page page-content m-t-10 m-b-10 m-l-20 m-r-20" columns="auto, auto" rows="*">
+    <!-- <GridLayout class="page page-content m-t-10 m-b-10 m-l-20 m-r-20" columns="auto, auto" rows="*">
         <Label row="0" col="0" class="fa-b m-t-2 m-r-10" text="&#xf379;" horizontal-align="right"></Label>
         <Label row="0" col="1" text="0.0000" horizontal-align="right"></Label>
     </GridLayout>
@@ -16,22 +20,22 @@
     <GridLayout class="page page-content m-t-10 m-b-10 m-l-20 m-r-20" columns="auto, auto" rows="*">
         <Label row="0" col="0" class="fa-b m-t-2 m-r-10" text="&#xf3d0;" horizontal-align="right"></Label>
         <Label row="0" col="1" text="0.0000" horizontal-align="right"></Label>
-    </GridLayout>
+    </GridLayout> -->
 
-    <Label text="Add Payment Method" class="text-primary m-t-10 m-b-10 m-l-20 m-r-20"></Label>
+    <Label text="Add Payment Method" class="text-primary m-t-10 m-b-10 m-l-20 m-r-20" [nsRouterLink]="['/payment/add']"></Label>
     <StackLayout class="hr-light"></StackLayout>
-    <Label text="Promotions" class="font-weight-bold m-t-10 m-b-10 m-l-20 m-r-20"></Label>
+    <Label text="Promotions Applied" class="font-weight-bold m-t-10 m-b-10 m-l-20 m-r-20"></Label>
 
-    <GridLayout class="page page-content m-t-10 m-b-10 m-l-20 m-r-20" columns="auto, auto" rows="*">
+    <!-- <GridLayout class="page page-content m-t-10 m-b-10 m-l-20 m-r-20" columns="auto, auto" rows="*">
         <Label row="0" col="0" class="fa m-t-2 m-r-10" text="&#xf091;" horizontal-align="right"></Label>
         <Label row="0" col="1" text="Kipo Champion" horizontal-align="right"></Label>
-    </GridLayout>
+    </GridLayout> -->
 
-    <GridLayout class="page page-content m-t-10 m-b-10 m-l-20 m-r-20" columns="auto, auto" rows="*">
+    <GridLayout class="page page-content m-t-10 m-b-10 m-l-20 m-r-20" columns="auto, auto" rows="*" (tap)="betaTester()">
         <Label row="0" col="0" class="fa m-t-2 m-r-10" text="&#xf0c3;" horizontal-align="right"></Label>
-        <Label row="0" col="1" text="Early Adopter" horizontal-align="right"></Label>
+        <Label row="0" col="1" text="Beta Tester" horizontal-align="right"></Label>
     </GridLayout>
 
-    <Label text="Add Promo Code" class="text-primary m-t-10 m-b-20 m-b-10 m-l-20 m-r-20"></Label>
+    <!-- <Label text="Add Promo Code" class="text-primary m-t-10 m-b-20 m-b-10 m-l-20 m-r-20"></Label> -->
   </StackLayout>
 </ScrollView>

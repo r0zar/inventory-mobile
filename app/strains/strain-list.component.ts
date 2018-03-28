@@ -24,12 +24,10 @@ export class StrainListComponent implements OnInit {
     * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
     *************************************************************/
     @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
-
     private _sideDrawerTransition: DrawerTransitionBase;
-
     private _isLoading: boolean = false;
-
     private _strains: ObservableArray<Strain> = new ObservableArray<Strain>([]);
+    private uid: string;
 
     constructor (
         private _strainService: StrainService,
@@ -45,14 +43,23 @@ export class StrainListComponent implements OnInit {
         this._sideDrawerTransition = new SlideInOnTopTransition();
         this._isLoading = true;
 
-        this._metrcService.getStrains()
-            .finally(() => {
-              this._isLoading = false
-            })
-            .subscribe((strains: Array<Strain>) => {
-                this._strains = new ObservableArray(strains);
-                this._isLoading = false;
-            });
+        // this is for creating unique ids in the sandbox
+        firebase.getCurrentUser()
+          .then(user => this.uid = user.uid)
+          .then(() => {
+
+            // main rooms lookup logic
+            this._metrcService.getStrains()
+                .subscribe((strains: Array<Strain>) => {
+
+                    // this is for creating unique ids in the sandbox
+                    strains = _.filter(strains, strain => _.includes(strain.Name, this.uid))
+                    _.forEach(strains, strain => {strain.Name = strain.Name.replace(this.uid, '')})
+
+                    this._strains = new ObservableArray(strains);
+                    this._isLoading = false;
+                })
+          })
 
     }
 
@@ -65,11 +72,18 @@ export class StrainListComponent implements OnInit {
     }
 
     public onPullToRefreshInitiated(args: ListViewEventData) {
+        // main rooms lookup logic
         this._metrcService.getStrains()
             .subscribe((strains: Array<Strain>) => {
+
+                // this is for creating unique ids in the sandbox
+                strains = _.filter(strains, strain => _.includes(strain.Name, this.uid))
+                _.forEach(strains, strain => {strain.Name = strain.Name.replace(this.uid, '')})
+
                 this._strains = new ObservableArray(strains);
+                this._isLoading = false;
                 args.object.notifyPullToRefreshFinished();
-            });
+            })
     }
 
     /* ***********************************************************

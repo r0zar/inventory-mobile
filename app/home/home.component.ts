@@ -6,43 +6,10 @@ import { MetrcService } from "../shared/metrc.service";
 import { FacilityService } from "../facilities/shared/facility.service";
 import firebase = require("nativescript-plugin-firebase");
 import { alert } from "ui/dialogs";
+import { Data } from "../shared/data.service";
 import { BarcodeScanner } from 'nativescript-barcodescanner';
 import { registerElement } from "nativescript-angular/element-registry";
 registerElement("BarcodeScanner", () => require("nativescript-barcodescanner").BarcodeScannerView);
-
-// import *  as purchase from "nativescript-purchase";
-// import { Product } from "nativescript-purchase/product";
-// import { Transaction, TransactionState } from "nativescript-purchase/transaction";
-// import * as applicationSettings from "application-settings";
-//
-// purchase.init(["com.sample.purchase.coolproduct1", "com.sample.purchase.coolproduct2"]);
-//
-// purchase.on(purchase.transactionUpdatedEvent, (transaction: Transaction) => {
-//     if (transaction.transactionState === TransactionState.Purchased) {
-//         alert(`Congratulations you just bought ${transaction.productIdentifier}!`);
-//         console.log(transaction.transactionDate);
-//         console.log(transaction.transactionIdentifier);
-//         applicationSettings.setBoolean(transaction.productIdentifier, true);
-//     }
-//     else if (transaction.transactionState === TransactionState.Restored) {
-//         console.log(`Purchase of ${transaction.productIdentifier} restored.`);
-//         console.log(transaction.transactionDate);
-//         console.log(transaction.transactionIdentifier);
-//         console.log(transaction.originalTransaction.transactionDate);
-//         applicationSettings.setBoolean(transaction.productIdentifier, true);
-//     }
-//     else if (transaction.transactionState === TransactionState.Failed) {
-//         alert(`Purchase of ${transaction.productIdentifier} failed!`);
-//     }
-// });
-//
-// purchase.on(purchase.transactionUpdatedEvent, (transaction: Transaction) => {
-//     if (transaction.transactionState === TransactionState.Purchased && transaction.productIdentifier.indexOf(".consume") >= 0) {
-//         purchase.consumePurchase(transaction.transactionReceipt)
-//             .then((responseCode) => console.log(responseCode)) // If responseCode === 0 the purchase has been successfully consumed
-//             .catch((e) => console.log(e));
-//     }
-// });
 
 
 @Component({
@@ -63,7 +30,8 @@ export class HomeComponent implements OnInit {
     constructor(
       private _metrcService: MetrcService,
       private barcodeScanner: BarcodeScanner,
-      private _routerExtensions: RouterExtensions
+      private _routerExtensions: RouterExtensions,
+      private data: Data
     ){}
 
 
@@ -73,13 +41,17 @@ export class HomeComponent implements OnInit {
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
 
+
         firebase.getCurrentUser()
-          .then(user => firebase.getValue("/users/" + user.uid))
-          .then(user => FacilityService.facility = user.value)
-          .catch(error => {
-            alert({title: 'Welcome to KipoTrac', message: 'Select a facility to get started!', okButtonText: "OK"})
-              .then(() => this._routerExtensions.navigate(['/facilities']))
+          .then(user => {
+            firebase.getValue("/users/" + user.uid)
+              .then(user => {
+                if (!user.value) {
+                  alert({title: 'Welcome to KipoTrac', message: 'I hope to make your work a lot easier.\n\nLet\'s go to the facilities page to choose where we\'ll be working.\n\nTo get there, click the menu and then select \'Facilities\'', okButtonText: "OK"})
+                }
+              })
           })
+
 
         // this._metrcService.getSalesReceipts()
         //   .subscribe(() => {})
@@ -137,40 +109,22 @@ export class HomeComponent implements OnInit {
 
     onScanBarcodeTap(): void {
 
-      // purchase.getProducts()
-      // .then((products: Array<Product>) => {
-      //     console.log('love me')
-      //     products.forEach((product: Product) => {
-      //         console.log(product.productIdentifier);
-      //         console.log(product.localizedTitle);
-      //         console.log(product.priceFormatted);
-      //         if (purchase.canMakePayments()) {
-      //             purchase.buyProduct(product);
+      // var scanner = this.barcodeScanner;
+      // scanner.available()
+      //   .then(() => {
+      //     scanner.hasCameraPermission()
+      //       .then(granted => {
+      //         if (granted) {
+      //           this.barcode(scanner)
+      //         } else {
+      //           scanner.requestCameraPermission()
+      //             .then(granted => {
+      //               return granted ? this.barcode(scanner) : null
+      //             })
       //         }
-      //         else {
-      //             alert("Sorry, your account is not eligible to make payments!");
-      //         }
+      //       })
       //
-      //     });
-      // })
-      // .catch(error => console.log(error))
-
-      var scanner = this.barcodeScanner;
-      scanner.available()
-        .then(() => {
-          scanner.hasCameraPermission()
-            .then(granted => {
-              if (granted) {
-                this.barcode(scanner)
-              } else {
-                scanner.requestCameraPermission()
-                  .then(granted => {
-                    return granted ? this.barcode(scanner) : null
-                  })
-              }
-            })
-
-        })
+      //   })
 
     }
 

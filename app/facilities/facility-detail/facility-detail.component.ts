@@ -66,14 +66,10 @@ export class FacilityDetailComponent implements OnInit {
                     });
             });
 
-
-        firebase.getCurrentUser()
-          .then(user => firebase.getValue("/users/" + user.uid))
-          .then(user => FacilityService.facility = user.value)
-          .catch(error => {
-            alert({title: 'Woh- Looks great!', message: 'This is your facility!\nClick the star on the right to select it.\nAll the work we\'ll do from here onward will be for this facility.\nLet\'s get started!', okButtonText: "Got it"})
-            this.firstTime = true;
-          })
+        if (!FacilityService.facility) {
+          alert({title: 'Woh- Nice place!', message: 'This is your facility.\n\nClick the star on the right to select it.\n\nAll the work we\'ll do from here onward will be for this facility.', okButtonText: "Got it"})
+          this.firstTime = true;
+        }
     }
 
     onScroll(event: ScrollEventData, scrollView: ScrollView, topView: View, fabView: View) {
@@ -98,10 +94,9 @@ export class FacilityDetailComponent implements OnInit {
       FacilityService.facility = this._facility.LicenseNumber
       FacilityService.licenseType = this._facility.LicenseType
       this._facility.selected = 'orange'
-      let cultivator = _.includes(FacilityService.licenseType, 'Microbusiness') || _.includes(FacilityService.licenseType, 'M-Medium Mixed-Light')
+      let cultivator = _.includes(FacilityService.licenseType, 'M-Medium Mixed-Light')
       if (this.firstTime && cultivator) {
-        alert({title: 'Nice Job!', message: 'Now that you\'ve selected a facility, we need to set up the rooms for it.\nThis should only take a second.', okButtonText: "Let's go"})
-          .then(() => this._routerExtensions.navigate(['/rooms']))
+        alert({title: 'Nice Job!', message: 'Now that you\'ve selected a facility, we need to set up the rooms for it.\n\nClick them menu again, and select \'Rooms\'.', okButtonText: "Got it"})
       }
     }
 

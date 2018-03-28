@@ -13,9 +13,9 @@ export class FacilityService {
       return getString("facility")
     }
 
-    static set facility(thefacility: string) {
-      firebase.getCurrentUser().then(user => firebase.setValue("/users/" + user.uid, thefacility))
-      setString("facility", thefacility);
+    static set facility(licenseNumber: string) {
+      firebase.getCurrentUser().then(user => firebase.setValue("/users/" + user.uid + '/license/number', licenseNumber))
+      setString("facility", licenseNumber);
     }
 
     static get licenseType(): string {
@@ -23,6 +23,7 @@ export class FacilityService {
     }
 
     static set licenseType(type: string) {
+      firebase.getCurrentUser().then(user => firebase.setValue("/users/" + user.uid + '/license/type', type))
       setString("licenseType", type);
     }
 

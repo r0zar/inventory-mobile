@@ -21,7 +21,7 @@ export class Item {
     constructor(options: any) {
         this.Id = Number(options.Id);
         this.Name = options.Name || '';
-        this.ItemCategory = options.ProductCategoryName || '';
+        this.ItemCategory = options.ItemCategory || '';
         this.ProductCategoryName = options.ProductCategoryName || '';
         this.ProductCategoryType = options.ProductCategoryType || '';
         this.QuantityType = options.QuantityType || '';

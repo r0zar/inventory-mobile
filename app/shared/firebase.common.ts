@@ -2,6 +2,9 @@ import firebase = require("nativescript-plugin-firebase");
 
 import { Config } from "./config";
 import { AuthService } from "./auth.service";
+import { FacilityService } from "../facilities/shared/facility.service";
+import { Data } from "./data.service";
+import { alert } from "ui/dialogs";
 
 /* ***********************************************************
 * The {N} Firebase plugin initialization is explained in the plugin readme here:
@@ -28,6 +31,13 @@ firebase.init({
     onAuthStateChanged: (data: any) => {
       if (data.loggedIn) {
         AuthService.token = data.user.uid;
+        // this loads the selected facility into local storage
+        firebase.getValue("/users/" + data.user.uid + '/license/number')
+          .then(number => {
+            if (number.value) {
+              FacilityService.facility = number.value
+            }
+          })
       }
       else {
         AuthService.token = "";

@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { alert } from "ui/dialogs";;
 import { EventData } from "data/observable";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
-
+import firebase = require("nativescript-plugin-firebase");
 import { Batch } from "../shared/batch.model";
 import { MetrcService } from "../../shared/metrc.service";
 
@@ -25,6 +25,7 @@ export class BatchDetailCreateComponent implements OnInit {
     private _unitsOfMeasure: any;
     private _batchTypes: any;
     private _isCreating: boolean = false;
+    private uid: string;
 
     constructor(
         private http: HttpClient,
@@ -39,6 +40,9 @@ export class BatchDetailCreateComponent implements OnInit {
     * private property that holds it inside the component.
     *************************************************************/
     ngOnInit(): void {
+        // this is for creating unique ids in the sandbox
+        firebase.getCurrentUser()
+          .then(user => {this.uid = user.uid})
 
         this._metrcService.getStrains()
             .subscribe((strains: Array<any>) => {
@@ -87,6 +91,9 @@ export class BatchDetailCreateComponent implements OnInit {
     * Check out the data service as batches/shared/batch.service.ts
     *************************************************************/
     onDoneButtonTap(): void {
+        // this is for creating unique ids in the sandbox
+        _.extend(this._batch, {Name: `${this._batch.Name} ${this.uid}`})
+        
         this._isCreating = true
         this._metrcService.createPlantings(this._batch)
             .finally(() => this._isCreating = false)

@@ -7,6 +7,7 @@ import { MyDrawerItemComponent } from "./my-drawer-item/my-drawer-item.component
 import { MyDrawerComponent } from "./my-drawer/my-drawer.component";
 
 import { MetrcService } from "./metrc.service";
+import { Data } from "./data.service";
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { MetrcService } from "./metrc.service";
         NativeScriptUISideDrawerModule
     ],
     providers: [
-        MetrcService
+        MetrcService,
+        Data
     ],
     schemas: [
         NO_ERRORS_SCHEMA

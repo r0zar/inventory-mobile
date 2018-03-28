@@ -9,6 +9,7 @@ import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 import { Facility } from "./shared/facility.model";
 import { FacilityService } from "./shared/facility.service";
 import { MetrcService } from "../shared/metrc.service";
+import { Data } from "../shared/data.service";
 
 import _ = require('lodash');
 
@@ -32,6 +33,7 @@ export class FacilityListComponent implements OnInit {
         private _facilityService: FacilityService,
         private _metrcService: MetrcService,
         private _routerExtensions: RouterExtensions,
+        private data: Data
     ){}
 
 
@@ -43,9 +45,6 @@ export class FacilityListComponent implements OnInit {
         this._isLoading = true;
 
         this._metrcService.getFacilities()
-            .finally(() => {
-              this._isLoading = false
-            })
             .subscribe((facilities: Array<Facility>) => {
                 let f = _.map(facilities, facility => {
                   return (facility.License.Number == FacilityService.facility) ? _.assign(facility, {backgroundColor: '#7a4116', fontColor: 'white'}) : facility
@@ -84,7 +83,7 @@ export class FacilityListComponent implements OnInit {
                 let f = _.map(facilities, facility => {
                   return (facility.License.Number == FacilityService.facility) ? _.assign(facility, {backgroundColor: '#7a4116', fontColor: 'white'}) : facility
                 })
-                this._facilities = new ObservableArray(facilities);
+                this._facilities = new ObservableArray(f);
                 args.object.notifyPullToRefreshFinished();
             });
     }

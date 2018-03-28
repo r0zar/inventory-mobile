@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { alert } from "ui/dialogs";
 import { EventData } from "data/observable";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
-
+import firebase = require("nativescript-plugin-firebase");
 import { Item } from "../shared/item.model";
 import { MetrcService } from "../../shared/metrc.service";
 
@@ -25,6 +25,7 @@ export class ItemDetailCreateComponent implements OnInit {
     private _unitsOfMeasure: any;
     private _itemCategories: any;
     private units: any;
+    private uid: string;
 
     constructor(
         private http: HttpClient,
@@ -39,11 +40,19 @@ export class ItemDetailCreateComponent implements OnInit {
     * private property that holds it inside the component.
     *************************************************************/
     ngOnInit(): void {
+        // this is for creating unique ids in the sandbox
+        firebase.getCurrentUser()
+          .then(user => {this.uid = user.uid})
 
         this._item = new Item({UnitOfMeasure: 'Each'})
 
         this._metrcService.getStrains()
             .subscribe((strains: Array<any>) => {
+
+                // this is for creating unique ids in the sandbox
+                strains = _.filter(strains, strain => _.includes(strain.Name, this.uid))
+                _.forEach(strains, strain => {strain.Name = strain.Name.replace(this.uid, '')})
+
                 this._strains = _.map(strains, 'Name')
             });
 
@@ -102,6 +111,9 @@ export class ItemDetailCreateComponent implements OnInit {
     * Check out the data service as items/shared/item.service.ts
     *************************************************************/
     onDoneButtonTap(): void {
+        // this is for creating unique ids in the sandbox
+        _.extend(this._item, {Name: `${this._item.Name} ${this.uid}`})
+
         this._metrcService.createItem(this._item)
             .subscribe((item: Item) => this._routerExtensions.backToPreviousPage());
     }

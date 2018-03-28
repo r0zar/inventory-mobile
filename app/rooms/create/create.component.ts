@@ -2,9 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { EventData } from "data/observable";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
-
+import firebase = require("nativescript-plugin-firebase");
 import { Room } from "../shared/room.model";
 import { MetrcService } from "../../shared/metrc.service";
+import { alert } from "ui/dialogs";
 
 import _ = require('lodash');
 
@@ -20,6 +21,7 @@ import _ = require('lodash');
 export class CreateComponent implements OnInit {
     private _room: Room;
     private _isLoading: boolean = false;
+    private uid: string;
 
     constructor(
         private _metrcService: MetrcService,
@@ -33,6 +35,9 @@ export class CreateComponent implements OnInit {
     *************************************************************/
     ngOnInit(): void {
         this._room = new Room({})
+        // this is for creating unique ids in the sandbox
+        firebase.getCurrentUser()
+          .then(user => {this.uid = user.uid})
     }
 
     get room(): Room {
@@ -48,19 +53,31 @@ export class CreateComponent implements OnInit {
     * Check out the data service as nounes/shared/noun.service.ts
     *************************************************************/
     onDoneButtonTap(): void {
+        // this is for creating unique ids in the sandbox
+        _.extend(this._room, {Name: `${this._room.Name} ${this.uid}`})
+
         this._isLoading = true
         this._metrcService.createRooms(this._room)
-            .finally(() => this._isLoading = false)
-            .subscribe(() => this._routerExtensions.navigate(['/rooms'],
-                {
-                    animated: true,
-                    transition: {
-                        name: "slideBottom",
-                        duration: 200,
-                        curve: "ease"
+          .finally(() => {
+            this._isLoading = false
+            this._routerExtensions.navigate(['/rooms'], {animated: true, transition: {name: "slideBottom", duration: 200, curve: "ease"}})
+          })
+          .subscribe(() => {
+            firebase.getCurrentUser()
+              .then(user => {
+                firebase.getValue("/users/" + user.uid + "/rooms/setup")
+                  .then(setup => {
+                    if (!setup.value) {
+                      firebase.setValue("/users/" + user.uid + '/rooms/setup', true)
+                      alert({
+                        title: 'Ah, good to have some room!',
+                        message: 'Nice! Now we have some space to grow those beautiful buds.\n\nBefore we can create a new batch though, I need to know a little about your strains.\n\nHead to the \'Strains\' page and we can do just that.',
+                        okButtonText: "OK"
+                      })
                     }
-                })
-              );
+                  })
+              })
+          })
     }
 
     /* ***********************************************************

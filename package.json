@@ -65,5 +65,5 @@
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-sources": "~1.1.0"
   },
-  "author": "KipoTrac, Inc."
+  "author": "Ross Ragsdale"
 }

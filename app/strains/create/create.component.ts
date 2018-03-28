@@ -3,9 +3,10 @@ import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { EventData } from "data/observable";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
-
+import firebase = require("nativescript-plugin-firebase");
 import { Strain } from "../shared/strain.model";
 import { MetrcService } from "../../shared/metrc.service";
+import { alert } from "ui/dialogs";
 
 import _ = require('lodash');
 
@@ -21,6 +22,7 @@ import _ = require('lodash');
 export class CreateComponent implements OnInit {
     private _strain: Strain;
     private _isLoading: boolean = false;
+    private uid: string;
 
     constructor(
         private http: HttpClient,
@@ -35,6 +37,9 @@ export class CreateComponent implements OnInit {
     *************************************************************/
     ngOnInit(): void {
         this._strain = new Strain({})
+        // this is for creating unique ids in the sandbox
+        firebase.getCurrentUser()
+          .then(user => {this.uid = user.uid})
     }
 
     get strain(): Strain {
@@ -50,11 +55,33 @@ export class CreateComponent implements OnInit {
     * Check out the data service as nounes/shared/noun.service.ts
     *************************************************************/
     onDoneButtonTap(): void {
+        // this is for creating unique ids in the sandbox
+        _.extend(this._strain, {Name: `${this._strain.Name} ${this.uid}`})
+
         this._isLoading = true
         this._metrcService.createStrains(this._strain)
-            .finally(() => this._isLoading = false)
-            .subscribe(() => this._routerExtensions.backToPreviousPage());
-    }
+            .finally(() => {
+              this._isLoading = false
+              this._routerExtensions.navigate(['/strains'], {animated: true, transition: {name: "slideBottom", duration: 200, curve: "ease"}})
+            })
+            .subscribe(() => {
+              firebase.getCurrentUser()
+                .then(user => {
+                  firebase.getValue("/users/" + user.uid + "/strains/setup")
+                    .then(setup => {
+                      if (!setup.value) {
+                        firebase.setValue("/users/" + user.uid + '/strains/setup', true)
+                        alert({
+                          title: 'Wow, where can I get some of that!?',
+                          message: 'Oh yeah- you... Cool.\n\nCongratulations, you\'re all set to plant your first batch of clones or seeds in KipoTrac.\n\nCheck your menu and happy growing!',
+                          okButtonText: "Let\'s grow"
+                        })
+                      }
+                    })
+                })
+            })
+      }
+
 
     /* ***********************************************************
     * The back button is essential for a master-detail feature.
