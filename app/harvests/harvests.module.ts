@@ -9,8 +9,6 @@ import { CreatePackageComponent } from "./createpackage/createpackage.component"
 import { RemoveWasteComponent } from "./removewaste/removewaste.component";
 import { HarvestListComponent } from "./harvest-list.component";
 import { HarvestsRoutingModule } from "./harvests-routing.module";
-import { HarvestEditService } from "./shared/harvest-edit.service";
-import { HarvestService } from "./shared/harvest.service";
 
 @NgModule({
     imports: [
@@ -29,8 +27,6 @@ import { HarvestService } from "./shared/harvest.service";
     entryComponents: [
     ],
     providers: [
-        HarvestService,
-        HarvestEditService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

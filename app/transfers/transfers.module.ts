@@ -7,8 +7,6 @@ import { SharedModule } from "../shared/shared.module";
 import { TransferDetailComponent } from "./transfer-detail/transfer-detail.component";
 import { TransferListComponent } from "./transfer-list.component";
 import { TransfersRoutingModule } from "./transfers-routing.module";
-import { TransferEditService } from "./shared/transfer-edit.service";
-import { TransferService } from "./shared/transfer.service";
 
 @NgModule({
     imports: [
@@ -25,8 +23,6 @@ import { TransferService } from "./shared/transfer.service";
     entryComponents: [
     ],
     providers: [
-        TransferService,
-        TransferEditService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

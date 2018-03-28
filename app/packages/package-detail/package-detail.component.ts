@@ -3,7 +3,6 @@ import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
 import { Package } from "../shared/package.model";
-import { PackageService } from "../shared/package.service";
 import { MetrcService } from "../../shared/metrc.service";
 
 import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
@@ -29,7 +28,6 @@ export class PackageDetailComponent implements OnInit {
 
     constructor(
         private _metrcService: MetrcService,
-        private _packageService: PackageService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
     ) { }

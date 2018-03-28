@@ -7,7 +7,6 @@ import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-u
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { Strain } from "./shared/strain.model";
-import { StrainService } from "./shared/strain.service";
 import { MetrcService } from "../shared/metrc.service";
 
 import _ = require('lodash');
@@ -30,7 +29,6 @@ export class StrainListComponent implements OnInit {
     private uid: string;
 
     constructor (
-        private _strainService: StrainService,
         private _metrcService: MetrcService,
         private _routerExtensions: RouterExtensions,
     ){}

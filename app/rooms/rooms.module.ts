@@ -9,8 +9,6 @@ import { RoomListComponent } from "./room-list.component";
 import { CreateComponent } from "./create/create.component";
 import { EditComponent } from "./edit/edit.component";
 import { RoomsRoutingModule } from "./rooms-routing.module";
-import { RoomEditService } from "./shared/room-edit.service";
-import { RoomService } from "./shared/room.service";
 
 @NgModule({
     imports: [
@@ -29,8 +27,6 @@ import { RoomService } from "./shared/room.service";
     entryComponents: [
     ],
     providers: [
-        RoomService,
-        RoomEditService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

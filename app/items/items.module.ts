@@ -9,8 +9,6 @@ import { ItemDetailCreateComponent } from "./item-detail-create/item-detail-crea
 import { ItemDetailComponent } from "./item-detail/item-detail.component";
 import { ItemListComponent } from "./item-list.component";
 import { ItemsRoutingModule } from "./items-routing.module";
-import { ItemEditService } from "./shared/item-edit.service";
-import { ItemService } from "./shared/item.service";
 
 @NgModule({
     imports: [
@@ -29,8 +27,6 @@ import { ItemService } from "./shared/item.service";
     entryComponents: [
     ],
     providers: [
-        ItemService,
-        ItemEditService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

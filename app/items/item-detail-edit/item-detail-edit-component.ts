@@ -4,9 +4,7 @@ import { alert } from "ui/dialogs";
 import { DatePicker } from "ui/date-picker";
 import { EventData } from "data/observable";
 
-import { ItemEditService } from "../shared/item-edit.service";
 import { Item } from "../shared/item.model";
-import { ItemService } from "../shared/item.service";
 import { MetrcService } from "../../shared/metrc.service";
 
 import _ = require('lodash');
@@ -29,9 +27,7 @@ export class ItemDetailEditComponent implements OnInit {
     private _itemCategories: any;
 
     constructor(
-        private _itemService: ItemService,
         private _metrcService: MetrcService,
-        private _itemEditService: ItemEditService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
     ) { }

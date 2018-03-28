@@ -7,7 +7,6 @@ import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-u
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { Harvest } from "./shared/harvest.model";
-import { HarvestService } from "./shared/harvest.service";
 import { MetrcService } from "../shared/metrc.service";
 
 import _ = require('lodash');
@@ -32,7 +31,6 @@ export class HarvestListComponent implements OnInit {
     private _harvests: ObservableArray<Harvest> = new ObservableArray<Harvest>([]);
 
     constructor (
-        private _harvestService: HarvestService,
         private _metrcService: MetrcService,
         private _routerExtensions: RouterExtensions,
     ){}

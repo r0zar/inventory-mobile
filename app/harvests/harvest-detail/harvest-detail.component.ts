@@ -3,7 +3,6 @@ import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
 import { Harvest } from "../shared/harvest.model";
-import { HarvestService } from "../shared/harvest.service";
 import { MetrcService } from "../../shared/metrc.service";
 
 import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
@@ -30,7 +29,6 @@ export class HarvestDetailComponent implements OnInit {
 
     constructor(
         private _metrcService: MetrcService,
-        private _harvestService: HarvestService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
     ) { }

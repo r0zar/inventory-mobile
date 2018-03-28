@@ -7,7 +7,6 @@ import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-u
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { Package } from "./shared/package.model";
-import { PackageService } from "./shared/package.service";
 import { MetrcService } from "../shared/metrc.service";
 import { Data } from "../shared/data.service";
 
@@ -41,7 +40,6 @@ export class PackageListComponent implements OnInit {
 
     constructor (
         private _metrcService: MetrcService,
-        private _packageService: PackageService,
         private _routerExtensions: RouterExtensions,
         private data: Data,
     ){}

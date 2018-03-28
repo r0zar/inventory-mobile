@@ -8,7 +8,6 @@ import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-u
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { Item } from "./shared/item.model";
-import { ItemService } from "./shared/item.service";
 import { MetrcService } from "../shared/metrc.service";
 
 import _ = require('lodash');
@@ -31,7 +30,6 @@ export class ItemListComponent implements OnInit {
     private uid: string;
 
     constructor (
-        private _itemService: ItemService,
         private _metrcService: MetrcService,
         private _routerExtensions: RouterExtensions,
     ){}

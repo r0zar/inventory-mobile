@@ -9,8 +9,6 @@ import { CreateComponent } from "./create/create.component";
 import { StrainDetailComponent } from "./strain-detail/strain-detail.component";
 import { StrainListComponent } from "./strain-list.component";
 import { StrainsRoutingModule } from "./strains-routing.module";
-import { StrainEditService } from "./shared/strain-edit.service";
-import { StrainService } from "./shared/strain.service";
 
 @NgModule({
     imports: [
@@ -29,8 +27,6 @@ import { StrainService } from "./shared/strain.service";
     entryComponents: [
     ],
     providers: [
-        StrainService,
-        StrainEditService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

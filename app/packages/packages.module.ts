@@ -14,8 +14,6 @@ import { CreatePlantingsComponent } from "./createplantings/createplantings.comp
 import { CreateTestingComponent } from "./createtesting/createtesting.component";
 import { RemediateComponent } from "./remediate/remediate.component";
 
-import { PackageEditService } from "./shared/package-edit.service";
-import { PackageService } from "./shared/package.service";
 import { Data } from "../shared/data.service";
 import { BarcodeScanner } from 'nativescript-barcodescanner';
 
@@ -40,8 +38,6 @@ import { BarcodeScanner } from 'nativescript-barcodescanner';
     entryComponents: [
     ],
     providers: [
-        PackageService,
-        PackageEditService,
         Data,
         BarcodeScanner
     ],

@@ -3,7 +3,6 @@ import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { DataFormEventData } from "nativescript-pro-ui/dataform";
 
 import { Room } from "../shared/room.model";
-import { RoomService } from "../shared/room.service";
 import { MetrcService } from "../../shared/metrc.service";
 
 import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
@@ -31,7 +30,6 @@ export class RoomDetailComponent implements OnInit {
 
     constructor(
         private _metrcService: MetrcService,
-        private _roomService: RoomService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
     ) { }

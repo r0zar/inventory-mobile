@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 
 import { Item } from "../shared/item.model";
-import { ItemService } from "../shared/item.service";
 import { MetrcService } from "../../shared/metrc.service";
 
 import { ScrollView, ScrollEventData } from 'tns-core-modules/ui/scroll-view';
@@ -29,7 +28,6 @@ export class ItemDetailComponent implements OnInit {
 
     constructor(
         private _metrcService: MetrcService,
-        private _itemService: ItemService,
         private _pageRoute: PageRoute,
         private _routerExtensions: RouterExtensions
     ) {}

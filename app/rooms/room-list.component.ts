@@ -7,7 +7,6 @@ import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-u
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { Room } from "./shared/room.model";
-import { RoomService } from "./shared/room.service";
 import { MetrcService } from "../shared/metrc.service";
 
 import _ = require('lodash');
@@ -30,7 +29,6 @@ export class RoomListComponent implements OnInit {
     private _rooms: ObservableArray<Room> = new ObservableArray<Room>([]);
 
     constructor (
-        private _roomService: RoomService,
         private _metrcService: MetrcService,
         private _routerExtensions: RouterExtensions,
     ){}
